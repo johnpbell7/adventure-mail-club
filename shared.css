@@ -815,15 +815,15 @@ body.menu-open{overflow:hidden}
    STAT CARDS
 =================================================== */
 .stat-card{
-  display:flex;align-items:center;gap:1.5rem;
-  padding:2rem 2.5rem;
+  display:flex;flex-direction:column;align-items:center;text-align:center;gap:.5rem;
+  padding:1.5rem 1rem;
   background:rgba(253,203,64,.1);border:1.5px solid rgba(253,203,64,.3);
   border-radius:20px;
 }
 .stat-n{
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:4rem;font-weight:800;letter-spacing:-.06em;
-  color:var(--red-o);
+  font-family:'Outfit',sans-serif;
+  font-size:clamp(1.6rem,4vw,2.8rem);font-weight:900;letter-spacing:-.04em;
+  color:var(--red-o);line-height:1;
   line-height:1;flex-shrink:0;
 }
 
@@ -866,6 +866,10 @@ body.menu-open{overflow:hidden}
   .form-row{grid-template-columns:1fr}
   .bento-grid{grid-template-columns:1fr}
   .bento-feature{grid-column:auto}
+  .bento-feature{grid-template-columns:1fr!important;padding:1.5rem!important}
+  .bento-feature [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr 1fr!important;gap:.75rem!important}
+  .stat-card{padding:1rem .75rem}
+  .stat-n{font-size:clamp(1.2rem,3.5vw,1.8rem)!important}
   .page-hero{min-height:auto;padding:calc(var(--nav-h) + 3rem) 1.5rem 3rem}
   .page-hero h1,.page-hero-content h1{font-size:clamp(2rem,8vw,3.5rem)}
   .page-hero .mesh-bg,.page-hero .star-field,.page-hero .dot-grid,.page-hero .shoot{display:none}
