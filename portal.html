@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Your Adventure Portal — Adventure Mail Club</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+/* ============ PORTAL NAV ============ */
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 1.5rem)}
+.portal-nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,248,238,.92);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  height:var(--nav-h);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;
+}
+.pn-logo{display:flex;align-items:center;gap:.5rem;text-decoration:none;color:var(--t1)}
+.pn-gem{width:36px;height:36px;border-radius:10px;background:var(--gold);display:flex;align-items:center;justify-content:center}
+.pn-gem svg{width:16px;height:16px}
+.pn-word{font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:800;letter-spacing:-.02em}
+.pn-word em{font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:var(--red-o)}
+.pn-links{display:flex;gap:1.5rem;list-style:none}
+.pn-links a{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;font-weight:600;
+  color:var(--t3);text-decoration:none;
+  padding:.4rem 0;border-bottom:2px solid transparent;
+  transition:color .2s,border-color .2s;
+}
+.pn-links a:hover,.pn-links a.active{color:var(--t1);border-color:var(--red-o)}
+.pn-user{display:flex;align-items:center;gap:1rem}
+.pn-xp{display:flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:700;color:var(--t2)}
+.pn-xp-bar{width:80px;height:6px;background:var(--border);border-radius:99px;overflow:hidden}
+.pn-xp-fill{height:100%;background:var(--red-o);border-radius:99px;width:68%}
+.pn-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--red-o),var(--gold));display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:800;color:#fff}
+.pn-name{font-size:.78rem;font-weight:700;color:var(--t1);line-height:1.2}
+.pn-rank{font-size:.62rem;color:var(--t3);font-weight:600}
+.pn-home{font-size:.78rem;font-weight:600;color:var(--t3);text-decoration:none;transition:color .2s}
+.pn-home:hover{color:var(--red-o)}
+/* Mobile section pills */
+.section-pills{
+  display:none;position:sticky;top:var(--nav-h);z-index:99;
+  background:var(--cream);border-bottom:1px solid var(--border);
+  padding:.6rem 1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;
+  gap:.5rem;white-space:nowrap;
+  scrollbar-width:none;
+}
+.section-pills::-webkit-scrollbar{display:none}
+.section-pills a{
+  display:inline-block;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:.72rem;font-weight:700;
+  color:var(--t3);text-decoration:none;
+  padding:.4rem .85rem;border-radius:var(--r-pill);
+  background:var(--white);border:1.5px solid var(--border);
+  transition:all .2s;flex-shrink:0;
+}
+.section-pills a.active,.section-pills a:hover{background:var(--red-o);color:#fff;border-color:var(--red-o)}
+
+@media(max-width:768px){
+  .pn-home,.pn-name,.pn-rank{display:none}
+  .portal-nav{padding:0 1rem}
+  .pn-user{gap:.5rem}
+  .section-pills{display:flex}
+  html{scroll-padding-top:calc(var(--nav-h) + 3.5rem)}
+}
+
+/* ============ STORY HERO ============ */
+.portal-hero{
+  position:relative;overflow:visible;
+  background:var(--gold);
+  padding:5rem 0 8rem;
+  min-height:70vh;
+}
+/* Character image in hero */
+.ph-character{
+  position:absolute;right:0;bottom:-5%;top:0;
+  z-index:1;width:48%;max-width:580px;
+  pointer-events:none;overflow:hidden;
+}
+.ph-character img{
+  width:100%;height:105%;
+  object-fit:cover;object-position:center top;
+  display:block;
+  mix-blend-mode:multiply;
+}
+.ph-char-label{
+  position:absolute;bottom:18%;left:50%;transform:translateX(-50%);
+  background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+  border-radius:var(--r-pill);padding:.6rem 1.5rem;
+  font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:800;
+  color:var(--t1);white-space:nowrap;
+  box-shadow:0 6px 20px rgba(26,26,46,.12);
+  z-index:2;
+}
+.ph-char-label em{color:var(--blue);font-style:normal}
+.portal-hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:14vh;background:var(--cream);
+  clip-path:polygon(0 100%,0 0,50% 100%,100% 0,100% 100%);
+  z-index:2;pointer-events:none;
+}
+.portal-hero .wrap{position:relative;z-index:3;max-width:1320px;padding:0 3.5rem}
+.portal-hero .ph-text{max-width:48%}
+.ph-chapter{font-family:'Outfit',sans-serif;font-size:clamp(2.4rem,5vw,4.2rem);font-weight:900;letter-spacing:-.04em;line-height:1.05;color:var(--t1);margin-bottom:.5rem}
+.ph-chapter em{font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:var(--red-o)}
+.ph-sub{font-size:1.05rem;color:var(--t1);opacity:.7;line-height:1.6;max-width:48ch;margin-bottom:3rem}
+.ph-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2.5rem}
+.ph-stat{background:rgba(255,255,255,.6);backdrop-filter:blur(8px);border-radius:var(--r);padding:1.25rem 1.5rem;border:1px solid rgba(255,255,255,.5)}
+.ph-stat-n{font-family:'Outfit',sans-serif;font-size:2rem;font-weight:900;color:var(--t1);line-height:1}
+.ph-stat-l{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t2);margin-top:.25rem}
+.ph-progress{max-width:600px}
+.ph-bar{height:8px;background:rgba(26,26,46,.08);border-radius:99px;overflow:hidden;margin-bottom:1rem}
+.ph-bar-fill{height:100%;background:var(--red-o);border-radius:99px;transition:width 1s cubic-bezier(.22,1,.36,1)}
+.ph-dots{display:flex;gap:.5rem}
+.ph-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;font-family:'Outfit',sans-serif}
+.ph-dot.done{background:var(--red-o);color:#fff}
+.ph-dot.current{background:var(--t1);color:#fff;box-shadow:0 0 0 4px rgba(26,26,46,.15)}
+.ph-dot.locked{background:rgba(26,26,46,.06);color:var(--t4);border:1.5px dashed var(--t4)}
+/* stamp */
+.portal-stamp{
+  position:absolute;top:3rem;right:3rem;z-index:5;
+  width:clamp(80px,6vw,100px);aspect-ratio:4/5;
+  background:var(--white);filter:drop-shadow(0 6px 18px rgba(26,26,46,.15));
+  transform:rotate(4deg);
+  -webkit-mask-image:radial-gradient(circle 3px at 3px 0,transparent 3px,#000 3.5px),radial-gradient(circle 3px at 3px 0,transparent 3px,#000 3.5px),radial-gradient(circle 3px at 0 3px,transparent 3px,#000 3.5px),radial-gradient(circle 3px at 0 3px,transparent 3px,#000 3.5px),linear-gradient(#000,#000);
+  -webkit-mask-size:6px 6px,6px 6px,6px 6px,6px 6px,calc(100% - 6px) calc(100% - 6px);
+  -webkit-mask-position:top left,bottom left,top left,top right,3px 3px;
+  -webkit-mask-repeat:repeat-x,repeat-x,repeat-y,repeat-y,no-repeat;
+  -webkit-mask-composite:source-over;mask-composite:add;
+}
+.portal-stamp-inner{width:100%;height:100%;background:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px 8px;gap:2px;border:3px solid var(--cream)}
+.portal-stamp-illus{width:40px;height:40px;margin-bottom:2px}
+.portal-stamp-illus svg{width:100%;height:100%}
+.portal-stamp-val{font-family:'Outfit',sans-serif;font-size:.55rem;font-weight:900;color:var(--red-o);line-height:1.2}
+.portal-stamp-price{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--t1);line-height:1}
+
+/* ============ LATEST LETTER ============ */
+.letter-section{padding:6rem 0 4rem;background:var(--cream)}
+.letter-header{text-align:center;margin-bottom:3rem}
+.letter-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;max-width:1000px;margin:0 auto}
+.letter-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:2.5rem;position:relative;overflow:hidden}
+.letter-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red-o),var(--gold),var(--teal))}
+.letter-from{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+.letter-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--teal));display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.letter-from-info .letter-from-name{font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:800;color:var(--t1)}
+.letter-from-info .letter-from-date{font-size:.72rem;color:var(--t3)}
+.letter-body{font-family:'DM Serif Display',serif;font-size:1.15rem;color:var(--t2);line-height:1.85;margin-bottom:1.5rem;font-style:italic}
+.letter-body .hl-red{color:var(--red-o);font-weight:700;font-style:normal}
+.letter-body strong{color:var(--t1);font-style:normal}
+.letter-hint{display:inline-flex;align-items:center;gap:.5rem;background:rgba(253,203,64,.12);border:1px solid rgba(253,203,64,.3);border-radius:var(--r-pill);padding:.4rem 1rem;font-size:.78rem;font-weight:600;color:var(--gold-d)}
+.letter-qr{display:flex;align-items:center;gap:1rem;margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border)}
+.letter-qr-box{width:56px;height:56px;background:var(--t1);border-radius:10px;display:grid;grid-template-columns:repeat(7,1fr);gap:1.5px;padding:8px;flex-shrink:0}
+.qp{border-radius:1.5px;background:rgba(255,255,255,.85)}
+.qp.off{background:transparent}
+.letter-qr-text{font-size:.78rem;color:var(--t3);line-height:1.5}
+/* Read last chapter link */
+.read-last{display:inline-flex;align-items:center;gap:.5rem;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;font-weight:700;color:var(--blue);text-decoration:none;margin-top:1rem;transition:color .2s}
+.read-last:hover{color:var(--red-o)}
+/* Polaroid images */
+.letter-polaroids{position:relative;display:flex;flex-direction:column;gap:1.5rem;align-items:center;padding-top:1rem}
+.polaroid{
+  background:var(--white);padding:8px 8px 32px;
+  border-radius:4px;box-shadow:0 8px 30px rgba(26,26,46,.12);
+  width:clamp(200px,80%,280px);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.polaroid:hover{transform:scale(1.03) rotate(0deg)!important}
+.polaroid img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:2px;display:block;background:var(--cream)}
+.polaroid-caption{font-family:'DM Serif Display',serif;font-size:.78rem;color:var(--t2);text-align:center;margin-top:.5rem;font-style:italic}
+.polaroid-placeholder{width:100%;aspect-ratio:4/3;background:linear-gradient(135deg,var(--cream),rgba(253,203,64,.15));border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:2rem}
+
+/* ============ CHOICES ============ */
+.choices-section{padding:4rem 0 6rem;background:var(--cream)}
+.ch-question{
+  display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;
+  background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-lg);
+  padding:2rem;margin-bottom:1.5rem;max-width:900px;margin-left:auto;margin-right:auto;
+}
+.ch-question-text{flex:1}
+.ch-question-title{font-family:'Outfit',sans-serif;font-size:1.15rem;font-weight:800;color:var(--t1);margin-bottom:1rem}
+.ch-question .polaroid{width:160px;flex-shrink:0}
+
+/* ============ CHOICES ============ */
+.choices-section{padding:6rem 0;background:var(--white)}
+.ch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:2rem}
+.ch-group-title{font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:800;color:var(--t1);margin-bottom:.75rem}
+.ch-option{
+  background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);
+  padding:1.25rem;cursor:pointer;transition:all .25s cubic-bezier(.34,1.56,.64,1);
+  display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;
+}
+.ch-option:hover{border-color:var(--border-hi);transform:translateY(-2px);box-shadow:var(--sh-sm)}
+.ch-option.picked{border-color:var(--red-o);background:rgba(253,68,1,.04);box-shadow:0 4px 16px rgba(253,68,1,.1)}
+.ch-option.picked.gold{border-color:var(--gold);background:rgba(253,203,64,.08);box-shadow:var(--sh-gold)}
+.ch-option.picked.teal{border-color:var(--teal);background:rgba(14,165,165,.06);box-shadow:0 4px 16px rgba(14,165,165,.12)}
+.ch-icon{font-size:1.4rem;flex-shrink:0}
+.ch-label{font-size:.88rem;font-weight:600;color:var(--t1)}
+.ch-confirm{
+  width:100%;max-width:400px;margin:0 auto;display:block;
+  padding:1.1rem 2rem;border-radius:var(--r-pill);
+  font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:800;
+  background:var(--red-o);color:#fff;border:none;cursor:pointer;
+  box-shadow:var(--sh-red);
+  transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;
+}
+.ch-confirm:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 14px 40px rgba(253,68,1,.25)}
+
+/* ============ MAP ============ */
+.map-section{padding:6rem 0;background:var(--cream)}
+.map-stats{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:400px;margin:0 auto 2.5rem}
+.map-stat{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:1.25rem;text-align:center}
+.map-stat-n{font-family:'Outfit',sans-serif;font-size:2.2rem;font-weight:900;color:var(--t1)}
+.map-stat-l{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t3)}
+.map-card{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:var(--r-lg);padding:2.5rem;overflow:hidden;position:relative;margin-bottom:2.5rem}
+.map-card svg{width:100%;height:auto;display:block}
+.map-legend{display:flex;gap:1.5rem;padding:1rem 0 0}
+.map-leg{display:flex;align-items:center;gap:.4rem;font-size:.7rem;font-weight:600;color:rgba(255,255,255,.6)}
+.map-leg-dot{width:10px;height:10px;border-radius:50%}
+@keyframes locPulse{0%,100%{r:8;opacity:.3}50%{r:14;opacity:0}}
+@keyframes routeMove{to{stroke-dashoffset:0}}
+
+.map-locations{display:flex;gap:1rem;overflow-x:auto;padding:0 0 1rem;-webkit-overflow-scrolling:touch}
+.map-loc{flex-shrink:0;width:180px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:1.25rem;transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s}
+.map-loc:hover{transform:translateY(-4px);box-shadow:var(--sh-md)}
+.map-loc.locked{opacity:.45;border-style:dashed}
+.map-loc-icon{font-size:1.6rem;margin-bottom:.5rem}
+.map-loc-name{font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:800;color:var(--t1);margin-bottom:.15rem}
+.map-loc-ch{font-size:.68rem;color:var(--t3);font-weight:600}
+
+/* ============ INVENTORY ============ */
+.inv-section{padding:6rem 0;background:var(--cream)}
+.inv-filters{display:flex;gap:.5rem;margin-bottom:2.5rem;justify-content:center}
+.inv-filter{
+  padding:.5rem 1.25rem;border-radius:var(--r-pill);
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;font-weight:700;
+  background:var(--white);color:var(--t2);border:1.5px solid var(--border);
+  cursor:pointer;transition:all .2s;
+}
+.inv-filter:hover{border-color:var(--border-hi)}
+.inv-filter.active{background:var(--red-o);color:#fff;border-color:var(--red-o)}
+.inv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+.inv-card{
+  background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-lg);
+  padding:1.75rem;text-align:center;
+  transition:transform .28s cubic-bezier(.34,1.56,.64,1),box-shadow .28s;
+}
+.inv-card:hover{transform:translateY(-6px);box-shadow:var(--sh-lg)}
+.inv-card.locked{opacity:.4;border-style:dashed}
+.inv-card.locked:hover{transform:none;box-shadow:none}
+.inv-badge{display:inline-block;font-size:.6rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:.2rem .6rem;border-radius:var(--r-pill);margin-bottom:.75rem}
+.inv-badge.ch1{background:rgba(253,68,1,.1);color:var(--red-o)}
+.inv-badge.ch2{background:rgba(51,102,255,.1);color:var(--blue)}
+.inv-badge.ch3{background:rgba(14,165,165,.1);color:var(--teal)}
+.inv-badge.ch4{background:rgba(253,203,64,.15);color:var(--gold-d)}
+.inv-icon{font-size:2.8rem;margin-bottom:.5rem;display:block}
+.inv-name{font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:800;color:var(--t1);margin-bottom:.2rem}
+.inv-src{font-size:.72rem;color:var(--t3);font-weight:600}
+.inv-lock{font-size:1.4rem;opacity:.5;margin-bottom:.25rem;display:block}
+
+/* ============ ACHIEVEMENTS ============ */
+.ach-section{padding:6rem 0;background:var(--white)}
+.ach-xp{background:linear-gradient(135deg,rgba(253,203,64,.15),rgba(253,68,1,.08));border:1.5px solid rgba(253,203,64,.3);border-radius:var(--r-lg);padding:2rem 2.5rem;display:flex;align-items:center;gap:2.5rem;margin-bottom:3rem;max-width:600px;margin-left:auto;margin-right:auto}
+.ach-xp-num{font-family:'Outfit',sans-serif;font-size:3.5rem;font-weight:900;color:var(--t1);line-height:1}
+.ach-xp-info{flex:1}
+.ach-xp-label{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t2);margin-bottom:.5rem}
+.ach-xp-bar{height:8px;background:rgba(26,26,46,.06);border-radius:99px;overflow:hidden}
+.ach-xp-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--red-o));border-radius:99px;width:68%}
+.ach-xp-rank{font-size:.78rem;color:var(--t3);margin-top:.4rem}
+.ach-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+.ach-card{
+  background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-lg);
+  padding:1.75rem;text-align:center;
+  transition:transform .28s cubic-bezier(.34,1.56,.64,1),box-shadow .28s;
+}
+.ach-card:hover{transform:translateY(-5px);box-shadow:var(--sh-lg)}
+.ach-card.locked{opacity:.35;border-style:dashed}
+.ach-card.locked:hover{transform:none;box-shadow:none}
+.ach-card-icon{font-size:2.4rem;margin-bottom:.5rem;display:block}
+.ach-card-name{font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:800;color:var(--t1);margin-bottom:.2rem}
+.ach-card-desc{font-size:.72rem;color:var(--t3);line-height:1.5}
+
+/* ============ MESSAGES ============ */
+.msg-section{padding:6rem 0;background:var(--cream)}
+.msg-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
+.msg-col-title{font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:800;color:var(--t1);margin-bottom:1.25rem}
+.msg-item{
+  background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);
+  padding:1.25rem;margin-bottom:.75rem;
+  transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .22s;
+}
+.msg-item:hover{transform:translateY(-3px);box-shadow:var(--sh-md)}
+.msg-item.unread{border-color:rgba(253,203,64,.4);background:rgba(253,203,64,.04)}
+.msg-from{font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:800;color:var(--t1);display:flex;align-items:center;gap:.5rem}
+.msg-unread-dot{width:8px;height:8px;border-radius:50%;background:var(--gold)}
+.msg-date{font-size:.68rem;color:var(--t3);margin:.15rem 0 .4rem}
+.msg-preview{font-size:.82rem;color:var(--t2);line-height:1.6}
+.msg-reply{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:.75rem;display:flex;align-items:center;justify-content:space-between}
+.msg-reply-text{font-size:.82rem;color:var(--t2)}
+.msg-reply-date{font-size:.68rem;color:var(--t3)}
+.msg-pill{font-size:.6rem;font-weight:700;padding:.2rem .6rem;border-radius:var(--r-pill);text-transform:uppercase;letter-spacing:.05em}
+.msg-pill.green{background:rgba(34,197,94,.1);color:var(--green)}
+.msg-pill.teal{background:rgba(14,165,165,.1);color:var(--teal)}
+
+/* ============ SETTINGS ============ */
+.settings-section{padding:6rem 0;background:var(--white)}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
+.settings-card{background:var(--cream);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:2rem}
+.settings-card-title{font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:800;color:var(--t1);margin-bottom:1.5rem}
+.s-row{margin-bottom:1.25rem}
+.s-label{font-size:.78rem;font-weight:700;color:var(--t2);margin-bottom:.4rem;display:block}
+.s-input{width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;color:var(--t1);background:var(--white);transition:border-color .2s}
+.s-input:focus{outline:none;border-color:var(--red-o)}
+.s-toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0;border-bottom:1px solid var(--border)}
+.s-toggle-label{font-size:.85rem;color:var(--t1);font-weight:600}
+.s-toggle{width:44px;height:24px;border-radius:99px;background:var(--border);cursor:pointer;position:relative;transition:background .2s}
+.s-toggle.on{background:var(--gold)}
+.s-toggle::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s}
+.s-toggle.on::after{transform:translateX(20px)}
+.s-sub-info{background:linear-gradient(135deg,rgba(253,68,1,.08),rgba(253,203,64,.08));border:1.5px solid rgba(253,68,1,.15);border-radius:var(--r);padding:1.5rem;margin-bottom:1.5rem}
+.s-sub-plan{font-family:'Outfit',sans-serif;font-size:1.2rem;font-weight:800;color:var(--t1)}
+.s-sub-detail{font-size:.82rem;color:var(--t2);margin-top:.25rem}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:1100px){
+  .ch-question{grid-template-columns:1fr}
+  .ch-question .polaroid{width:120px;margin:0 auto}
+  .ach-grid{grid-template-columns:repeat(2,1fr)}
+  .inv-grid{grid-template-columns:repeat(3,1fr)}
+  .letter-grid{grid-template-columns:1fr}
+  .letter-polaroids{flex-direction:row;justify-content:center}
+  .ph-text{max-width:55%}
+  .ph-character{width:42%}
+}
+@media(max-width:768px){
+  .ph-stats{grid-template-columns:1fr 1fr}
+  .msg-grid{grid-template-columns:1fr}
+  .inv-grid{grid-template-columns:1fr 1fr}
+  .ach-grid{grid-template-columns:1fr 1fr}
+  .pn-links{display:none}
+  /* Hero — compact, centered */
+  .portal-hero{padding:1.5rem 0 3rem;min-height:auto}
+  .portal-hero .wrap{padding:0 1.25rem}
+  .ph-text{max-width:100%;text-align:center}
+  .ph-chapter{font-size:clamp(1.6rem,6vw,2rem)!important;margin-bottom:.25rem;text-align:center}
+  .ph-sub{font-size:.82rem;margin-bottom:1rem;text-align:center;margin-left:auto;margin-right:auto}
+  .ph-character{position:relative;right:auto;top:auto;bottom:auto;width:28%;max-width:120px;margin:0 auto .75rem;overflow:visible}
+  .ph-character img{width:100%;height:auto;object-fit:contain;mix-blend-mode:normal}
+  .ph-char-label{position:relative;bottom:auto;left:auto;transform:none;margin-top:.25rem;text-align:center;display:block;font-size:.62rem;padding:.3rem .6rem}
+  .ph-stats{gap:.4rem!important;grid-template-columns:repeat(4,1fr)!important}
+  .ph-stat{padding:.6rem .5rem!important;text-align:center}
+  .ph-stat-n{font-size:1.2rem!important}
+  .ph-stat-l{font-size:.5rem!important}
+  .ph-progress{display:none}
+  .portal-stamp{display:none!important}
+  .portal-hero::after{height:8vh}
+  /* Letter — full width card, centered */
+  .letter-section{padding:3rem 0!important}
+  .letter-grid{grid-template-columns:1fr!important;gap:1.5rem}
+  .letter-card{padding:1.5rem!important}
+  .letter-body{font-size:1rem!important}
+  .letter-polaroids{display:none}
+  /* Choices */
+  .choices-section{padding:3rem 0!important}
+  .ch-question{grid-template-columns:1fr!important;padding:1.25rem!important}
+  .ch-question .polaroid{display:none}
+  /* Sections — tighter */
+  .map-section,.inv-section,.ach-section,.msg-section{padding:3rem 0!important}
+  .editorial-break{padding:3rem 0!important}
+  .ph-dots{gap:.3rem!important;flex-wrap:wrap}
+  .ph-dot{width:22px!important;height:22px!important;font-size:.5rem!important}
+  .portal-stamp{width:60px!important;top:1rem;right:1rem}
+  .letter-polaroids{flex-direction:row}
+  .polaroid{width:clamp(140px,40%,180px)!important}
+  .ch-question .polaroid{display:none}
+  .map-stats{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ PORTAL NAV ============ -->
+<nav class="portal-nav">
+  <a href="index.html" class="pn-logo">
+    <div class="pn-gem"><svg viewBox="0 0 20 20" fill="none"><path d="M10 2l1.8 5.2H18l-5 3.6 1.9 5.8L10 13.2 5.1 17l1.9-5.8L2 7.2h5.2z" fill="#1A1A2E"/></svg></div>
+    <span class="pn-word">Adventure <em>Mail</em> Club</span>
+  </a>
+  <ul class="pn-links">
+    <li><a href="#story" class="active">Story</a></li>
+    <li><a href="#map">Map</a></li>
+    <li><a href="#inventory">Inventory</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#messages">Messages</a></li>
+    <li><a href="account.html">Account</a></li>
+  </ul>
+  <div class="pn-user">
+    <div class="pn-xp"><span>XP</span><div class="pn-xp-bar"><div class="pn-xp-fill"></div></div><span>340/500</span></div>
+    <div class="pn-avatar">AJ</div>
+    <div><div class="pn-name">Amelia J.</div><div class="pn-rank">Explorer Rank 3</div></div>
+    <a href="index.html" class="pn-home">&larr; Home</a>
+  </div>
+</nav>
+
+<!-- Mobile section pills -->
+<div class="section-pills" id="sectionPills">
+  <a href="#story" class="active">Story</a>
+  <a href="#map">Map</a>
+  <a href="#inventory">Inventory</a>
+  <a href="#achievements">Achievements</a>
+  <a href="#messages">Messages</a>
+  <a href="account.html">Account</a>
+</div>
+
+<!-- ============ STORY HERO ============ -->
+<section class="portal-hero" id="story">
+  <div class="floating-cloud fc-med" style="position:absolute;top:15%;left:5%;opacity:.6"><svg width="100" height="45" viewBox="0 0 120 60"><ellipse cx="60" cy="40" rx="55" ry="20" fill="#fff"/><ellipse cx="40" cy="30" rx="30" ry="18" fill="#fff"/><ellipse cx="80" cy="28" rx="25" ry="16" fill="#fff"/></svg></div>
+  <div class="floating-cloud fc-fast" style="position:absolute;top:60%;right:8%;opacity:.4"><svg width="80" height="35" viewBox="0 0 120 60"><ellipse cx="60" cy="40" rx="55" ry="20" fill="#fff"/><ellipse cx="40" cy="30" rx="30" ry="18" fill="#fff"/></svg></div>
+
+  <div class="portal-stamp">
+    <div class="portal-stamp-inner">
+      <div class="portal-stamp-illus"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="18" stroke="var(--red-o)" stroke-width="1.5"/><circle cx="24" cy="24" r="2" fill="var(--red-o)"/><path d="M24 6v8M24 34v8M6 24h8M34 24h8" stroke="var(--t1)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="portal-stamp-val">Ch.4</div>
+      <div class="portal-stamp-price">&#9733;</div>
+    </div>
+  </div>
+
+  <!-- Character image -->
+  <div class="ph-character rv">
+    <img src="milo.png" alt="Milo — The Inventor"/>
+    <div class="ph-char-label">Playing as <em>Milo</em> &mdash; The Inventor</div>
+  </div>
+
+  <div class="wrap">
+    <div class="ph-text">
+      <h1 class="ph-chapter rv">Chapter 4.<br><em>The Map with No Beginning.</em></h1>
+      <p class="ph-sub rv d1">Make your choices before 15 April. They shape what arrives in Chapter 5.</p>
+
+      <div class="ph-stats rv d2">
+        <div class="ph-stat"><div class="ph-stat-n">4</div><div class="ph-stat-l">Chapters done</div></div>
+        <div class="ph-stat"><div class="ph-stat-n">5</div><div class="ph-stat-l">Artefacts found</div></div>
+        <div class="ph-stat"><div class="ph-stat-n">8</div><div class="ph-stat-l">Replies sent</div></div>
+        <div class="ph-stat"><div class="ph-stat-n">340</div><div class="ph-stat-l">Adventure XP</div></div>
+      </div>
+
+      <div class="ph-progress rv d3">
+        <div class="ph-bar"><div class="ph-bar-fill" style="width:33%"></div></div>
+        <div class="ph-dots" id="chapterDots"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ YOUR LATEST LETTER ============ -->
+<section class="letter-section">
+  <div class="wrap">
+    <div class="letter-header rv">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex">Your latest letter</div>
+      <h2 class="s-title" style="font-size:clamp(2.2rem,5vw,4rem)">From <em>Milo.</em></h2>
+    </div>
+
+    <div class="letter-grid rv">
+      <!-- Letter content -->
+      <div class="letter-card">
+        <div class="letter-from">
+          <div class="letter-avatar">&#128295;</div>
+          <div class="letter-from-info">
+            <div class="letter-from-name">Milo &mdash; The Inventor</div>
+            <div class="letter-from-date">12 April 2026 &middot; Chapter 4</div>
+          </div>
+        </div>
+        <p class="letter-body">
+          You sent back <span class="hl-red">south</span>. It was right. The entrance opened and the team went in. What they found was a library buried underground &mdash; every book written in a language that shifts when you look at it.<br><br>
+          I built a translator from the parts we found at the river, but it only works under moonlight. Penny found one page she could read. It mentioned <strong>your name</strong>.<br><br>
+          We need your help again. Three questions before the next letter arrives&hellip;
+        </p>
+        <div class="letter-hint">&#9200; Next letter arrives approximately 28 April</div>
+
+        <div class="letter-qr">
+          <div class="letter-qr-box" id="qrGrid"></div>
+          <div class="letter-qr-text">Scan QR on your physical letter to log artefacts</div>
+        </div>
+
+        <a href="#" class="read-last">&larr; Read Chapter 3: The River Crossing</a>
+      </div>
+
+      <!-- Polaroid images -->
+      <div class="letter-polaroids rv d1">
+        <div class="polaroid" style="transform:rotate(-3deg)">
+          <div class="polaroid-placeholder">&#128218;</div>
+          <div class="polaroid-caption">The underground library</div>
+        </div>
+        <div class="polaroid" style="transform:rotate(2deg)">
+          <div class="polaroid-placeholder">&#128302;</div>
+          <div class="polaroid-caption">The shifting text</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ YOUR CHOICES ============ -->
+<section class="choices-section">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:3rem" class="rv">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex">Reply to Milo</div>
+      <h2 class="s-title" style="font-size:clamp(2rem,4vw,3.5rem)">Your choices write the next <em>chapter.</em></h2>
+    </div>
+
+    <!-- Question 1 -->
+    <div class="ch-question rv">
+      <div class="ch-question-text">
+        <div class="ch-question-title">&#127758; Where should they travel next?</div>
+        <div class="ch-option gold" onclick="pick(this,'dest')"><span class="ch-icon">&#9968;</span><span class="ch-label">Follow the river north</span></div>
+        <div class="ch-option gold" onclick="pick(this,'dest')"><span class="ch-icon">&#127956;</span><span class="ch-label">Cross the salt flats</span></div>
+        <div class="ch-option gold" onclick="pick(this,'dest')"><span class="ch-icon">&#127959;</span><span class="ch-label">Search the old lighthouse</span></div>
+      </div>
+      <div class="polaroid" style="transform:rotate(3deg)">
+        <div class="polaroid-placeholder">&#127758;</div>
+        <div class="polaroid-caption">The path ahead</div>
+      </div>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="ch-question rv d1">
+      <div class="ch-question-text">
+        <div class="ch-question-title">&#128270; What should Milo build?</div>
+        <div class="ch-option" onclick="pick(this,'action')"><span class="ch-icon">&#128214;</span><span class="ch-label">A moonlight decoder</span></div>
+        <div class="ch-option" onclick="pick(this,'action')"><span class="ch-icon">&#128274;</span><span class="ch-label">A lock-picking device</span></div>
+        <div class="ch-option" onclick="pick(this,'action')"><span class="ch-icon">&#128172;</span><span class="ch-label">A signal transmitter</span></div>
+      </div>
+      <div class="polaroid" style="transform:rotate(-2deg)">
+        <div class="polaroid-placeholder">&#128295;</div>
+        <div class="polaroid-caption">Milo's workshop</div>
+      </div>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="ch-question rv d2">
+      <div class="ch-question-text">
+        <div class="ch-question-title">&#128142; What should they hunt for?</div>
+        <div class="ch-option teal" onclick="pick(this,'hunt')"><span class="ch-icon">&#128218;</span><span class="ch-label">The book with your name</span></div>
+        <div class="ch-option teal" onclick="pick(this,'hunt')"><span class="ch-icon">&#128204;</span><span class="ch-label">A hidden map fragment</span></div>
+        <div class="ch-option teal" onclick="pick(this,'hunt')"><span class="ch-icon">&#128302;</span><span class="ch-label">The crystal compass</span></div>
+      </div>
+      <div class="polaroid" style="transform:rotate(2.5deg)">
+        <div class="polaroid-placeholder">&#128142;</div>
+        <div class="polaroid-caption">Hidden treasures</div>
+      </div>
+    </div>
+
+    <button class="ch-confirm" onclick="confirmChoices(this)" style="margin-top:1rem">&#9989; Send my replies to Milo</button>
+  </div>
+</section>
+
+<!-- ============ EDITORIAL BREAK ============ -->
+<section class="editorial-break rv" style="background:var(--cream)">
+  <h2 class="ed-title">Every step changes the <em>map.</em></h2>
+  <p class="ed-sub">Your path through the story is unique. No two adventurers take the same route.</p>
+</section>
+
+<!-- ============ WORLD MAP ============ -->
+<section class="map-section" id="map">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:3rem" class="rv">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex">World map</div>
+      <h2 class="s-title" style="font-size:clamp(2.2rem,5vw,4rem)">Where you've <em>been.</em></h2>
+    </div>
+
+    <div class="map-stats rv">
+      <div class="map-stat"><div class="map-stat-n">4</div><div class="map-stat-l">Locations visited</div></div>
+      <div class="map-stat"><div class="map-stat-n">3</div><div class="map-stat-l">Yet to discover</div></div>
+    </div>
+
+    <div class="map-card rv">
+      <svg viewBox="0 0 800 400" fill="none">
+        <!-- Map background -->
+        <rect width="800" height="400" rx="16" fill="#1a1a2e"/>
+        <rect width="800" height="400" rx="16" fill="url(#mapGrad)" opacity=".3"/>
+        <defs><linearGradient id="mapGrad" x1="0" y1="0" x2="800" y2="400"><stop offset="0" stop-color="#3366FF" stop-opacity=".2"/><stop offset="1" stop-color="#0EA5A5" stop-opacity=".15"/></linearGradient></defs>
+
+        <!-- Routes -->
+        <path d="M120 300 Q200 250 280 220" stroke="var(--gold)" stroke-width="2" stroke-dasharray="8 4" opacity=".6"/>
+        <path d="M280 220 Q360 200 420 180" stroke="var(--gold)" stroke-width="2" stroke-dasharray="8 4" opacity=".6"/>
+        <path d="M420 180 Q500 150 560 170" stroke="var(--gold)" stroke-width="2" stroke-dasharray="8 4" opacity=".6"/>
+        <path d="M560 170 Q620 200 680 160" stroke="rgba(255,255,255,.15)" stroke-width="2" stroke-dasharray="6 6"/>
+        <path d="M560 170 Q580 250 620 280" stroke="rgba(255,255,255,.15)" stroke-width="2" stroke-dasharray="6 6"/>
+
+        <!-- Visited locations -->
+        <circle cx="120" cy="300" r="10" fill="var(--gold)" opacity=".9"/>
+        <text x="120" y="330" text-anchor="middle" fill="var(--gold)" font-family="Outfit,sans-serif" font-size="10" font-weight="700">Start</text>
+
+        <circle cx="280" cy="220" r="10" fill="var(--gold)" opacity=".9"/>
+        <text x="280" y="250" text-anchor="middle" fill="var(--gold)" font-family="Outfit,sans-serif" font-size="10" font-weight="700">Wandering Wood</text>
+
+        <circle cx="420" cy="180" r="10" fill="var(--gold)" opacity=".9"/>
+        <text x="420" y="210" text-anchor="middle" fill="var(--gold)" font-family="Outfit,sans-serif" font-size="10" font-weight="700">River Crossing</text>
+
+        <!-- Current location -->
+        <circle cx="560" cy="170" r="12" fill="var(--blue)"/>
+        <circle cx="560" cy="170" r="18" fill="none" stroke="var(--blue)" stroke-width="2" opacity=".4"><animate attributeName="r" values="14;22;14" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values=".4;0;.4" dur="2s" repeatCount="indefinite"/></circle>
+        <text x="560" y="155" text-anchor="middle" fill="#fff" font-family="Outfit,sans-serif" font-size="10" font-weight="700">Library Below</text>
+
+        <!-- Locked locations -->
+        <circle cx="680" cy="160" r="8" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="680" y="145" text-anchor="middle" fill="rgba(255,255,255,.3)" font-family="Outfit,sans-serif" font-size="9">???</text>
+
+        <circle cx="620" cy="280" r="8" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="620" y="305" text-anchor="middle" fill="rgba(255,255,255,.3)" font-family="Outfit,sans-serif" font-size="9">???</text>
+
+        <circle cx="720" cy="300" r="8" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="720" y="325" text-anchor="middle" fill="rgba(255,255,255,.3)" font-family="Outfit,sans-serif" font-size="9">???</text>
+      </svg>
+      <div class="map-legend">
+        <div class="map-leg"><div class="map-leg-dot" style="background:var(--gold)"></div> Visited</div>
+        <div class="map-leg"><div class="map-leg-dot" style="background:var(--blue)"></div> You are here</div>
+        <div class="map-leg"><div class="map-leg-dot" style="background:rgba(255,255,255,.25);border:1.5px dashed rgba(255,255,255,.4)"></div> Undiscovered</div>
+      </div>
+    </div>
+
+    <div class="map-locations rv">
+      <div class="map-loc"><div class="map-loc-icon">&#127795;</div><div class="map-loc-name">The Starting Grove</div><div class="map-loc-ch">Chapter 1</div></div>
+      <div class="map-loc"><div class="map-loc-icon">&#127794;</div><div class="map-loc-name">Wandering Wood</div><div class="map-loc-ch">Chapter 2</div></div>
+      <div class="map-loc"><div class="map-loc-icon">&#127754;</div><div class="map-loc-name">River Crossing</div><div class="map-loc-ch">Chapter 3</div></div>
+      <div class="map-loc"><div class="map-loc-icon">&#128218;</div><div class="map-loc-name">The Library Below</div><div class="map-loc-ch">Chapter 4 &middot; Current</div></div>
+      <div class="map-loc locked"><div class="map-loc-icon">&#128274;</div><div class="map-loc-name">???</div><div class="map-loc-ch">Chapter 5</div></div>
+      <div class="map-loc locked"><div class="map-loc-icon">&#128274;</div><div class="map-loc-name">???</div><div class="map-loc-ch">Chapter 6</div></div>
+      <div class="map-loc locked"><div class="map-loc-icon">&#128274;</div><div class="map-loc-name">???</div><div class="map-loc-ch">Chapter 7</div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ INVENTORY ============ -->
+<section class="inv-section" id="inventory">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:1.5rem" class="rv">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex">Inventory</div>
+      <h2 class="s-title" style="font-size:clamp(2.2rem,5vw,4rem)">Your <em>collection.</em></h2>
+      <p style="font-size:1rem;color:var(--t2);margin-top:.75rem">Everything you've received in the post and discovered along the way.</p>
+    </div>
+
+    <div class="inv-filters rv">
+      <button class="inv-filter active" onclick="filterInv('all',this)">All items</button>
+      <button class="inv-filter" onclick="filterInv('collected',this)">Collected</button>
+      <button class="inv-filter" onclick="filterInv('locked',this)">Locked</button>
+    </div>
+
+    <div class="inv-grid rv">
+      <div class="inv-card" data-t="collected"><span class="inv-badge ch1">Ch.1</span><span class="inv-icon">&#129517;</span><div class="inv-name">Explorer's Compass</div><div class="inv-src">Welcome pack</div></div>
+      <div class="inv-card" data-t="collected"><span class="inv-badge ch1">Ch.1</span><span class="inv-icon">&#128506;</span><div class="inv-name">Map Fragment #1</div><div class="inv-src">Chapter 1 letter</div></div>
+      <div class="inv-card" data-t="collected"><span class="inv-badge ch2">Ch.2</span><span class="inv-icon">&#127811;</span><div class="inv-name">Pressed Leaf</div><div class="inv-src">Wandering Wood</div></div>
+      <div class="inv-card" data-t="collected"><span class="inv-badge ch2">Ch.2</span><span class="inv-icon">&#128085;</span><div class="inv-name">Explorer T-Shirt</div><div class="inv-src">Merch reward</div></div>
+      <div class="inv-card" data-t="collected"><span class="inv-badge ch3">Ch.3</span><span class="inv-icon">&#129704;</span><div class="inv-name">River Stone</div><div class="inv-src">River Crossing</div></div>
+      <div class="inv-card" data-t="collected"><span class="inv-badge ch3">Ch.3</span><span class="inv-icon">&#128506;</span><div class="inv-name">Map Fragment #2</div><div class="inv-src">Chapter 3 letter</div></div>
+      <div class="inv-card" data-t="collected"><span class="inv-badge ch4">Ch.4</span><span class="inv-icon">&#128302;</span><div class="inv-name">Crystal Shard</div><div class="inv-src">The Library Below</div></div>
+      <div class="inv-card" data-t="collected"><span class="inv-badge ch1">Ch.1</span><span class="inv-icon">&#128273;</span><div class="inv-name">Adventure Keyring</div><div class="inv-src">Welcome pack</div></div>
+      <div class="inv-card locked" data-t="locked"><span class="inv-lock">&#128274;</span><span class="inv-icon" style="opacity:.3">&#128506;</span><div class="inv-name">Map Fragment #3</div><div class="inv-src">Chapter 5</div></div>
+      <div class="inv-card locked" data-t="locked"><span class="inv-lock">&#128274;</span><span class="inv-icon" style="opacity:.3">&#128142;</span><div class="inv-name">The Crystal Compass</div><div class="inv-src">Chapter 6</div></div>
+      <div class="inv-card locked" data-t="locked"><span class="inv-lock">&#128274;</span><span class="inv-icon" style="opacity:.3">&#128085;</span><div class="inv-name">Wanderer Hoodie</div><div class="inv-src">Chapter 8 reward</div></div>
+      <div class="inv-card locked" data-t="locked"><span class="inv-lock">&#128274;</span><span class="inv-icon" style="opacity:.3">&#127942;</span><div class="inv-name">Gold Badge</div><div class="inv-src">Complete all chapters</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EDITORIAL BREAK ============ -->
+<section class="editorial-break rv" style="background:var(--white)">
+  <h2 class="ed-title">Badges earned, stories <em>told.</em></h2>
+  <p class="ed-sub">Every choice, every letter, every artefact brings you closer to the goal.</p>
+</section>
+
+<!-- ============ ACHIEVEMENTS ============ -->
+<section class="ach-section" id="achievements">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:3rem" class="rv">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex">Achievements</div>
+      <h2 class="s-title" style="font-size:clamp(2.2rem,5vw,4rem)">Explorer <em>rank.</em></h2>
+    </div>
+
+    <div class="ach-xp rv">
+      <div class="ach-xp-num">340</div>
+      <div class="ach-xp-info">
+        <div class="ach-xp-label">Adventure XP &mdash; 160 to Rank 4</div>
+        <div class="ach-xp-bar"><div class="ach-xp-fill"></div></div>
+        <div class="ach-xp-rank">Explorer Rank 3 &rarr; Pathfinder Rank 4</div>
+      </div>
+    </div>
+
+    <div class="ach-grid rv">
+      <div class="ach-card"><span class="ach-card-icon">&#127919;</span><div class="ach-card-name">First Letter</div><div class="ach-card-desc">Scanned your first QR code</div></div>
+      <div class="ach-card"><span class="ach-card-icon">&#128506;</span><div class="ach-card-name">Map Maker</div><div class="ach-card-desc">Collected 2 map fragments</div></div>
+      <div class="ach-card"><span class="ach-card-icon">&#129517;</span><div class="ach-card-name">True North</div><div class="ach-card-desc">Used the compass 3 times</div></div>
+      <div class="ach-card"><span class="ach-card-icon">&#128172;</span><div class="ach-card-name">Pen Pal</div><div class="ach-card-desc">Sent 5 replies</div></div>
+      <div class="ach-card"><span class="ach-card-icon">&#127795;</span><div class="ach-card-name">Trailblazer</div><div class="ach-card-desc">Visited 4 locations</div></div>
+      <div class="ach-card"><span class="ach-card-icon">&#128218;</span><div class="ach-card-name">Bookworm</div><div class="ach-card-desc">Found the underground library</div></div>
+      <div class="ach-card locked"><span class="ach-card-icon">&#128274;</span><div class="ach-card-name">???</div><div class="ach-card-desc">Complete Chapter 6</div></div>
+      <div class="ach-card locked"><span class="ach-card-icon">&#128274;</span><div class="ach-card-name">???</div><div class="ach-card-desc">Collect all artefacts</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MESSAGES ============ -->
+<section class="msg-section" id="messages">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:3rem" class="rv">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex">Messages</div>
+      <h2 class="s-title" style="font-size:clamp(2.2rem,5vw,4rem)">Letters &amp; <em>replies.</em></h2>
+    </div>
+
+    <div class="msg-grid rv">
+      <div>
+        <div class="msg-col-title">Received letters</div>
+        <div class="msg-item unread">
+          <div class="msg-from"><div class="msg-unread-dot"></div> Penny (The Detective)</div>
+          <div class="msg-date">12 April 2026</div>
+          <div class="msg-preview">The library is shifting again. I found a page that mentions your name &mdash; but the rest is in a language I can&rsquo;t read&hellip;</div>
+        </div>
+        <div class="msg-item">
+          <div class="msg-from">Atlas (The Explorer)</div>
+          <div class="msg-date">14 March 2026</div>
+          <div class="msg-preview">The river was wider than the map showed. We made it across, but the compass is pointing somewhere new&hellip;</div>
+        </div>
+        <div class="msg-item">
+          <div class="msg-from">Milo (The Inventor)</div>
+          <div class="msg-date">12 February 2026</div>
+          <div class="msg-preview">I fixed the broken device from the tree hollow. It&rsquo;s some kind of translator &mdash; but it only works when you hold it under moonlight&hellip;</div>
+        </div>
+        <div class="msg-item">
+          <div class="msg-from">Zara (The Naturalist)</div>
+          <div class="msg-date">14 January 2026</div>
+          <div class="msg-preview">Welcome to the Wandering Five, Amelia! Your first adventure awaits &mdash; check your pack for the compass&hellip;</div>
+        </div>
+      </div>
+      <div>
+        <div class="msg-col-title">Your replies</div>
+        <div class="msg-reply"><div><div class="msg-reply-text">Go south &mdash; follow the compass</div><div class="msg-reply-date">15 March 2026</div></div><span class="msg-pill green">Used in story</span></div>
+        <div class="msg-reply"><div><div class="msg-reply-text">Trust the stranger at the bridge</div><div class="msg-reply-date">18 February 2026</div></div><span class="msg-pill green">Used in story</span></div>
+        <div class="msg-reply"><div><div class="msg-reply-text">Explore the tree hollow first</div><div class="msg-reply-date">20 January 2026</div></div><span class="msg-pill green">Used in story</span></div>
+        <div class="msg-reply"><div><div class="msg-reply-text">Keep the compass, don't trade it</div><div class="msg-reply-date">14 January 2026</div></div><span class="msg-pill teal">Received</span></div>
+        <div style="margin-top:1rem"><a href="#" class="btn btn-pur" style="display:block;text-align:center">Write a new reply</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ FOOTER ============ -->
+<footer style="background:var(--cream);padding:3rem 0;text-align:center">
+  <p style="font-size:.82rem;color:var(--t3)">&copy; 2026 Adventure Mail Club. All rights reserved.</p>
+</footer>
+
+<script>
+// ---- Scroll reveal ----
+var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');obs.unobserve(x.target);}});},{threshold:.08});
+document.querySelectorAll('.rv').forEach(function(el){obs.observe(el);});
+
+// ---- Active nav link + pill on scroll ----
+var sections=document.querySelectorAll('section[id]');
+var navLinks=document.querySelectorAll('.pn-links a');
+var pillLinks=document.querySelectorAll('.section-pills a');
+var navObs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      var id=e.target.id;
+      navLinks.forEach(function(a){a.classList.remove('active')});
+      pillLinks.forEach(function(a){a.classList.remove('active')});
+      var link=document.querySelector('.pn-links a[href="#'+id+'"]');
+      var pill=document.querySelector('.section-pills a[href="#'+id+'"]');
+      if(link) link.classList.add('active');
+      if(pill){pill.classList.add('active');pill.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}
+    }
+  });
+},{threshold:.2,rootMargin:'-80px 0px -40% 0px'});
+sections.forEach(function(s){navObs.observe(s);});
+
+// ---- Choice picking ----
+function pick(el,grp){
+  el.parentElement.querySelectorAll('.ch-option').forEach(function(o){o.classList.remove('picked')});
+  el.classList.add('picked');
+}
+function confirmChoices(btn){
+  var picked=document.querySelectorAll('.ch-option.picked');
+  if(picked.length<3){btn.textContent='Pick all 3 first!';btn.style.background='var(--t3)';setTimeout(function(){btn.innerHTML='&#9989; Lock in my choices';btn.style.background='';},2000);return;}
+  btn.textContent='Choices locked! ✨';btn.style.background='var(--green)';
+  setTimeout(function(){btn.innerHTML='&#9989; Lock in my choices';btn.style.background='';},3000);
+}
+
+// ---- Inventory filter ----
+function filterInv(type,btn){
+  document.querySelectorAll('.inv-filter').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  document.querySelectorAll('.inv-card').forEach(function(card){
+    if(type==='all') card.style.display='';
+    else if(type==='collected') card.style.display=card.dataset.t==='collected'?'':'none';
+    else card.style.display=card.dataset.t==='locked'?'':'none';
+  });
+}
+
+// ---- Chapter dots ----
+(function(){
+  var dots=document.getElementById('chapterDots');
+  if(!dots) return;
+  for(var i=1;i<=12;i++){
+    var d=document.createElement('div');
+    d.className='ph-dot '+(i<=3?'done':i===4?'current':'locked');
+    d.textContent=i;
+    dots.appendChild(d);
+  }
+})();
+
+// ---- QR grid ----
+(function(){
+  var grid=document.getElementById('qrGrid');
+  if(!grid) return;
+  var pattern=[1,1,1,0,1,1,1,1,0,1,0,1,0,1,1,1,1,0,1,1,1,0,0,0,0,0,0,0,1,0,1,1,0,1,0,1,1,1,0,1,0,1,1,1,1,1,0,1,1];
+  pattern.forEach(function(v){
+    var c=document.createElement('div');
+    c.className='qp'+(v?'':' off');
+    grid.appendChild(c);
+  });
+})();
+
+// ---- Word reveal on editorial titles ----
+document.querySelectorAll('.ed-title').forEach(function(title){
+  var html=title.innerHTML;
+  title.innerHTML=html.replace(/(\S+)/g,'<span class="wr-word" style="display:inline-block;opacity:0;transform:translateY(100%) scaleY(0);transform-origin:bottom center;transition:opacity .5s,transform .7s cubic-bezier(.34,1.56,.64,1)">$1</span>');
+  title.querySelectorAll('.wr-word').forEach(function(w,i){w.style.transitionDelay=(i*0.08)+'s';});
+});
+var wrObs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){e.target.querySelectorAll('.wr-word').forEach(function(w){w.style.opacity='1';w.style.transform='translateY(0) scaleY(1)';});wrObs.unobserve(e.target);}
+  });
+},{threshold:.3});
+document.querySelectorAll('.editorial-break').forEach(function(el){wrObs.observe(el);});
+</script>
+</body>
+</html>

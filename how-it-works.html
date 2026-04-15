@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>How It Works — Adventure Mail Club</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+/* ============ HOW IT WORKS PAGE ============ */
+.hiw-hero{
+  background:var(--gold);position:relative;overflow:visible;
+  padding:clamp(6rem,12vw,10rem) 0 clamp(8rem,14vw,12rem);text-align:center;
+}
+.hiw-hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:12vh;
+  background:var(--cream);clip-path:polygon(0 100%,0 0,50% 100%,100% 0,100% 100%);
+  z-index:2;pointer-events:none;
+}
+.hiw-hero .wrap{position:relative;z-index:3}
+
+/* Steps */
+.hiw-steps{counter-reset:step}
+.hiw-step{
+  display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;
+  padding:4rem 0;
+}
+.hiw-step:nth-child(even){direction:rtl}
+.hiw-step:nth-child(even) > *{direction:ltr}
+.hiw-step-num{
+  display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;
+}
+.hiw-step-num::before{
+  counter-increment:step;content:counter(step,decimal-leading-zero);
+  font-family:'Outfit',sans-serif;font-size:clamp(3rem,6vw,5rem);font-weight:900;
+  color:var(--red-o);opacity:.2;line-height:1;
+}
+.hiw-step-num span{
+  font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:800;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--red-o);
+}
+.hiw-step h3{
+  font-family:'Outfit',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;
+  color:var(--t1);letter-spacing:-.03em;margin-bottom:1rem;line-height:1.15;
+}
+.hiw-step p{font-size:1.05rem;color:var(--t2);line-height:1.75;max-width:42ch}
+.hiw-step-visual{
+  background:var(--cream);border-radius:var(--r-xl);
+  aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;border:1.5px solid var(--border);
+  box-shadow:var(--sh-md);
+}
+.hiw-step-visual img{width:100%;height:100%;object-fit:cover}
+.hiw-step-visual .step-emoji{font-size:clamp(4rem,8vw,6rem)}
+
+/* Timeline connector */
+.hiw-connector{
+  width:3px;height:60px;background:linear-gradient(to bottom,var(--red-o),var(--gold));
+  margin:0 auto;border-radius:99px;opacity:.3;
+}
+
+/* CTA section */
+.hiw-cta{
+  background:var(--red-o);padding:clamp(4rem,10vw,8rem) 0;text-align:center;
+  position:relative;overflow:hidden;
+}
+
+@media(max-width:768px){
+  .hiw-step{grid-template-columns:1fr!important;gap:2rem;padding:2.5rem 0;text-align:center}
+  .hiw-step:nth-child(even){direction:ltr}
+  .hiw-step-num{justify-content:center}
+  .hiw-step p{margin:0 auto}
+  .hiw-step-visual{aspect-ratio:16/10}
+  .hiw-hero{padding:5rem 0 7rem}
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="site-nav" id="nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-gem"><svg viewBox="0 0 20 20" fill="none"><path d="M10 2l1.8 5.2H18l-5 3.6 1.9 5.8L10 13.2 5.1 17l1.9-5.8L2 7.2h5.2z" fill="#1A1A2E"/></svg></div>
+    <span class="nav-wordmark">Adventure <em>Mail</em> Club</span>
+  </a>
+  <ul class="nav-links"><li><a href="how-it-works.html" style="color:var(--t1)">How it works</a></li><li><a href="story.html">The story</a></li><li><a href="characters.html">Characters</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="gift.html">Gift</a></li></ul>
+  <div class="nav-right">
+    <a href="portal.html" class="nav-link-subtle">My portal</a>
+    <a href="signup.html" class="btn btn-pur btn-sm">Start adventure</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hiw-hero">
+  <div class="floating-cloud fc-slow" style="position:absolute;top:18%;left:6%;opacity:.5"><svg width="100" height="45" viewBox="0 0 120 60"><ellipse cx="60" cy="40" rx="55" ry="20" fill="#fff"/><ellipse cx="40" cy="28" rx="30" ry="18" fill="#fff"/></svg></div>
+  <div class="floating-cloud fc-med" style="position:absolute;top:50%;right:8%;opacity:.4"><svg width="80" height="35" viewBox="0 0 120 60"><ellipse cx="60" cy="40" rx="55" ry="20" fill="#fff"/><ellipse cx="80" cy="28" rx="25" ry="16" fill="#fff"/></svg></div>
+  <div class="wrap">
+    <h1 class="rv" style="font-family:'Outfit',sans-serif;font-size:clamp(2.8rem,7vw,5.5rem);font-weight:900;letter-spacing:-.04em;line-height:1.05;color:var(--t1);margin-bottom:1rem">How the <em style="font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:var(--red-o)">adventure</em> works.</h1>
+    <p class="rv d1" style="font-size:clamp(1rem,2vw,1.2rem);color:var(--t1);opacity:.7;max-width:44ch;margin:0 auto">Pick a character. Get the first letter. Scan the code, make a choice, and watch the map start moving.</p>
+  </div>
+</section>
+
+<!-- Steps -->
+<section style="background:var(--cream);padding:2rem 0 4rem">
+  <div class="wrap">
+    <div class="hiw-steps">
+
+      <div class="hiw-step rv">
+        <div>
+          <div class="hiw-step-num"><span>Step one</span></div>
+          <h3>Pick a character &amp; personalise</h3>
+          <p>Choose from the Wandering Five. Add your child's name, city, age, and interests. The adventure is built around them &mdash; every letter references their world.</p>
+        </div>
+        <div class="hiw-step-visual"><img src="polaroid-door.png" alt="Choosing a character"/></div>
+      </div>
+
+      <div class="hiw-connector rv"></div>
+
+      <div class="hiw-step rv">
+        <div>
+          <div class="hiw-step-num"><span>Step two</span></div>
+          <h3>A letter lands on the mat</h3>
+          <p>Every month, a personalised letter arrives through the letterbox. Inside: clues, a physical artefact to find, and a QR code that unlocks the portal. It's real post, not an app.</p>
+        </div>
+        <div class="hiw-step-visual"><img src="polaroid-envelope.png" alt="Letter arriving"/></div>
+      </div>
+
+      <div class="hiw-connector rv"></div>
+
+      <div class="hiw-step rv">
+        <div>
+          <div class="hiw-step-num"><span>Step three</span></div>
+          <h3>Scan. Choose. Shape the story.</h3>
+          <p>Scan the QR code to log the letter, add artefacts to their inventory, and pick from 3&ndash;5 choices that decide what happens next. Different children get different stories.</p>
+        </div>
+        <div class="hiw-step-visual"><img src="polaroid-phone.png" alt="Scanning the QR code"/></div>
+      </div>
+
+      <div class="hiw-connector rv"></div>
+
+      <div class="hiw-step rv">
+        <div>
+          <div class="hiw-step-num"><span>Step four</span></div>
+          <h3>Watch the map move</h3>
+          <p>Every choice moves the map. The inventory grows. The story edges closer to its goal &mdash; and your child decides how they get there. 12 chapters. One unforgettable adventure.</p>
+        </div>
+        <div class="hiw-step-visual"><img src="polaroid-letter.png" alt="The adventure map"/></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="hiw-cta rv">
+  <div class="floating-cloud fc-slow" style="position:absolute;top:15%;left:5%;opacity:.12"><svg width="110" height="50" viewBox="0 0 120 60"><ellipse cx="60" cy="40" rx="55" ry="20" fill="#fff"/><ellipse cx="40" cy="28" rx="30" ry="18" fill="#fff"/></svg></div>
+  <div class="wrap" style="position:relative;z-index:2">
+    <h2 style="font-family:'Outfit',sans-serif;font-size:clamp(2.2rem,6vw,4.5rem);font-weight:900;letter-spacing:-.04em;line-height:1.08;color:#fff;margin-bottom:1rem">Ready to start the <em style="font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:var(--gold)">adventure?</em></h2>
+    <p style="font-size:clamp(1rem,2vw,1.15rem);color:rgba(255,255,255,.7);max-width:36ch;margin:0 auto 2rem">First letter arrives in 5 days. Cancel any time. From &pound;7.99/month.</p>
+    <a href="signup.html" class="btn btn-gold btn-lg">Start adventure</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer" style="background:var(--cream);padding:3rem 0;text-align:center">
+  <p style="font-size:.82rem;color:var(--t3)">&copy; 2026 Adventure Mail Club. All rights reserved.</p>
+</footer>
+
+<script>
+var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');obs.unobserve(x.target);}});},{threshold:.08});
+document.querySelectorAll('.rv').forEach(function(el){obs.observe(el);});
+</script>
+</body>
+</html>

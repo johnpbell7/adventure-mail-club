@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Welcome — Adventure Mail Club</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.ob-stage{min-height:100dvh;position:relative;overflow:hidden}
+.ob-step{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:3rem 2rem;opacity:0;pointer-events:none;transition:opacity .6s ease,transform .6s cubic-bezier(.22,.68,0,1.2);transform:translateY(40px)}
+.ob-step.active{opacity:1;pointer-events:all;transform:translateY(0)}
+.ob-inner{max-width:660px;text-align:center;position:relative;z-index:10}
+.ob-counter{display:flex;justify-content:center;gap:.5rem;margin-bottom:3rem}
+.ob-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);transition:all .3s}
+.ob-dot.on{background:var(--pur);box-shadow:0 0 10px var(--gp);width:24px}
+</style>
+</head><body>
+<div class="ob-stage">
+  <div class="mesh-bg"></div><div class="star-field"></div>
+  <div class="shoot s1"></div><div class="shoot s2"></div>
+  <div style="position:fixed;top:1.5rem;right:2rem;z-index:100"><a href="portal.html" style="font-size:.82rem;color:var(--t3);text-decoration:none;transition:color .18s" onmouseover="this.style.color='var(--t2)'" onmouseout="this.style.color='var(--t3)'">Skip &rarr;</a></div>
+
+  <!-- Step 1: Welcome -->
+  <div class="ob-step active" id="ob1">
+    <div class="ob-inner">
+      <div class="ob-counter"><div class="ob-dot on"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
+      <div style="font-size:4rem;margin-bottom:1.5rem">&#x2B50;</div>
+      <div class="pill pill-gold" style="margin-bottom:1.75rem"><span class="pill-dot"></span>The adventure begins</div>
+      <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(2.5rem,5vw,4.5rem);font-weight:900;letter-spacing:-.055em;line-height:.98;color:var(--t1);margin-bottom:1.25rem">Welcome to the<br><span class="gt-gold">Wandering Five.</span></h1>
+      <p style="font-size:1.05rem;color:var(--t2);line-height:1.72;max-width:42ch;margin:0 auto 2.5rem">Your child&apos;s first letter is being written right now. While you wait, let us show you what is coming.</p>
+      <button onclick="nextStep(1,2)" class="btn btn-gold btn-lg">What happens next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Step 2: How letters work -->
+  <div class="ob-step" id="ob2">
+    <div class="ob-inner">
+      <div class="ob-counter"><div class="ob-dot"></div><div class="ob-dot on"></div><div class="ob-dot"></div></div>
+      <div style="font-size:4rem;margin-bottom:1.5rem">&#x2709;</div>
+      <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:900;letter-spacing:-.05em;line-height:1;color:var(--t1);margin-bottom:1.25rem">The letter arrives<br>through the door.</h1>
+      <p style="font-size:1rem;color:var(--t2);line-height:1.72;max-width:44ch;margin:0 auto 2rem">Within 5 working days. Your child opens it. Their name is in it. Their city. The things they love. And a mystery that only they can solve.</p>
+      <div class="card" style="padding:1.75rem;margin-bottom:2rem;text-align:left">
+        <div style="font-family:'DM Serif Display',serif;font-size:1.05rem;font-style:italic;color:var(--t1);line-height:1.5;margin-bottom:.875rem">&ldquo;Amelia &mdash; we have been looking for you for three years. The compass has pointed toward <em>Birmingham</em> since the very beginning&hellip;&rdquo;</div>
+        <div style="font-size:.78rem;color:var(--t3)">Extract from Chapter 1 letter</div>
+      </div>
+      <button onclick="nextStep(2,3)" class="btn btn-pur btn-lg">They write back &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Portal entry -->
+  <div class="ob-step" id="ob3">
+    <div class="ob-inner">
+      <div class="ob-counter"><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot on"></div></div>
+      <div style="font-size:4rem;margin-bottom:1.5rem">&#x1F30C;</div>
+      <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:900;letter-spacing:-.05em;line-height:1;color:var(--t1);margin-bottom:1.25rem">Your portal<br>is ready.</h1>
+      <p style="font-size:1rem;color:var(--t2);line-height:1.72;max-width:44ch;margin:0 auto 2rem">Scan QR codes, track the adventure, make mission choices, unlock artefacts. Your digital HQ.</p>
+      <a href="portal.html" class="btn btn-gold btn-xl" style="margin-bottom:1rem">Enter your portal &rarr;</a>
+      <p style="font-size:.8rem;color:var(--t3)">Your first letter is on its way in parallel.</p>
+    </div>
+  </div>
+</div>
+<script>
+function nextStep(from,to){
+  document.getElementById('ob'+from).classList.remove('active');
+  document.getElementById('ob'+to).classList.add('active');
+}
+</script>
+<script>
+(function(){
+  var n=document.getElementById('nav');
+  if(n) window.addEventListener('scroll',function(){n.classList.toggle('scrolled',scrollY>50)},{passive:true});
+  var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');}});},{threshold:.08});
+  document.querySelectorAll('.rv').forEach(function(el){obs.observe(el);});
+  document.querySelectorAll('.btn-pur,.btn-gold').forEach(function(b){
+    b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.18)+'px,'+((e.clientY-r.top-r.height/2)*.18)+'px) translateY(-4px) scale(1.03)';});
+    b.addEventListener('mouseleave',function(){b.style.transform='';});
+  });
+  var s=document.createElement('style');s.textContent='@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}';document.head.appendChild(s);
+  document.querySelectorAll('.h1-anim').forEach(function(el,i){el.style.cssText+='opacity:0;animation:fadeUp .8s cubic-bezier(.22,.68,0,1.2) '+(0.08+i*.14)+'s forwards';});
+  document.querySelectorAll('.hero-anim').forEach(function(el,i){el.style.cssText+='opacity:0;animation:fadeUp .8s cubic-bezier(.22,.68,0,1.2) '+(0.52+i*.12)+'s forwards';});
+})();
+</script></body></html>

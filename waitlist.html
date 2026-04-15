@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Join the Waitlist — Adventure Mail Club</title>
+<link rel="stylesheet" href="shared.css"/>
+</head><body>
+<div class="auth-screen">
+  <div class="dot-grid"></div><div class="mesh-bg"></div><div class="star-field"></div>
+  <div class="shoot s1"></div><div class="shoot s2"></div>
+  <div class="auth-card" style="max-width:520px">
+    <a href="index.html" class="auth-logo"><div class="nav-gem"><svg viewBox="0 0 20 20" fill="none"><path d="M10 2l1.8 5.2H18l-5 3.6 1.9 5.8L10 13.2 5.1 17l1.9-5.8L2 7.2h5.2z" fill="#fff"/></svg></div><span class="nav-wordmark">Adventure <em>Mail</em> Club</span></a>
+    <div id="wl-form">
+      <div class="pill pill-gold" style="margin-bottom:1.5rem"><span class="pill-dot" style="background:var(--gold)"></span>Limited spaces opening soon</div>
+      <h1 class="s-title" style="font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:.75rem">Join the waitlist</h1>
+      <p class="s-sub" style="margin-bottom:2rem">We open new subscriber slots monthly. Add your name and we will let you know the moment a spot becomes available.</p>
+
+      <!-- Waitlist progress -->
+      <div style="margin-bottom:2rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+          <span style="font-size:.78rem;font-weight:700;color:var(--t2)">Spots filling up</span>
+          <span style="font-size:.72rem;color:var(--t3)">82% claimed</span>
+        </div>
+        <div class="prog-bar">
+          <div class="prog-fill prog-gold" data-pct="82%"></div>
+        </div>
+      </div>
+
+      <form onsubmit="document.getElementById('wl-form').style.display='none';document.getElementById('wl-done').style.display='block';return false">
+        <div class="form-group"><label class="form-label">Parent or guardian name</label><input class="form-input" placeholder="Your name" required/></div>
+        <div class="form-group"><label class="form-label">Email address</label><input class="form-input" type="email" placeholder="you@example.com" required/></div>
+        <div class="form-group"><label class="form-label">Child's age</label><select class="form-select" required><option value="">Select age</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+        <button type="submit" class="btn btn-gold btn-full" style="margin-top:.5rem">Reserve my spot</button>
+        <p class="form-hint" style="text-align:center;margin-top:.875rem">No payment needed. We will never share your details.</p>
+      </form>
+    </div>
+    <div id="wl-done" style="display:none;text-align:center;padding:1rem 0">
+      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--pur),var(--pink));display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M4 14l7 7 13-13" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h2 class="s-title" style="font-size:1.6rem;margin-bottom:.625rem">You're on the list</h2>
+      <p class="s-sub" style="margin-bottom:2rem">We will send you an email as soon as a space opens up -- usually within a few weeks.</p>
+      <a href="index.html" class="btn btn-ghost btn-sm">Back to home</a>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  // nav scroll
+  var n=document.getElementById('nav');
+  if(n) window.addEventListener('scroll',function(){n.classList.toggle('scrolled',scrollY>50)},{passive:true});
+  // scroll reveal
+  var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');obs.unobserve(x.target);}});},{threshold:.08});
+  document.querySelectorAll('.rv').forEach(function(el){obs.observe(el);});
+  // magnetic btns
+  document.querySelectorAll('.btn-pur,.btn-gold').forEach(function(b){
+    b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.18)+'px,'+((e.clientY-r.top-r.height/2)*.18)+'px) translateY(-4px) scale(1.03)';});
+    b.addEventListener('mouseleave',function(){b.style.transform='';});
+  });
+  // hero text entry
+  var s=document.createElement('style');s.textContent='@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}';document.head.appendChild(s);
+  document.querySelectorAll('.h1-anim').forEach(function(el,i){el.style.cssText+='opacity:0;animation:fadeUp .8s cubic-bezier(.22,.68,0,1.2) '+(0.08+i*.14)+'s forwards';});
+  document.querySelectorAll('.hero-anim').forEach(function(el,i){el.style.cssText+='opacity:0;animation:fadeUp .8s cubic-bezier(.22,.68,0,1.2) '+(0.52+i*.12)+'s forwards';});
+  // prog bar
+  document.querySelectorAll('.prog-fill').forEach(function(el){
+    var pct=el.dataset.pct||'60%';el.style.setProperty('--pct',pct);
+  });
+})();
+</script></body></html>

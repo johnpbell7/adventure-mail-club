@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>The Story — Adventure Mail Club</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.story-blockquote{
+  font-family:'Bricolage Grotesque',sans-serif;font-size:1.3rem;font-style:italic;
+  color:var(--t1);line-height:1.5;padding-left:1.5rem;
+  border-left:2px solid var(--pur);margin-bottom:1.5rem;
+}
+.story-body{font-size:1rem;color:var(--t2);line-height:1.8;margin-bottom:1rem}
+.story-body:last-of-type{margin-bottom:2rem}
+.story-body em{color:var(--t1)}
+
+/* timeline */
+.tl-entry{display:flex;gap:1.25rem;position:relative}
+.tl-entry + .tl-entry{margin-top:0}
+.tl-line{position:absolute;left:18px;top:36px;width:1.5px;bottom:-12px;background:linear-gradient(to bottom,rgba(59,130,246,.3),transparent)}
+.tl-dot{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;flex-shrink:0;margin-bottom:1.5rem;
+}
+.tl-dot-active{background:rgba(59,130,246,.15);border:2px solid var(--pur);box-shadow:0 0 12px var(--gp)}
+.tl-dot-mid{background:rgba(59,130,246,.12);border:2px solid rgba(59,130,246,.3)}
+.tl-dot-dim{background:rgba(59,130,246,.08);border:2px solid rgba(59,130,246,.2)}
+.tl-dot-mystery{background:rgba(255,255,255,.04);border:1.5px dashed rgba(255,255,255,.1);color:var(--t3)}
+.tl-body{padding-bottom:1.5rem}
+.tl-chap{font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:.2rem}
+.tl-title{font-family:'Bricolage Grotesque',sans-serif;font-size:.95rem;font-weight:800;color:var(--t1);margin-bottom:.25rem}
+.tl-desc{font-size:.8rem;color:var(--t2);line-height:1.55}
+.tl-title-blur{font-family:'Bricolage Grotesque',sans-serif;font-size:.95rem;font-weight:800;color:var(--t3);margin-bottom:.25rem;filter:blur(3px)}
+.tl-desc-blur{font-size:.8rem;color:var(--t3);line-height:1.55;filter:blur(2.5px)}
+
+/* asymmetric grid */
+.story-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:7rem;align-items:start}
+@media(max-width:800px){
+  .story-grid{grid-template-columns:1fr;gap:3rem}
+}
+</style>
+</head>
+<body>
+<nav class="site-nav" id="nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-gem"><svg viewBox="0 0 20 20" fill="none"><path d="M10 2l1.8 5.2H18l-5 3.6 1.9 5.8L10 13.2 5.1 17l1.9-5.8L2 7.2h5.2z" fill="#fff"/></svg></div>
+    <span class="nav-wordmark">Adventure <em>Mail</em> Club</span>
+  </a>
+  <ul class="nav-links"><li><a href="how-it-works.html">How it works</a></li><li><a href="story.html" class="active">The story</a></li><li><a href="characters.html">Characters</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="gift.html">Gift</a></li></ul>
+  <div class="nav-right">
+    <a href="portal.html" class="nav-link-subtle">My portal</a>
+    <a href="signup.html" class="btn btn-pur btn-sm">Start adventure</a>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="mesh-bg"></div><div class="star-field"></div><div class="dot-grid"></div>
+  <div class="shoot shoot-1"></div><div class="shoot shoot-2"></div>
+  <div class="page-hero-content">
+    <h1 class="h1-anim">The story so far.</h1>
+    <p class="hero-anim">A 12-month mystery. One sixth member. Your child.</p>
+  </div>
+</section>
+
+<section class="section bg-ink2 sec-line-top sec-glow">
+  <div class="wrap">
+    <div class="story-grid rv">
+      <div>
+        <div class="eyebrow">The world</div>
+        <h2 class="s-title">The Vanishing Atlas &mdash; a 12-chapter mystery.</h2>
+        <p class="story-blockquote">Three years ago, five young explorers found a box buried beneath the oldest oak in Whispering Hollow Wood. The name on the lid &mdash; in letters of hammered gold &mdash; was not any of theirs.</p>
+        <p class="story-body">The box contained a blank map and a single note: <em>&ldquo;The Sixth Member will know what this means. Find them before the first frost.&rdquo;</em></p>
+        <p class="story-body">The Wandering Five have been searching ever since &mdash; hidden libraries, canal worlds, buried archives. Every location points to one person. The sixth member.</p>
+        <p class="story-body" style="margin-bottom:2rem">Your child. And now they have found them.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1.25rem">
+        <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.15rem;font-weight:800;color:var(--t1);margin-bottom:.5rem">Chapter timeline</h3>
+        <div style="display:flex;flex-direction:column;gap:0" id="tl">
+
+          <div class="tl-entry">
+            <div class="tl-line"></div>
+            <div class="tl-dot tl-dot-active">&#x1F4CD;</div>
+            <div class="tl-body">
+              <div class="tl-chap">Chapter 1</div>
+              <div class="tl-title">The Box with Your Name</div>
+              <div class="tl-desc">The Wandering Five find a box with your child's name. It begins.</div>
+            </div>
+          </div>
+
+          <div class="tl-entry">
+            <div class="tl-line"></div>
+            <div class="tl-dot tl-dot-mid">2</div>
+            <div class="tl-body">
+              <div class="tl-chap">Chapter 2</div>
+              <div class="tl-title">The Shifting Library</div>
+              <div class="tl-desc">An underground library where the books rearrange themselves when nobody looks.</div>
+            </div>
+          </div>
+
+          <div class="tl-entry">
+            <div class="tl-line"></div>
+            <div class="tl-dot tl-dot-dim">3</div>
+            <div class="tl-body">
+              <div class="tl-chap">Chapters 3&ndash;6</div>
+              <div class="tl-title">Into the unknown</div>
+              <div class="tl-desc">Canal cities, buried archives, ember peaks. Each location decided by your child's answers.</div>
+            </div>
+          </div>
+
+          <div class="tl-entry">
+            <div class="tl-dot tl-dot-mystery">?</div>
+            <div class="tl-body">
+              <div class="tl-chap">Chapters 7&ndash;12</div>
+              <div class="tl-title-blur">The answer to everything</div>
+              <div class="tl-desc-blur">Only revealed as the adventure unfolds. Depends entirely on what your child chooses.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-ink sec-line-top sec-glow-top" style="padding-bottom:6rem">
+  <div class="wrap-md" style="text-align:center">
+    <div class="eyebrow">Join the adventure</div>
+    <h2 class="s-title">Ready to find the sixth member?</h2>
+    <p class="s-sub" style="margin-left:auto;margin-right:auto">Your child's name is already on the box. All that's left is for them to open it.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <a href="signup.html" class="btn btn-pur btn-lg">Start the adventure</a>
+      <a href="how-it-works.html" class="btn btn-ghost btn-lg">How it works</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="margin-bottom:1.25rem;display:inline-flex">
+          <div class="nav-gem"><svg viewBox="0 0 20 20" fill="none"><path d="M10 2l1.8 5.2H18l-5 3.6 1.9 5.8L10 13.2 5.1 17l1.9-5.8L2 7.2h5.2z" fill="#fff"/></svg></div>
+          <span class="nav-wordmark" style="margin-left:.6rem">Adventure <em>Mail</em> Club</span>
+        </a>
+        <p style="font-size:.88rem;color:var(--t3);line-height:1.7;max-width:30ch">Personalised adventure letters for children aged 5&ndash;10. Monthly missions. Write back. Shape the story.</p>
+      </div>
+      <div class="footer-col"><h4>Product</h4><ul>
+        <li><a href="how-it-works.html">How it works</a></li><li><a href="story.html">The story</a></li>
+        <li><a href="characters.html">Characters</a></li><li><a href="inside-the-pack.html">Inside the pack</a></li>
+        <li><a href="personalisation.html">Personalisation</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Subscribe</h4><ul>
+        <li><a href="pricing.html">Pricing</a></li><li><a href="gift.html">Gift subscriptions</a></li>
+        <li><a href="schools.html">Schools</a></li><li><a href="reviews.html">Reviews</a></li><li><a href="faq.html">FAQ</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Company</h4><ul>
+        <li><a href="about.html">About us</a></li><li><a href="blog.html">Blog</a></li>
+        <li><a href="contact.html">Contact</a></li><li><a href="referral.html">Refer a friend</a></li><li><a href="affiliate.html">Affiliates</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Legal</h4><ul>
+        <li><a href="privacy.html">Privacy policy</a></li><li><a href="terms.html">Terms</a></li>
+        <li><a href="cookies.html">Cookies</a></li><li><a href="returns.html">Returns</a></li><li><a href="help.html">Help centre</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Adventure Mail Club Ltd. All rights reserved.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        <a href="#" aria-label="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script>
+(function(){
+  var nav=document.getElementById('nav');
+  if(nav) window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',scrollY>50);},{passive:true});
+  var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');obs.unobserve(x.target);}});},{threshold:.08});
+  document.querySelectorAll('.rv').forEach(function(el){obs.observe(el);});
+  document.querySelectorAll('.btn-pur,.btn-gold').forEach(function(btn){
+    btn.addEventListener('mousemove',function(e){var r=btn.getBoundingClientRect();btn.style.transform='translate('+((e.clientX-r.left-r.width/2)*.18)+'px,'+((e.clientY-r.top-r.height/2)*.18)+'px) translateY(-4px) scale(1.03)';});
+    btn.addEventListener('mouseleave',function(){btn.style.transform='';});
+  });
+  document.querySelectorAll('.faq-q').forEach(function(q){
+    q.addEventListener('click',function(){var it=q.closest('.faq-item'),was=it.classList.contains('open');document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');});if(!was)it.classList.add('open');});
+  });
+  var stage=document.getElementById('img-stage');
+  if(stage){
+    window.addEventListener('scroll',function(){stage.style.transform='translateY('+(scrollY*-.06)+'px)';},{passive:true});
+    document.addEventListener('mousemove',function(e){var dx=(e.clientX/innerWidth-.5)*12,dy=(e.clientY/innerHeight-.5)*6;stage.style.transform='translateY('+(scrollY*-.06)+'px) translate('+dx+'px,'+dy+'px)';},{passive:true});
+  }
+  var s=document.createElement('style');
+  s.textContent='@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}';
+  document.head.appendChild(s);
+  document.querySelectorAll('.h1-anim').forEach(function(el,i){el.style.animation='fadeUp .8s cubic-bezier(.22,.68,0,1.2) '+(0.08+i*.14)+'s forwards';});
+  document.querySelectorAll('.hero-anim').forEach(function(el,i){el.style.animation='fadeUp .8s cubic-bezier(.22,.68,0,1.2) '+(0.52+i*.12)+'s forwards';});
+  var fgroups=[['ft1','ft3','ft6'],['ft2','ft4','ft7'],['ft5']];var fi=0;
+  function cycleFt(){fgroups.forEach(function(g){g.forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove('lit');});});fgroups[fi%fgroups.length].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.add('lit');});fi++;}
+  if(document.getElementById('ft1')){cycleFt();setInterval(cycleFt,1900);}
+})();
+</script>
+</body>
+</html>

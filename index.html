@@ -1,0 +1,2009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Home — Adventure Mail Club</title>
+<meta name="description" content="Adventure Mail Club — personalised adventure letters for children aged 5–10."/>
+<link rel="stylesheet" href="shared.css"/>
+</head>
+<body>
+<!-- ============ LOADING SCREEN ============ -->
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <span class="loader-word lw1">Letters</span>
+    <span class="loader-word lw2">that</span>
+    <span class="loader-word lw3">spark</span>
+    <span class="loader-word lw4"><em>adventure.</em></span>
+  </div>
+</div>
+
+<nav class="site-nav" id="nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-gem"><svg viewBox="0 0 20 20" fill="none"><path d="M10 2l1.8 5.2H18l-5 3.6 1.9 5.8L10 13.2 5.1 17l1.9-5.8L2 7.2h5.2z" fill="#1A1A2E"/></svg></div>
+    <span class="nav-wordmark">Adventure <em>Mail</em> Club</span>
+  </a>
+  <ul class="nav-links"><li><a href="how-it-works.html">How it works</a></li><li><a href="story.html">The story</a></li><li><a href="characters.html">Characters</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="gift.html">Gift</a></li></ul>
+  <button class="burger" id="burger" onclick="document.getElementById('mobMenu').classList.toggle('open');this.classList.toggle('open')"><span></span><span></span><span></span></button>
+  <div class="mob-menu" id="mobMenu">
+    <a href="how-it-works.html">How it works</a>
+    <a href="story.html">The story</a>
+    <a href="characters.html">Characters</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="gift.html">Gift</a>
+    <a href="portal.html">My portal</a>
+    <a href="signup.html" class="btn btn-pur btn-sm" style="margin-top:.5rem;text-align:center">Start adventure</a>
+  </div>
+  <div class="nav-right">
+    <a href="portal.html" class="nav-link-subtle">My portal</a>
+    <a href="signup.html" class="btn btn-pur btn-sm">Start adventure</a>
+  </div>
+</nav>
+
+<style>
+/* ==========================================================
+   HOMEPAGE V2 — Maxima-exact layout
+========================================================== */
+
+/* ============ LOADING SCREEN ============ */
+.loader{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--cream);
+  display:grid;place-items:center;
+  transition:transform .9s cubic-bezier(.76,0,.24,1);
+}
+.loader.done{
+  transform:translateY(-100%);
+}
+.loader-inner{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:0 .35em;
+  max-width:85vw;padding:0 2rem;
+  font-family:'Outfit',sans-serif;
+  font-size:clamp(2.5rem,8vw,7rem);
+  font-weight:900;
+  letter-spacing:-.04em;
+  line-height:1.1;
+  color:var(--t1);
+  text-align:center;
+}
+.loader-word{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(60px) rotate(3deg);
+  animation:wordIn .6s cubic-bezier(.22,1,.36,1) forwards;
+}
+.loader-word em{
+  font-family:'DM Serif Display',serif;
+  font-style:italic;font-weight:400;
+  color:var(--red-o);
+}
+.lw1{animation-delay:.1s}
+.lw2{animation-delay:.25s}
+.lw3{animation-delay:.4s}
+.lw4{animation-delay:.55s}
+@keyframes wordIn{
+  to{opacity:1;transform:translateY(0) rotate(0deg)}
+}
+
+/* ============ BIG EDITORIAL DIVIDERS ============ */
+.editorial-break{
+  padding:6rem 0;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.editorial-break .ed-title{
+  font-family:'Outfit',sans-serif;
+  font-size:clamp(3rem,9vw,7rem);
+  font-weight:900;
+  letter-spacing:-.04em;
+  line-height:1.0;
+  color:var(--t1);
+  text-wrap:balance;
+  max-width:14ch;
+  margin:0 auto;
+}
+.editorial-break .ed-title em{
+  font-family:'DM Serif Display',serif;
+  font-style:italic;font-weight:400;
+  color:var(--red-o);
+}
+.editorial-break .ed-sub{
+  font-size:1.15rem;
+  color:var(--t2);
+  line-height:1.7;
+  max-width:42ch;
+  margin:1.5rem auto 0;
+}
+
+/* ============ BURGER MENU ============ */
+.burger{
+  display:none;flex-direction:column;gap:5px;
+  background:none;border:none;cursor:pointer;padding:8px;z-index:200;
+}
+.burger span{display:block;width:24px;height:2.5px;background:var(--t1);border-radius:2px;transition:all .3s}
+.burger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mob-menu{
+  display:none;position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;
+  background:rgba(255,248,238,.98);backdrop-filter:blur(16px);
+  z-index:99;padding:2rem 1.5rem;
+  flex-direction:column;gap:.25rem;
+}
+.mob-menu.open{display:flex}
+.mob-menu a{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;font-weight:700;
+  color:var(--t1);text-decoration:none;padding:.85rem 0;
+  border-bottom:1px solid var(--border);
+}
+.mob-menu a:last-child{border:none}
+
+/* ============ ENVELOPE PATH ANIMATION ============ */
+.envelope-anim{
+  position:relative;overflow:hidden;
+  height:clamp(120px,14vw,180px);
+  background:var(--cream);
+}
+.envelope-anim svg{width:100%;height:100%}
+.ea-path{
+  fill:none;stroke:var(--red-o);stroke-width:2.5;
+  stroke-dasharray:8 6;
+  stroke-linecap:round;
+}
+.ea-envelope{
+  offset-path:path('M-40,100 C100,100 140,30 280,50 C420,70 400,130 520,90 C640,50 680,110 800,80 C920,50 960,30 1060,60 C1160,90 1200,50 1280,70');
+  offset-rotate:auto 15deg;
+  animation:envFollow 8s linear infinite;
+}
+@keyframes envFollow{
+  0%{offset-distance:0%}
+  100%{offset-distance:100%}
+}
+.ea-mob{display:none}
+.ea-envelope-mob{
+  offset-path:path('M-20,60 C60,60 80,20 160,35 C240,50 260,80 340,50 C380,35 420,50 440,40');
+  offset-rotate:auto 15deg;
+  animation:envFollow 6s linear infinite;
+}
+@media(max-width:768px){
+  .envelope-anim{height:clamp(70px,14vw,100px)}
+  .envelope-anim>svg:first-child{display:none}
+  .ea-mob{display:block!important}
+}
+
+/* ============ FULL-WIDTH LIFESTYLE IMAGES ============ */
+.lifestyle-full{
+  position:relative;overflow:hidden;
+}
+.lifestyle-full-img{
+  width:100%;
+  height:clamp(280px,35vw,450px);
+  object-fit:cover;
+  object-position:center 70%;
+  display:block;
+}
+.lifestyle-duo{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+}
+.lifestyle-duo-img{
+  width:100%;
+  height:clamp(300px,40vw,550px);
+  object-fit:cover;
+  display:block;
+}
+.lifestyle-grid-v2{
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:1.5rem;
+  padding:0 1.5rem;
+}
+.lifestyle-grid-v2 img{
+  width:100%;height:100%;
+  object-fit:cover;border-radius:24px;
+  display:block;
+}
+.lifestyle-grid-v2 .lg-tall{
+  aspect-ratio:3/4;
+}
+.lifestyle-grid-v2 .lg-stack{
+  display:flex;flex-direction:column;gap:1.5rem;
+}
+.lifestyle-grid-v2 .lg-sq{
+  aspect-ratio:1/1;border-radius:24px;overflow:hidden;
+}
+.lifestyle-grid-v2 .lg-sq img{
+  width:100%;height:100%;object-fit:cover;
+}
+
+/* HERO — letter/envelope style */
+.hero-scene{
+  position:relative;
+  min-height:85vh;
+  background:var(--gold);
+  overflow:visible;
+  display:block;
+  text-align:left;
+  max-width:1320px;
+  margin:0 auto;
+  padding:6rem 3.5rem 8rem;
+}
+/* full-width gold behind the centered grid */
+.hero-bg{
+  position:fixed;top:0;left:0;right:0;
+  height:100vh;
+  background:var(--gold);
+  z-index:-1;
+  pointer-events:none;
+}
+/* V-cut envelope flap — decorative crease at bottom */
+.hero-outer::after{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;
+  height:20vh;
+  background:var(--cream);
+  clip-path:polygon(0 100%, 0 0, 50% 100%, 100% 0, 100% 100%);
+  z-index:3;
+  pointer-events:none;
+}
+/* subtle lighter panels */
+.hero-rays{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(155deg,rgba(255,255,255,.1) 0%,transparent 35%),
+    linear-gradient(205deg,rgba(255,255,255,.06) 0%,transparent 30%);
+}
+/* decorative clouds */
+.cloud{position:absolute;pointer-events:none;z-index:2}
+.cloud svg{fill:#fff;opacity:.8}
+
+/* (hero-outer defined above with sticky positioning) */
+
+/* Hero text — left column */
+.hero-text{
+  position:relative;z-index:4;
+  width:40%;
+  min-width:320px;
+  text-align:left;
+  padding-bottom:2rem;
+}
+.hero-text h1{
+  font-family:'Outfit',sans-serif;
+  font-size:clamp(2.8rem,4.8vw,4.6rem);
+  font-weight:900;
+  letter-spacing:-.03em;
+  line-height:1.04;
+  color:var(--t1);
+  margin-bottom:1.25rem;
+}
+.hero-text h1 em{
+  font-family:'DM Serif Display',serif;
+  font-style:italic;font-weight:400;
+  color:var(--red-o);
+}
+.hero-text .hero-sub{
+  font-size:clamp(1rem,1.3vw,1.15rem);
+  color:var(--t1);
+  opacity:.7;
+  line-height:1.7;
+  max-width:42ch;
+  margin:0 0 2rem;
+}
+/* Hero character image — positioned right, behind text, cropped */
+.hero-img-col{
+  position:absolute;
+  right:-2%;bottom:-8%;top:10%;
+  z-index:1;
+  width:60%;
+  pointer-events:none;
+  overflow:hidden;
+}
+.hero-img-col img{
+  width:105%;
+  height:110%;
+  display:block;
+  object-fit:cover;
+  object-position:center 18%;
+}
+
+/* CTA — on the fold, centered */
+.hero-fold-cta-inline{
+  position:absolute;
+  bottom:0;left:50%;
+  transform:translate(-50%,35%);
+  z-index:6;
+  width:min(400px,85vw);
+  background:var(--red-o);
+  color:#fff;
+  border-radius:20px;
+  padding:3rem 2rem 2rem;
+  text-align:center;
+  cursor:pointer;
+  border:none;
+  box-shadow:0 16px 48px rgba(253,68,1,.35);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+  overflow:hidden;
+}
+.envelope-flap-solid{
+  position:absolute;
+  top:0;left:0;right:0;
+  height:50%;
+  background:#d93d00;
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  pointer-events:none;
+  z-index:0;
+}
+.hero-fold-cta-inline>*:not(.envelope-flap-solid){position:relative;z-index:1}
+.hero-fold-cta-inline:hover{
+  transform:translate(-50%,33%) scale(1.03);
+  box-shadow:0 20px 56px rgba(253,68,1,.45);
+}
+.hero-fold-cta-inline .fold-cta-title{
+  font-family:'Outfit',sans-serif;
+  font-size:clamp(1.4rem,3vw,1.8rem);
+  font-weight:900;
+  letter-spacing:-.02em;
+  line-height:1.15;
+  margin-bottom:.5rem;
+}
+.hero-fold-cta-inline .fold-cta-sub{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:clamp(.85rem,1.6vw,1rem);
+  font-weight:500;
+  opacity:.85;
+  margin-bottom:1.25rem;
+}
+.hero-fold-cta-inline .fold-cta-arrow{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:48px;height:48px;
+  background:rgba(255,255,255,.2);
+  border-radius:50%;
+  transition:background .2s;
+}
+.hero-fold-cta-inline:hover .fold-cta-arrow{background:rgba(255,255,255,.35)}
+.hero-fold-cta-inline .fold-cta-arrow svg{width:22px;height:22px}
+
+/* Hero full-width gold wrapper */
+.hero-outer{
+  position:relative;
+  background:var(--gold);
+  overflow:visible;
+}
+.page-content{
+  position:relative;
+  z-index:2;
+  background:var(--cream);
+}
+
+/* POSTAGE STAMP — proper perforated design */
+.hero-stamp{
+  position:absolute;
+  top:5.5rem;right:3.5rem;
+  z-index:5;
+  width:clamp(90px,7vw,110px);
+  aspect-ratio:4/5;
+  background:var(--white);
+  padding:0;
+  box-shadow:0 4px 20px rgba(26,26,46,.1);
+  transform:rotate(3deg);
+  /* perforated edges via radial gradient mask */
+  -webkit-mask-image:radial-gradient(circle 3px at 3px 0,transparent 3px,#000 3.5px),
+    radial-gradient(circle 3px at 3px 0,transparent 3px,#000 3.5px),
+    radial-gradient(circle 3px at 0 3px,transparent 3px,#000 3.5px),
+    radial-gradient(circle 3px at 0 3px,transparent 3px,#000 3.5px),
+    linear-gradient(#000,#000);
+  -webkit-mask-size:6px 6px, 6px 6px, 6px 6px, 6px 6px, calc(100% - 6px) calc(100% - 6px);
+  -webkit-mask-position:top left, bottom left, top left, top right, 3px 3px;
+  -webkit-mask-repeat:repeat-x, repeat-x, repeat-y, repeat-y, no-repeat;
+  -webkit-mask-composite:source-over;
+  mask-composite:add;
+}
+.hero-stamp-inner{
+  width:100%;height:100%;
+  background:var(--white);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;
+  padding:10px 8px;
+  gap:2px;
+  border:3px solid var(--cream);
+}
+.hero-stamp-illus{
+  width:48px;height:48px;
+  margin-bottom:4px;
+}
+.hero-stamp-illus svg{width:100%;height:100%}
+.hero-stamp-val{
+  font-family:'Outfit',sans-serif;
+  font-size:.6rem;
+  font-weight:900;
+  color:var(--red-o);
+  letter-spacing:.02em;
+  line-height:1.2;
+}
+.hero-stamp-txt{
+  font-size:.42rem;
+  font-weight:700;
+  color:var(--t2);
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+.hero-stamp-price{
+  font-family:'DM Serif Display',serif;
+  font-size:1.1rem;
+  color:var(--t1);
+  line-height:1;
+  margin-top:2px;
+}
+
+/* DOODLE address lines on the hero (like a letter) */
+.hero-lines{
+  position:absolute;
+  bottom:28vh;left:3.5rem;
+  z-index:1;
+  pointer-events:none;
+  opacity:.1;
+}
+.hero-lines line{stroke:var(--t1);stroke-width:2}
+
+/* ============ BIG TITLE SECTION ============ */
+.big-title-section{
+  background:var(--cream);
+  padding:8rem 0 4rem;
+  text-align:center;
+}
+.mega-title{
+  font-family:'Outfit',sans-serif;
+  font-size:clamp(2.8rem,6vw,5.5rem);
+  font-weight:900;letter-spacing:-.03em;line-height:1.0;
+  color:var(--t1);text-wrap:balance;
+  max-width:900px;margin:0 auto 1.5rem;
+}
+.mega-title em{
+  font-family:'DM Serif Display',serif;
+  font-style:italic;font-weight:400;
+  color:var(--red-o);
+}
+.mega-sub{
+  font-size:1.15rem;color:var(--t2);line-height:1.72;
+  max-width:50ch;margin:0 auto;
+}
+
+/* ============ SCROLL-DRIVEN STACKED CARDS — Maxima style ============ */
+.envelope-cards-section{
+  background:var(--cream);
+  position:relative;
+  height:400vh;
+}
+.card-stack-wrap{
+  position:sticky;
+  top:5vh;
+  height:90vh;
+  display:flex;align-items:center;justify-content:center;
+}
+.card-stack{
+  max-width:560px;width:calc(100% - 2rem);
+  margin:0 auto;
+  position:relative;
+  height:520px;
+}
+/* each card — centered content layout */
+.env-card{
+  position:absolute;
+  width:100%;
+  height:100%;
+  border-radius:28px;
+  padding:2.5rem 2.5rem 2rem;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;
+  will-change:transform,opacity;
+  transform-origin:center center;
+  overflow:visible;
+}
+.env-card:nth-child(1){background:#4a7c7c;color:#fff;z-index:4}
+.env-card:nth-child(2){background:var(--blue);color:#fff;z-index:3}
+.env-card:nth-child(3){background:var(--red-o);color:#fff;z-index:2}
+.env-card:nth-child(4){background:var(--white);color:var(--t1);z-index:1;border:1.5px solid var(--border)}
+.env-card{opacity:1;transform:none}
+
+/* large centered illustration */
+.env-card-illus{
+  width:140px;height:140px;
+  margin-bottom:1.75rem;
+  position:relative;
+}
+.env-card-illus svg{
+  width:100%;height:100%;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* floating doodles that ping outward */
+.card-doodle{
+  position:absolute;
+  pointer-events:none;
+  opacity:0;
+  transform:scale(0) rotate(-20deg);
+  transition:opacity .5s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1);
+}
+.env-card.active .card-doodle{
+  opacity:1;
+  transform:scale(1) rotate(0deg);
+}
+.card-doodle svg{
+  stroke-linecap:round;stroke-linejoin:round;
+}
+/* doodle positions — scattered around the card */
+.cd-1{top:-28px;right:-20px;transition-delay:.05s}
+.cd-2{top:15%;left:-32px;transition-delay:.15s}
+.cd-3{bottom:-24px;right:10%;transition-delay:.1s}
+.cd-4{bottom:20%;left:-28px;transition-delay:.2s}
+.cd-5{top:-20px;left:15%;transition-delay:.08s}
+.cd-6{bottom:-18px;left:-18px;transition-delay:.18s}
+
+/* animated doodle lines — squiggles that draw on */
+.card-doodle svg path,
+.card-doodle svg circle,
+.card-doodle svg line{
+  stroke-dasharray:80;
+  stroke-dashoffset:80;
+  transition:stroke-dashoffset .8s cubic-bezier(.22,1,.36,1);
+}
+.env-card.active .card-doodle svg path,
+.env-card.active .card-doodle svg circle,
+.env-card.active .card-doodle svg line{
+  stroke-dashoffset:0;
+}
+
+/* card text */
+.env-card .sc-label{
+  font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;
+  margin-bottom:.5rem;opacity:.55;
+}
+.env-card .sc-title{
+  font-family:'Outfit',sans-serif;
+  font-size:clamp(1.5rem,4vw,2.2rem);font-weight:900;
+  letter-spacing:-.02em;line-height:1.12;
+  margin-bottom:.75rem;
+}
+.env-card:nth-child(4) .sc-title{color:var(--t1)}
+.env-card .sc-body{
+  font-size:.95rem;line-height:1.65;
+  max-width:32ch;
+  opacity:.8;
+}
+.env-card:nth-child(4) .sc-body{color:var(--t2);opacity:1}
+
+/* ============ HOW IT WORKS ============ */
+.how-section{background:var(--white);position:relative;overflow:hidden}
+.how-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:0;margin-top:4rem;
+  border-radius:var(--r-xl);overflow:hidden;
+  border:1.5px solid var(--border);
+}
+.how-card{
+  padding:3rem 2.5rem;position:relative;
+  background:var(--white);transition:background .3s;
+}
+.how-card:not(:last-child){border-right:1.5px solid var(--border)}
+.how-card:hover{background:var(--cream)}
+.how-num{
+  font-family:'Outfit',sans-serif;
+  font-size:4.5rem;font-weight:900;line-height:1;
+  margin-bottom:1.5rem;letter-spacing:-.02em;
+}
+.how-card:nth-child(1) .how-num{color:var(--gold)}
+.how-card:nth-child(2) .how-num{color:var(--red-o)}
+.how-card:nth-child(3) .how-num{color:var(--blue)}
+.how-card h3{
+  font-family:'Outfit',sans-serif;
+  font-size:1.3rem;font-weight:800;letter-spacing:-.02em;
+  color:var(--t1);margin-bottom:.65rem;
+}
+.how-card p{font-size:.92rem;color:var(--t2);line-height:1.68;max-width:28ch}
+
+/* ============ STORY ============ */
+.story-section{background:var(--cream);position:relative;overflow:hidden}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.story-quote{
+  font-family:'DM Serif Display',serif;
+  font-size:1.3rem;font-style:italic;color:var(--t1);
+  line-height:1.5;padding-left:1.5rem;
+  border-left:3px solid var(--red-o);margin-bottom:1.5rem;
+}
+/* Polaroid stack */
+.story-polaroids{
+  position:relative;
+  width:100%;min-height:580px;
+}
+.spol{
+  position:absolute;
+  background:none;
+  padding:0;
+  filter:drop-shadow(0 8px 24px rgba(26,26,46,.18));
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1),filter .3s;
+}
+.spol:hover{z-index:10!important;transform:scale(1.06) rotate(0deg)!important;filter:drop-shadow(0 16px 40px rgba(26,26,46,.25))}
+.spol img{width:100%;height:100%;object-fit:contain;display:block}
+.spol-1{width:280px;top:0;left:2%;transform:rotate(-5deg);z-index:3}
+.spol-2{width:230px;top:10px;right:0;transform:rotate(4deg);z-index:2}
+.spol-3{width:240px;top:260px;left:18%;transform:rotate(3deg);z-index:5}
+.spol-4{width:200px;top:290px;right:5%;transform:rotate(-2.5deg);z-index:4}
+.spol-5{width:260px;top:140px;left:35%;transform:rotate(-1deg);z-index:1}
+@media(max-width:1100px){
+  .story-polaroids{min-height:380px}
+  .spol-1{width:160px;height:170px}
+  .spol-2{width:140px;height:150px}
+  .spol-3{width:150px;height:160px;top:170px;left:10%}
+  .spol-4,.spol-5{display:none}
+}
+@media(max-width:768px){
+  .story-polaroids{min-height:auto;display:flex;gap:.75rem;justify-content:center;padding:0 .5rem;flex-wrap:wrap}
+  .spol{position:relative!important;top:auto!important;left:auto!important;right:auto!important;flex-shrink:0}
+  .spol-1{width:44%;height:auto;aspect-ratio:4/5;transform:rotate(-3deg)}
+  .spol-2{width:40%;height:auto;aspect-ratio:4/5;transform:rotate(2deg);margin-top:1rem}
+  .spol-3,.spol-4,.spol-5{display:none}
+}
+
+/* ============ LIFESTYLE IMAGE STRIP ============ */
+.lifestyle-strip{
+  background:var(--white);
+  padding:6rem 0;overflow:hidden;
+}
+.lifestyle-grid{
+  display:grid;grid-template-columns:1.2fr .8fr .8fr 1.2fr;gap:1.5rem;
+}
+.lifestyle-img{
+  border-radius:var(--r-lg);overflow:hidden;
+  aspect-ratio:4/3;background:var(--cream2);
+  border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--t4);font-size:.82rem;font-weight:600;
+}
+.lifestyle-img:nth-child(2){aspect-ratio:1/1}
+.lifestyle-img:nth-child(3){aspect-ratio:1/1}
+
+/* ============ CHARACTERS ============ */
+.chars-section{background:var(--cream);position:relative;overflow:hidden}
+.chars-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem}
+
+/* ============ VIDEO STRIP — removed ============ */
+
+/* ============ WRITE BACK ============ */
+.wb-section{background:var(--white);position:relative;overflow:hidden}
+.wb-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start}
+.wb-stat{
+  display:inline-flex;align-items:center;gap:1.5rem;
+  padding:1.75rem 2rem;margin-top:2.5rem;
+  background:rgba(253,203,64,.12);border:1.5px solid rgba(253,203,64,.3);border-radius:20px;
+}
+.wb-sn{font-family:'Outfit',sans-serif;font-size:4rem;font-weight:900;letter-spacing:-.04em;line-height:1;color:var(--red-o)}
+.wc{background:var(--cream);border:1.5px solid var(--border);border-radius:18px;padding:1.4rem 1.5rem;transition:transform .22s ease,box-shadow .22s}
+.wc:hover{transform:translateX(8px);box-shadow:var(--sh-md)}
+.wc-head{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem}
+.wc-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wc-n{font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:800;color:var(--t1)}
+.wc-t{font-size:.64rem;color:var(--t3)}
+.wc-q{font-size:.84rem;color:var(--t2);line-height:1.65;font-style:italic;border-left:2px solid rgba(253,68,1,.25);padding-left:.875rem}
+
+/* ============ PERSONALISATION ============ */
+.pers-section{background:var(--cream);position:relative;overflow:hidden}
+.pers-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;position:relative;z-index:1}
+.pers-pts{display:flex;flex-direction:column;gap:1.25rem;margin-top:2.5rem}
+.pp{
+  display:flex;gap:1.25rem;align-items:flex-start;padding:1.5rem;
+  border-radius:18px;background:var(--white);border:1.5px solid var(--border);
+  transition:background .25s,transform .25s cubic-bezier(.34,1.56,.64,1);
+}
+.pp:hover{background:var(--cream2);transform:translateX(6px)}
+.pp-n{
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  background:var(--red-o);color:#fff;
+  font-family:'Outfit',sans-serif;font-size:1rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--sh-red);
+}
+.pp h4{font-family:'Outfit',sans-serif;font-size:.92rem;font-weight:800;color:var(--t1);margin-bottom:.2rem}
+.pp p{font-size:.82rem;color:var(--t2);line-height:1.55}
+
+/* ============ TESTIMONIALS — horizontal scroll ============ */
+.test-section{background:var(--white);padding:6rem 0;overflow:hidden}
+.test-scroll{
+  display:flex;gap:1.5rem;
+  overflow-x:auto;padding:1rem 0 2rem;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.test-scroll::-webkit-scrollbar{display:none}
+.test-scroll .tc{
+  flex:0 0 340px;scroll-snap-align:start;
+  background:var(--cream);border:1.5px solid var(--border);
+  border-radius:var(--r-lg);padding:1.75rem;
+}
+.test-scroll .tc:hover{transform:translateY(-4px)}
+
+/* ============ PRICING ============ */
+.pricing-section{background:var(--cream);position:relative;overflow:hidden}
+
+/* ============ FINAL CTA — gold ============ */
+.final-cta{
+  background:var(--gold);
+  padding:10rem 0;text-align:center;
+  position:relative;overflow:hidden;
+}
+.final-cta::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 80%,rgba(253,68,1,.06),transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 20%,rgba(255,255,255,.15),transparent 55%);
+  pointer-events:none;
+}
+.cta-inner{position:relative;z-index:1;max-width:740px;margin:0 auto;padding:0 2rem}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:1100px){
+  .hero-scene{min-height:85vh}
+  .hero-card{min-width:280px;max-width:360px;padding:1.5rem 2rem 1.25rem}
+  .how-grid{grid-template-columns:1fr;gap:0}
+  .how-card:not(:last-child){border-right:none;border-bottom:1.5px solid var(--border)}
+  .story-grid,.wb-grid,.pers-grid{grid-template-columns:1fr;gap:3rem}
+  .chars-strip{grid-template-columns:repeat(2,1fr)}
+  .lifestyle-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .editorial-break{padding:3.5rem 0}
+  .editorial-break .ed-title{font-size:clamp(2.4rem,8vw,4rem)}
+  .lifestyle-full-img{height:clamp(250px,60vw,380px)!important}
+  .lifestyle-duo{grid-template-columns:1fr}
+  .lifestyle-grid-v2{grid-template-columns:1fr;padding:0 1rem}
+  .lifestyle-grid-v2 .lg-tall{aspect-ratio:4/3}
+  .hero-scene{
+    min-height:auto;
+    grid-template-columns:1fr;
+    padding:5rem 1.25rem 0;
+    text-align:center;
+  }
+  .hero-text{max-width:100%}
+  .hero-text h1{font-size:clamp(2.2rem,9vw,3.2rem)}
+  .hero-text .hero-sub{margin-left:auto;margin-right:auto}
+  /* ---- MOBILE HERO ---- */
+  .hero-scene{
+    display:flex!important;flex-direction:column!important;align-items:center!important;
+    text-align:center!important;
+    min-height:92svh!important;min-height:92dvh!important;
+    padding:0 1.25rem!important;
+    padding-top:110px!important;
+    position:relative!important;
+    justify-content:flex-start!important;
+    overflow:hidden!important;
+  }
+  .hero-text{
+    text-align:center!important;max-width:100%!important;
+    display:flex!important;flex-direction:column!important;align-items:center!important;
+    position:relative!important;z-index:4!important;
+    width:100%!important;min-width:0!important;
+    padding-bottom:0!important;
+    flex-shrink:0!important;
+  }
+  .hero-text h1{text-align:center!important;font-size:clamp(2rem,8.5vw,3rem)!important;margin-bottom:.75rem!important}
+  .hero-text .hero-sub{text-align:center!important;margin:0 auto 20px!important;max-width:30ch!important;font-size:.92rem!important}
+  .hero-lines{display:none}
+  .hero-outer::after{height:6vh}
+  /* Stamp — over Zara's head (second from right) */
+  .hero-stamp{
+    display:block!important;
+    position:absolute!important;
+    left:auto!important;top:auto!important;
+    right:16%!important;
+    bottom:42%!important;
+    width:64px!important;
+    z-index:8!important;
+    transform:rotate(5deg)!important;
+  }
+  .hero-stamp-inner{padding:6px 5px!important;gap:1px!important;border-width:2px!important}
+  .hero-stamp-illus{width:30px!important;height:30px!important;margin-bottom:1px!important}
+  .hero-stamp-val{font-size:.4rem!important}
+  .hero-stamp-price{font-size:.7rem!important;margin-top:0!important}
+  .hero-stamp-txt{font-size:.3rem!important}
+  /* Characters — fill remaining space, run behind envelope */
+  .hero-img-col{
+    position:absolute!important;
+    left:-20%!important;right:-20%!important;
+    bottom:0!important;top:auto!important;
+    width:140%!important;max-width:none!important;
+    height:72%!important;
+    margin:0!important;
+    overflow:hidden!important;
+    z-index:2!important;
+  }
+  .hero-img-col img{
+    width:100%!important;height:120%!important;
+    object-fit:cover!important;object-position:center 5%!important;
+  }
+  /* Envelope CTA — bottom of fold, centered, IN FRONT of characters */
+  .hero-fold-cta-inline{
+    position:absolute!important;z-index:6!important;
+    bottom:2rem!important;left:50%!important;
+    transform:translate(-50%,0)!important;
+    width:min(300px,82vw)!important;
+    padding:1.5rem 1.25rem 1.25rem!important;
+    border-radius:16px!important;
+    margin:0!important;
+  }
+  .hero-fold-cta-inline .fold-cta-title{font-size:1.15rem}
+  .hero-fold-cta-inline .fold-cta-arrow{width:34px;height:34px}
+  .hero-fold-cta-inline .fold-cta-arrow svg{width:15px;height:15px}
+  /* cards — scroll-driven sequential reveal on mobile */
+  .envelope-cards-section{height:350vh!important}
+  .card-stack-wrap{top:3vh!important;height:94vh!important}
+  .card-stack{height:460px!important;max-width:calc(100% - 1.5rem)!important}
+  .env-card{padding:2rem 1.5rem 1.75rem;border-radius:22px}
+  .env-card-illus{width:100px;height:100px;margin-bottom:1.25rem}
+  .env-card .sc-title{font-size:1.4rem}
+  .env-card .sc-body{font-size:.88rem}
+  .card-doodle svg{transform:scale(.7)}
+  /* big title */
+  .big-title-section{padding:5rem 0 3rem}
+  .mega-title{font-size:clamp(2rem,7vw,3.5rem)!important}
+  .mega-sub{font-size:1rem}
+  /* how section */
+  .how-num{font-size:3rem}
+  .how-card{padding:2rem 1.5rem}
+  /* story */
+  .story-visual{aspect-ratio:4/3}
+  /* testimonials */
+  .test-scroll .tc{flex:0 0 280px;padding:1.25rem}
+  /* pricing */
+  .pc-grid{grid-template-columns:1fr!important}
+  /* buttons — larger touch targets */
+  .btn{padding:.85rem 2rem;font-size:.88rem}
+  .btn-sm{padding:.7rem 1.5rem}
+  .btn-lg{padding:1rem 2.5rem;font-size:1rem}
+  /* nav on mobile */
+  .nav-links{display:none}
+  .nav-right{display:none!important}
+  .site-nav{padding:.5rem .75rem}
+  .nav-wordmark{font-size:.82rem}
+  .burger{display:flex!important}
+  /* footer */
+  .footer-grid{grid-template-columns:1fr 1fr!important;gap:2rem!important}
+  .footer-brand{grid-column:1/-1}
+  /* section padding */
+  .section{padding:3rem 0!important}
+  .wrap{padding:0 1.25rem}
+  /* What makes this different — stack & center on mobile */
+  .wb-section [style*="flex-direction:column"] > div[style*="display:flex"]{
+    flex-direction:column!important;align-items:center!important;text-align:center!important;gap:1.25rem!important;
+  }
+  .wb-section [style*="flex-direction:column"] > div[style*="display:flex"] > div:last-child{text-align:center!important}
+  .wb-section [style*="flex-direction:column"] > div[style*="display:flex"] > div:last-child p{margin-left:auto!important;margin-right:auto!important}
+  .wb-section [style*="row-reverse"]{flex-direction:column!important;align-items:center!important;text-align:center!important;gap:1.25rem!important}
+  .wb-section [style*="row-reverse"] > div:first-child{text-align:center!important}
+  .wb-section [style*="row-reverse"] > div:first-child p{margin-left:auto!important;margin-right:auto!important}
+  .wb-section [style*="width:100px"]{width:80px!important;height:80px!important;font-size:2.2rem!important}
+  /* Character cards — single column, centered, cleaner */
+  .tt-strip{grid-template-columns:1fr!important;gap:1.25rem!important;max-width:340px!important;margin:0 auto!important}
+  .tt-strip .tt-card:nth-child(4),.tt-strip .tt-card:nth-child(5){transform:none!important;max-width:none!important;margin:0!important}
+  .tt-card:last-child{grid-column:auto!important;max-width:none!important}
+  .tt-illus{aspect-ratio:3/2!important;padding:1.5rem!important}
+  .tt-illus img{width:60%!important}
+  .tt-info{text-align:center!important;padding:1.25rem!important}
+  .tt-abilities{justify-content:center!important}
+  .tt-role{text-align:center!important}
+  .tt-name{text-align:center!important;font-size:1.3rem!important}
+  .tt-quest{text-align:center!important}
+  /* final CTA */
+  .final-cta{padding:5rem 0}
+  .cta-inner .mega-title{font-size:clamp(1.8rem,6vw,3rem)!important}
+  /* marquee */
+  .marquee-item{font-size:.65rem}
+}
+@media(max-width:480px){
+  .hero-text h1{font-size:clamp(2rem,8vw,2.8rem)}
+  .hero-stamp{width:56px!important;bottom:42%!important;right:14%!important}
+  .envelope-cards-section{height:320vh!important}
+  .card-stack{max-width:calc(100% - 1rem)!important;height:420px!important}
+  .env-card{padding:1.75rem 1.25rem 1.5rem;border-radius:18px}
+  .env-card-illus{width:80px;height:80px;margin-bottom:1rem}
+  .env-card .sc-title{font-size:1.15rem}
+  .env-card .sc-body{font-size:.82rem}
+  .chars-strip{grid-template-columns:1fr}
+  .lifestyle-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr!important}
+}
+
+/* ============================================================
+   MAXIMA-STYLE ENHANCEMENTS — elastic, bouncy, generous
+============================================================ */
+
+/* 1. Override shared.css scroll reveal with elastic spring */
+.rv{
+  opacity:0 !important;
+  transform:translateY(60px) scale(.97) !important;
+  transition:opacity .6s cubic-bezier(.22,1,.36,1), transform .9s cubic-bezier(.34,1.56,.64,1) !important;
+}
+.rv.in{
+  opacity:1 !important;
+  transform:translateY(0) scale(1) !important;
+}
+.rv.d1{transition-delay:.12s}
+.rv.d2{transition-delay:.24s}
+.rv.d3{transition-delay:.36s}
+.rv.d4{transition-delay:.48s}
+
+/* 2. Elastic bouncy hover on ALL buttons */
+.btn, .pc-cta, .cc-btn{
+  transition:transform .6s cubic-bezier(.34,1.56,.64,1), box-shadow .3s !important;
+}
+.btn:hover, .pc-cta:hover, .cc-btn:hover{
+  transform:scale(1.08) !important;
+}
+
+/* 3. Floating clouds — continuous horizontal drift */
+.floating-cloud{
+  position:absolute;
+  pointer-events:none;
+  z-index:0;
+  opacity:.5;
+}
+.floating-cloud svg{fill:var(--gold);opacity:.15}
+@keyframes cloudDrift{
+  0%{transform:translateX(10vw)}
+  100%{transform:translateX(-50vw)}
+}
+.fc-slow{animation:cloudDrift 45s linear infinite}
+.fc-med{animation:cloudDrift 30s linear infinite}
+.fc-fast{animation:cloudDrift 20s linear infinite}
+
+/* 4. Section doodles */
+.section-doodle{position:absolute;pointer-events:none;z-index:0}
+
+/* 5. Bolder editorial titles */
+.editorial-break .ed-title{
+  font-size:clamp(3.5rem,10vw,8rem) !important;
+  line-height:.88 !important;
+  letter-spacing:-.05em !important;
+}
+
+/* 6. More generous section spacing */
+.editorial-break{padding:12rem 0}
+.big-title-section{padding:10rem 0 5rem}
+.final-cta{padding:12rem 0}
+
+/* 9. Card hover lift */
+.cc{transition:transform .5s cubic-bezier(.34,1.56,.64,1), box-shadow .3s}
+.cc:hover{transform:translateY(-8px);box-shadow:0 20px 60px rgba(26,26,46,.12)}
+.tc{transition:transform .5s cubic-bezier(.34,1.56,.64,1) !important}
+.tc:hover{transform:translateY(-6px) !important}
+
+/* 10. Hero clouds — continuous drift */
+.cloud{position:absolute;pointer-events:none;z-index:2;animation:cloudDrift 35s linear infinite}
+.cloud:nth-child(2){animation-duration:25s;animation-delay:-10s}
+
+/* Responsive overrides for enhanced spacing */
+@media(max-width:768px){
+  .editorial-break{padding:6rem 0 !important}
+  .big-title-section{padding:5rem 0 3rem !important}
+  .final-cta{padding:5rem 0 !important}
+  .floating-cloud{display:none}
+  .section-doodle{display:none}
+}
+
+/* Icon steps — Maxima-style character illustrations */
+.icon-steps{
+  display:flex;flex-direction:column;gap:4rem;
+  max-width:800px;margin:0 auto;
+}
+.icon-step{
+  display:flex;align-items:center;gap:3rem;
+}
+.icon-step:nth-child(even){flex-direction:row-reverse}
+.icon-step-illus{
+  flex-shrink:0;
+  width:120px;height:120px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 32px rgba(26,26,46,.08);
+}
+.icon-step-illus svg{width:80px;height:80px}
+.icon-step-text h3{
+  font-family:'Outfit',sans-serif;
+  font-size:1.3rem;font-weight:800;
+  color:var(--t1);margin-bottom:.5rem;
+  letter-spacing:-.02em;
+}
+.icon-step-text p{
+  font-size:.95rem;color:var(--t2);line-height:1.7;max-width:38ch;
+}
+@media(max-width:768px){
+  .icon-step,.icon-step:nth-child(even){flex-direction:column;text-align:center;gap:1.5rem}
+  .icon-step-illus{width:100px;height:100px}
+  .icon-step-illus svg{width:64px;height:64px}
+  .icon-step-text p{max-width:100%}
+}
+
+/* Character cards — polaroid style */
+.tt-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:1100px;margin:0 auto}
+.tt-strip .tt-card:nth-child(4),.tt-strip .tt-card:nth-child(5){max-width:none}
+@media(min-width:769px){
+  .tt-strip{grid-template-rows:auto auto}
+  .tt-strip .tt-card:nth-child(4){grid-column:1/2;justify-self:center;width:100%;max-width:340px;grid-row:2;margin-left:auto;margin-right:0;transform:translateX(50%)}
+  .tt-strip .tt-card:nth-child(5){grid-column:2/4;justify-self:center;width:100%;max-width:340px;grid-row:2;margin-left:0;margin-right:auto;transform:translateX(-50%)}
+}
+.tt-card{
+  background:var(--white);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  border:1.5px solid var(--border);
+  box-shadow:var(--sh-sm);
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s;
+  cursor:pointer;
+  text-decoration:none;
+  display:block;
+  color:inherit;
+}
+.tt-card:hover{
+  transform:translateY(-12px) scale(1.03);
+  box-shadow:0 24px 60px rgba(26,26,46,.14);
+  border-color:var(--red-o);
+}
+.tt-header{display:none}
+.tt-badge{display:none}
+.tt-type{display:none}
+.tt-illus{
+  aspect-ratio:4/5;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:visible;
+  padding:1.5rem 1.5rem 0;
+}
+.tt-illus img{
+  width:110%;height:auto;
+  object-fit:contain;display:block;
+  filter:drop-shadow(0 6px 18px rgba(26,26,46,.15));
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+}
+.tt-card:hover .tt-illus img{transform:scale(1.08) rotate(-1deg)}
+.tt-info{padding:1.5rem}
+.tt-role{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:.72rem;font-weight:800;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--red-o);margin-bottom:.4rem;
+}
+.tt-name{
+  font-family:'Outfit',sans-serif;
+  font-size:1.4rem;font-weight:900;
+  letter-spacing:-.02em;color:var(--t1);margin-bottom:.3rem;
+}
+.tt-quest{
+  font-family:'DM Serif Display',serif;
+  font-size:.95rem;font-style:italic;
+  color:var(--t2);margin-bottom:1.25rem;line-height:1.4;
+}
+.tt-abilities{display:flex;gap:.6rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.tt-ability{
+  display:flex;align-items:center;gap:.4rem;
+  background:var(--cream);border-radius:var(--r-pill);
+  padding:.4rem .8rem;font-size:.78rem;font-weight:700;
+  color:var(--t2);font-family:'Plus Jakarta Sans',sans-serif;
+}
+.tt-ability span{font-size:1rem}
+.tt-cta{
+  display:block;text-align:center;text-decoration:none;
+  font-family:'Outfit',sans-serif;font-size:.92rem;font-weight:800;
+  padding:.85rem 1.25rem;border-radius:var(--r-pill);
+  background:var(--cream);color:var(--t1);border:1.5px solid var(--border);
+  transition:all .25s cubic-bezier(.34,1.56,.64,1);
+}
+.tt-card:hover .tt-cta{background:var(--red-o);color:#fff;border-color:var(--red-o)}
+/* hide old stat bars */
+.tt-stats,.tt-stat,.tt-bar,.tt-fill,.tt-val,.tt-stat-label{display:none}
+@media(max-width:1024px){
+  .tt-strip{grid-template-columns:repeat(2,1fr)!important;gap:1.5rem}
+  .tt-strip .tt-card:nth-child(4),.tt-strip .tt-card:nth-child(5){transform:none!important;max-width:none!important;margin:0!important}
+  .tt-card:last-child{grid-column:1/-1;max-width:340px;margin:0 auto!important}
+}
+@media(max-width:640px){
+  .tt-strip{grid-template-columns:repeat(2,1fr)!important;gap:1rem}
+  .tt-card:last-child{grid-column:1/-1;max-width:100%;margin:0 auto!important}
+  .tt-info{padding:1rem}
+  .tt-name{font-size:.92rem}
+  .tt-stat-label{width:48px;font-size:.5rem}
+}
+
+/* Portal showcase — letter + phone */
+.portal-showcase{
+  padding:8rem 0;
+  position:relative;overflow:hidden;
+}
+.portal-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:4rem;
+  align-items:center;
+}
+.portal-showcase .ed-title{
+  font-family:'Outfit',sans-serif !important;
+  font-size:clamp(3rem,9vw,7rem) !important;
+  font-weight:900 !important;
+  letter-spacing:-.04em !important;
+  line-height:1.0 !important;
+  color:var(--t1) !important;
+  max-width:none !important;
+  margin:0 0 1.5rem !important;
+  text-align:left !important;
+}
+.portal-showcase .ed-title em{
+  font-family:'DM Serif Display',serif !important;
+  font-style:italic;font-weight:400;
+  color:var(--red-o) !important;
+}
+.portal-text .ed-sub{max-width:38ch}
+.portal-steps{display:flex;flex-direction:column;gap:1rem;margin-top:1rem}
+.portal-step{
+  display:flex;align-items:center;gap:1rem;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:.95rem;color:var(--t2);line-height:1.5;
+}
+.portal-step-num{
+  flex-shrink:0;
+  width:32px;height:32px;
+  background:var(--red-o);
+  color:#fff;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Outfit',sans-serif;
+  font-weight:800;font-size:.85rem;
+}
+.portal-visual{display:flex;justify-content:center;position:relative}
+.portal-letter-wrap{max-width:520px;width:100%}
+.portal-stamp{
+  position:absolute;
+  top:-5%;right:42%;
+  z-index:10;
+  width:clamp(100px,8vw,130px);
+  aspect-ratio:4/5;
+  background:var(--white);
+  filter:drop-shadow(0 8px 20px rgba(26,26,46,.2));
+  transform:rotate(-8deg);
+  -webkit-mask-image:radial-gradient(circle 3px at 3px 0,transparent 3px,#000 3.5px),
+    radial-gradient(circle 3px at 3px 0,transparent 3px,#000 3.5px),
+    radial-gradient(circle 3px at 0 3px,transparent 3px,#000 3.5px),
+    radial-gradient(circle 3px at 0 3px,transparent 3px,#000 3.5px),
+    linear-gradient(#000,#000);
+  -webkit-mask-size:6px 6px, 6px 6px, 6px 6px, 6px 6px, calc(100% - 6px) calc(100% - 6px);
+  -webkit-mask-position:top left, bottom left, top left, top right, 3px 3px;
+  -webkit-mask-repeat:repeat-x, repeat-x, repeat-y, repeat-y, no-repeat;
+  -webkit-mask-composite:source-over;
+  mask-composite:add;
+}
+.portal-letter-svg{width:100%;height:auto}
+@media(max-width:768px){
+  .portal-grid{grid-template-columns:1fr;gap:2rem}
+  .portal-showcase{padding:4rem 0}
+  .portal-text{text-align:center!important}
+  .portal-text .ed-sub{text-align:center!important;margin:0 auto 2rem!important}
+  .portal-visual{justify-content:center!important;width:100%!important;overflow:hidden!important;padding:0 1rem!important}
+  .portal-letter-wrap{max-width:100%;margin:0 auto;transform:scale(.85);transform-origin:center top}
+  .portal-stamp{left:50%!important;right:auto!important;transform:translateX(-50%) rotate(-6deg)!important;top:-4%!important}
+}
+
+/* Footer — letter/envelope style */
+.site-footer{
+  background:var(--cream) !important;
+  color:var(--t1);
+  position:relative;
+  overflow:hidden;
+}
+.site-footer .footer-flap{
+  position:absolute;top:0;left:0;right:0;
+  height:100px;
+  background:var(--gold);
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  z-index:1;
+  pointer-events:none;
+}
+.site-footer .footer-inner{
+  position:relative;z-index:2;
+  padding-top:7rem;
+}
+.site-footer .footer-grid{
+  border-top:2px dashed rgba(26,26,46,.12);
+  padding-top:3rem;
+}
+.site-footer h4{color:var(--t1) !important}
+.site-footer a{color:var(--t1) !important;opacity:.65}
+.site-footer a:hover{opacity:1}
+.site-footer .nav-logo{opacity:1 !important}
+.site-footer .nav-wordmark{color:var(--t1) !important}
+.site-footer .nav-wordmark em{color:var(--red-o) !important}
+.site-footer .nav-gem{background:var(--t1) !important}
+.site-footer .nav-gem svg path{fill:var(--gold) !important}
+.site-footer .footer-bottom{border-top:2px dashed rgba(26,26,46,.12)}
+.site-footer .footer-brand p{opacity:.6;font-size:.9rem;max-width:280px}
+</style>
+
+<main>
+<!-- ============ HERO — letter style ============ -->
+<div class="hero-outer">
+<section class="hero-scene" id="hero">
+  <div class="hero-rays"></div>
+
+  <!-- decorative clouds -->
+  <div class="cloud" style="top:12%;left:3%"><svg width="100" height="50" viewBox="0 0 120 60"><ellipse cx="60" cy="40" rx="55" ry="20"/><ellipse cx="40" cy="30" rx="30" ry="18"/><ellipse cx="80" cy="28" rx="25" ry="16"/><ellipse cx="60" cy="22" rx="20" ry="14"/></svg></div>
+  <div class="cloud" style="bottom:30%;left:8%"><svg width="70" height="40" viewBox="0 0 120 60"><ellipse cx="60" cy="40" rx="55" ry="20"/><ellipse cx="40" cy="30" rx="30" ry="18"/><ellipse cx="80" cy="28" rx="25" ry="16"/></svg></div>
+
+  <!-- postage stamp — perforated design -->
+  <div class="hero-stamp">
+    <div class="hero-stamp-inner">
+      <div class="hero-stamp-illus"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="18" stroke="var(--red-o)" stroke-width="1.5"/><circle cx="24" cy="24" r="2" fill="var(--red-o)"/><path d="M24 6v8M24 34v8M6 24h8M34 24h8" stroke="var(--t1)" stroke-width="1.5" stroke-linecap="round"/><path d="M13 13l5 5M30 30l5 5M35 13l-5 5M13 35l5-5" stroke="var(--t3)" stroke-width="1" stroke-linecap="round"/><text x="24" y="12" text-anchor="middle" fill="var(--red-o)" font-family="Outfit,sans-serif" font-size="5" font-weight="900">N</text></svg></div>
+      <div class="hero-stamp-val">Adventure<br>Mail Club</div>
+      <div class="hero-stamp-price">1st</div>
+      <div class="hero-stamp-txt">Royal Mail</div>
+    </div>
+  </div>
+
+  <!-- doodle address lines -->
+  <svg class="hero-lines" width="280" height="80" viewBox="0 0 280 80"><line x1="0" y1="10" x2="180" y2="10"/><line x1="0" y1="30" x2="220" y2="30"/><line x1="0" y1="50" x2="160" y2="50"/><line x1="0" y1="70" x2="100" y2="70"/></svg>
+
+  <!-- hero copy — left-aligned -->
+  <div class="hero-text">
+    <h1>Adventure letters that write <em>them</em> into the story.</h1>
+    <p class="hero-sub">Real letters arrive through the letterbox. Your child scans, chooses, collects &mdash; and decides where the story goes next.</p>
+  </div>
+
+  <!-- hero character image — big, right side -->
+  <div class="hero-img-col">
+    <img src="hero-characters.png" alt="The Wandering Five — Atlas, Penny, Milo, Zara and Nova"/>
+  </div>
+
+  <!-- CTA card — centered at fold -->
+  <button class="hero-fold-cta-inline" id="hero-cta">
+    <div class="envelope-flap-solid"></div>
+    <div class="fold-cta-title">Open the envelope</div>
+    <div class="fold-cta-sub">Start your journey</div>
+    <div class="fold-cta-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+  </button>
+</section>
+</div><!-- /.hero-outer -->
+
+<div class="page-content" id="page-content">
+<!-- ============ BIG TITLE + ANIMATED CARDS FROM ENVELOPE ============ -->
+<section class="big-title-section" id="next-section">
+  <div class="wrap">
+    <div class="eyebrow rv" style="justify-content:center;display:inline-flex">What lands on the doormat</div>
+    <h2 class="mega-title rv">Every month, a new <em>chapter.</em></h2>
+    <p class="mega-sub rv">A letter, an artefact, a QR code &mdash; and a choice that changes everything.</p>
+  </div>
+</section>
+
+<section class="envelope-cards-section" id="cards-section">
+  <div class="card-stack-wrap">
+    <div class="card-stack" id="env-base">
+      <!-- CARD 1 — Personalised letter (teal) -->
+      <div class="env-card" id="ec1">
+        <!-- floating doodles: filled blobs -->
+        <div class="card-doodle cd-1"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="14" fill="rgba(255,255,255,.25)"/><circle cx="28" cy="12" r="6" fill="rgba(253,203,64,.5)"/></svg></div>
+        <div class="card-doodle cd-2"><svg width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="10" fill="rgba(253,68,1,.35)"/><circle cx="10" cy="10" r="5" fill="rgba(255,255,255,.2)"/></svg></div>
+        <div class="card-doodle cd-3"><svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="12" fill="rgba(253,203,64,.3)"/><circle cx="22" cy="10" r="4" fill="rgba(255,255,255,.25)"/></svg></div>
+        <div class="card-doodle cd-5"><svg width="44" height="20" viewBox="0 0 44 20"><circle cx="10" cy="10" r="6" fill="rgba(255,255,255,.2)"/><circle cx="26" cy="8" r="4" fill="rgba(253,68,1,.25)"/><circle cx="38" cy="12" r="5" fill="rgba(253,203,64,.3)"/></svg></div>
+        <div class="env-card-illus"><svg viewBox="0 0 140 140" fill="none"><rect x="20" y="40" width="100" height="65" rx="8" fill="var(--gold)"/><path d="M20 48l50 35 50-35" fill="var(--red-o)" opacity=".85"/><rect x="45" y="30" width="50" height="60" rx="4" fill="#fff" opacity=".9"/><path d="M70 70s-10-7-10-14a7 7 0 0 1 10-6 7 7 0 0 1 10 6c0 7-10 14-10 14z" fill="var(--red-o)"/></svg></div>
+        <div class="sc-label">From their chosen character</div>
+        <div class="sc-title">Personalised letter</div>
+        <p class="sc-body">Addressed to your child by name &mdash; referencing their city, choices, and what they found last time.</p>
+      </div>
+
+      <!-- CARD 2 — Postcards & artefacts (blue) -->
+      <div class="env-card" id="ec2">
+        <div class="card-doodle cd-1"><svg width="38" height="38" viewBox="0 0 38 38"><circle cx="19" cy="19" r="12" fill="rgba(253,203,64,.35)"/><circle cx="28" cy="10" r="5" fill="rgba(255,255,255,.2)"/></svg></div>
+        <div class="card-doodle cd-4"><svg width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="10" fill="rgba(255,255,255,.2)"/><circle cx="10" cy="26" r="6" fill="rgba(253,68,1,.25)"/></svg></div>
+        <div class="card-doodle cd-3"><svg width="44" height="24" viewBox="0 0 44 24"><circle cx="12" cy="12" r="8" fill="rgba(253,203,64,.25)"/><circle cx="32" cy="10" r="5" fill="rgba(255,255,255,.2)"/></svg></div>
+        <div class="card-doodle cd-5"><svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="11" fill="rgba(255,255,255,.15)"/><circle cx="24" cy="8" r="4" fill="rgba(253,203,64,.35)"/></svg></div>
+        <div class="env-card-illus"><svg viewBox="0 0 140 140" fill="none"><circle cx="70" cy="65" r="40" fill="rgba(51,102,255,.3)"/><circle cx="70" cy="65" r="28" fill="var(--blue)" opacity=".6"/><path d="M70 37v56" stroke="var(--gold)" stroke-width="4" stroke-linecap="round"/><path d="M42 65h56" stroke="var(--gold)" stroke-width="4" stroke-linecap="round"/><polygon points="70,37 76,55 70,50 64,55" fill="var(--red-o)"/><circle cx="70" cy="65" r="6" fill="var(--red-o)"/><circle cx="70" cy="65" r="2.5" fill="#fff"/></svg></div>
+        <div class="sc-label">Something to find &amp; keep</div>
+        <div class="sc-title">Artefacts &amp; collectibles</div>
+        <p class="sc-body">Each letter asks them to find something. A pressed leaf, a compass piece, a coded message &mdash; it all goes in the inventory.</p>
+      </div>
+
+      <!-- CARD 3 — Write-back system (red) -->
+      <div class="env-card" id="ec3">
+        <div class="card-doodle cd-2"><svg width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="11" fill="rgba(255,255,255,.2)"/><circle cx="8" cy="8" r="5" fill="rgba(253,203,64,.3)"/></svg></div>
+        <div class="card-doodle cd-1"><svg width="42" height="22" viewBox="0 0 42 22"><circle cx="10" cy="11" r="7" fill="rgba(255,255,255,.18)"/><circle cx="30" cy="9" r="5" fill="rgba(51,102,255,.2)"/></svg></div>
+        <div class="card-doodle cd-6"><svg width="30" height="30" viewBox="0 0 30 30"><circle cx="15" cy="15" r="10" fill="rgba(253,203,64,.25)"/></svg></div>
+        <div class="card-doodle cd-3"><svg width="34" height="34" viewBox="0 0 34 34"><circle cx="17" cy="17" r="12" fill="rgba(255,255,255,.15)"/><circle cx="26" cy="8" r="5" fill="rgba(51,102,255,.2)"/></svg></div>
+        <div class="env-card-illus"><svg viewBox="0 0 140 140" fill="none"><rect x="30" y="30" width="70" height="90" rx="6" fill="#fff" opacity=".9"/><line x1="42" y1="55" x2="85" y2="55" stroke="var(--blue)" stroke-width="2" opacity=".5"/><line x1="42" y1="68" x2="78" y2="68" stroke="var(--blue)" stroke-width="2" opacity=".5"/><line x1="42" y1="81" x2="70" y2="81" stroke="var(--blue)" stroke-width="2" opacity=".5"/><rect x="75" y="25" width="12" height="85" rx="4" fill="var(--red-o)" transform="rotate(25 81 67)"/><polygon points="73,108 78,115 83,108" fill="var(--gold)" transform="rotate(25 81 67)"/><rect x="75" y="25" width="12" height="8" rx="2" fill="var(--gold)" opacity=".7" transform="rotate(25 81 67)"/></svg></div>
+        <div class="sc-label">Scan, choose, respond</div>
+        <div class="sc-title">QR code &amp; portal</div>
+        <p class="sc-body">Every letter has a QR code. Scan it to log the letter, add items to inventory, and pick from 3&ndash;5 choices that steer the adventure.</p>
+      </div>
+
+      <!-- CARD 4 — QR portal access (white) -->
+      <div class="env-card" id="ec4">
+        <div class="card-doodle cd-1"><svg width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="11" fill="rgba(253,203,64,.2)"/><circle cx="28" cy="8" r="5" fill="rgba(51,102,255,.15)"/></svg></div>
+        <div class="card-doodle cd-4"><svg width="40" height="22" viewBox="0 0 40 22"><circle cx="12" cy="11" r="7" fill="rgba(253,68,1,.12)"/><circle cx="30" cy="9" r="5" fill="rgba(253,203,64,.2)"/></svg></div>
+        <div class="card-doodle cd-3"><svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="11" fill="rgba(51,102,255,.1)"/><circle cx="24" cy="8" r="4" fill="rgba(253,203,64,.2)"/></svg></div>
+        <div class="card-doodle cd-5"><svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="10" fill="rgba(253,68,1,.1)"/></svg></div>
+        <div class="env-card-illus"><svg viewBox="0 0 140 140" fill="none"><rect x="35" y="15" width="70" height="110" rx="12" fill="var(--blue)"/><rect x="42" y="28" width="56" height="78" rx="4" fill="#fff" opacity=".9"/><circle cx="70" cy="118" r="4" fill="#fff" opacity=".4"/><path d="M100 22l6-8M104 36l8-2M108 18l4 6" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round"/><path d="M34 30l-6-8M30 44l-8-2M26 26l-4 6" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round"/><circle cx="102" cy="30" r="8" fill="var(--red-o)"/><text x="102" y="34" text-anchor="middle" fill="#fff" font-family="Outfit,sans-serif" font-size="10" font-weight="900">3</text></svg></div>
+        <div class="sc-label">Watch the map move</div>
+        <div class="sc-title">Living adventure map</div>
+        <p class="sc-body">Every choice moves the map. Their character travels, the inventory grows, and the story edges closer to the goal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="section how-section">
+  <div class="wrap" style="text-align:center">
+    <div class="eyebrow rv" style="justify-content:center;display:inline-flex">How it works</div>
+    <h2 class="mega-title rv" style="font-size:clamp(2.4rem,5vw,4.5rem)">Three steps to a<br>lifetime <em>memory.</em></h2>
+  </div>
+  <div class="wrap">
+    <div class="how-grid rv">
+      <div class="how-card"><div class="how-num">01</div><h3>Pick a character &amp; personalise</h3><p>Choose from the Wandering Five. Add their name, city, age, and interests. The adventure is built around them.</p></div>
+      <div class="how-card"><div class="how-num">02</div><h3>A letter lands on the mat</h3><p>Every month &mdash; a personalised letter, a physical artefact to find, and a QR code that unlocks the portal.</p></div>
+      <div class="how-card"><div class="how-num">03</div><h3>Scan. Choose. Shape the story.</h3><p>Scan the QR code to log the letter, add items to their inventory, then pick from multiple choices that decide what happens next.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ICON STEPS ============ -->
+<section class="section icon-steps-section" style="background:var(--white)">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:5rem" class="rv">
+      <h2 class="mega-title" style="font-size:clamp(2.4rem,5vw,4.5rem)">What makes this <em>different?</em></h2>
+    </div>
+    <div class="icon-steps">
+      <div class="icon-step rv">
+        <div class="icon-step-illus" style="background:var(--gold)">
+          <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="32" r="16" fill="var(--red-o)"/><circle cx="34" cy="29" r="2.5" fill="#fff"/><circle cx="46" cy="29" r="2.5" fill="#fff"/><path d="M34 37c0 0 3 4 6 4s6-4 6-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="40" cy="58" r="10" fill="var(--blue)" opacity=".3"/><path d="M30 50c0 0 5 10 10 10s10-10 10-10" fill="var(--blue)" opacity=".5"/></svg>
+        </div>
+        <div class="icon-step-text">
+          <h3>Every letter is crafted, not generated</h3>
+          <p>Real writers build each letter around your child&rsquo;s name, choices, and character path. No templates. No AI filler.</p>
+        </div>
+      </div>
+      <div class="icon-step rv d1">
+        <div class="icon-step-illus" style="background:rgba(51,102,255,.12)">
+          <svg viewBox="0 0 80 80" fill="none"><rect x="18" y="22" width="44" height="36" rx="6" fill="var(--gold)"/><path d="M18 28l22 16 22-16" fill="var(--red-o)" opacity=".8"/><circle cx="58" cy="20" r="8" fill="var(--red-o)"/><text x="58" y="24" text-anchor="middle" fill="#fff" font-family="Outfit,sans-serif" font-size="10" font-weight="900">!</text></svg>
+        </div>
+        <div class="icon-step-text">
+          <h3>Their choices steer the story</h3>
+          <p>3&ndash;5 options every month on the portal. Pick left or right. Trust the stranger or run. Each choice changes the next letter.</p>
+        </div>
+      </div>
+      <div class="icon-step rv d2">
+        <div class="icon-step-illus" style="background:rgba(253,68,1,.1)">
+          <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="22" fill="var(--gold)"/><path d="M40 18v8" stroke="var(--red-o)" stroke-width="3" stroke-linecap="round"/><path d="M40 54v8" stroke="var(--red-o)" stroke-width="3" stroke-linecap="round"/><path d="M18 40h8" stroke="var(--red-o)" stroke-width="3" stroke-linecap="round"/><path d="M54 40h8" stroke="var(--red-o)" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="40" r="5" fill="var(--red-o)"/><path d="M40 35l3 5-3 5-3-5z" fill="var(--t1)"/></svg>
+        </div>
+        <div class="icon-step-text">
+          <h3>Artefacts that build an inventory</h3>
+          <p>Each letter sends them looking for something real. Scan the QR code to add it to their portal inventory. It all connects.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee-strip" aria-hidden="true" style="background:var(--red-o)">
+  <div style="overflow:hidden">
+    <div class="marquee-track">
+      <span class="marquee-item" style="color:#fff">Real letters by post<span class="marquee-sep" style="background:rgba(255,255,255,.4)"></span></span>
+      <span class="marquee-item" style="color:#fff">Scan the QR code<span class="marquee-sep" style="background:rgba(255,255,255,.4)"></span></span>
+      <span class="marquee-item" style="color:#fff">Choose your path<span class="marquee-sep" style="background:rgba(255,255,255,.4)"></span></span>
+      <span class="marquee-item" style="color:#fff">Ages 5 to 10<span class="marquee-sep" style="background:rgba(255,255,255,.4)"></span></span>
+      <span class="marquee-item" style="color:#fff">Collect artefacts<span class="marquee-sep" style="background:rgba(255,255,255,.4)"></span></span>
+      <span class="marquee-item" style="color:#fff">Cancel any time<span class="marquee-sep" style="background:rgba(255,255,255,.4)"></span></span>
+      <span class="marquee-item" style="color:#fff">Watch the map move<span class="marquee-sep" style="background:rgba(255,255,255,.4)"></span></span>
+      <span class="marquee-item" style="color:#fff">Real letters by post<span class="marquee-sep" style="background:rgba(255,255,255,.4)"></span></span>
+      <span class="marquee-item" style="color:#fff">Scan the QR code<span class="marquee-sep" style="background:rgba(255,255,255,.4)"></span></span>
+      <span class="marquee-item" style="color:#fff">Choose your path<span class="marquee-sep" style="background:rgba(255,255,255,.4)"></span></span>
+      <span class="marquee-item" style="color:#fff">Ages 5 to 10<span class="marquee-sep" style="background:rgba(255,255,255,.4)"></span></span>
+      <span class="marquee-item" style="color:#fff">Collect artefacts<span class="marquee-sep" style="background:rgba(255,255,255,.4)"></span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ LIFESTYLE — full-width image ============ -->
+<section class="lifestyle-full rv">
+  <img class="lifestyle-full-img" src="child-reading.png" alt="Child excitedly opening an adventure letter at home"/>
+</section>
+
+<!-- ============ EDITORIAL BREAK — big statement ============ -->
+<section class="portal-showcase rv" style="background:var(--cream)">
+  <div class="wrap">
+    <div class="portal-grid">
+      <div class="portal-text">
+        <h2 class="ed-title">Post meets <em>portal.</em></h2>
+        <p class="ed-sub" style="text-align:left;margin:0 0 2rem">A real letter lands on the mat. They rip it open, find the artefact, scan the QR code &mdash; and choose what happens next.</p>
+        <div class="portal-steps">
+          <div class="portal-step"><span class="portal-step-num">1</span><span>Letter arrives with clues &amp; artefact</span></div>
+          <div class="portal-step"><span class="portal-step-num">2</span><span>Scan the QR code on the letter</span></div>
+          <div class="portal-step"><span class="portal-step-num">3</span><span>Items added to inventory automatically</span></div>
+          <div class="portal-step"><span class="portal-step-num">4</span><span>Pick from 3&ndash;5 choices &mdash; the map moves</span></div>
+        </div>
+      </div>
+      <div class="portal-visual rv d1">
+        <!-- Stamp overlay on letter -->
+        <div class="portal-stamp">
+          <div class="hero-stamp-inner">
+            <div class="hero-stamp-illus"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="18" stroke="var(--red-o)" stroke-width="1.5"/><circle cx="24" cy="24" r="2" fill="var(--red-o)"/><path d="M24 6v8M24 34v8M6 24h8M34 24h8" stroke="var(--t1)" stroke-width="1.5" stroke-linecap="round"/><path d="M13 13l5 5M30 30l5 5M35 13l-5 5M13 35l5-5" stroke="var(--t3)" stroke-width="1" stroke-linecap="round"/></svg></div>
+            <div class="hero-stamp-val">Adventure<br>Mail Club</div>
+            <div class="hero-stamp-price">1st</div>
+            <div class="hero-stamp-txt">Royal Mail</div>
+          </div>
+        </div>
+        <!-- Letter mock with QR code -->
+        <div class="portal-letter-wrap">
+          <svg class="portal-letter-svg" viewBox="0 0 520 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Letter paper -->
+            <rect x="0" y="0" width="340" height="440" rx="12" fill="#fff" filter="url(#letterShadow)"/>
+            <!-- Envelope flap behind -->
+            <path d="M0 0 L170 90 L340 0" fill="var(--gold)" opacity=".3"/>
+            <!-- Address lines -->
+            <line x1="30" y1="130" x2="180" y2="130" stroke="var(--t3)" stroke-width="1.5" opacity=".3"/>
+            <line x1="30" y1="148" x2="210" y2="148" stroke="var(--t3)" stroke-width="1.5" opacity=".3"/>
+            <line x1="30" y1="166" x2="160" y2="166" stroke="var(--t3)" stroke-width="1.5" opacity=".3"/>
+            <!-- Letter heading -->
+            <text x="30" y="120" fill="var(--t1)" font-family="Outfit,sans-serif" font-size="11" font-weight="700" opacity=".5">FROM THE WANDERING FIVE</text>
+            <!-- Body lines -->
+            <text x="30" y="200" fill="var(--t1)" font-family="DM Serif Display,serif" font-size="16" font-weight="400">Dear Amelia,</text>
+            <line x1="30" y1="224" x2="290" y2="224" stroke="var(--t3)" stroke-width="1" opacity=".2"/>
+            <line x1="30" y1="244" x2="310" y2="244" stroke="var(--t3)" stroke-width="1" opacity=".2"/>
+            <line x1="30" y1="264" x2="260" y2="264" stroke="var(--t3)" stroke-width="1" opacity=".2"/>
+            <line x1="30" y1="284" x2="300" y2="284" stroke="var(--t3)" stroke-width="1" opacity=".2"/>
+            <line x1="30" y1="304" x2="240" y2="304" stroke="var(--t3)" stroke-width="1" opacity=".2"/>
+            <line x1="30" y1="324" x2="280" y2="324" stroke="var(--t3)" stroke-width="1" opacity=".2"/>
+            <!-- Stamp -->
+            <rect x="260" y="40" width="55" height="65" rx="3" fill="var(--cream)" stroke="var(--t3)" stroke-width="1" stroke-dasharray="3 2"/>
+            <circle cx="287" cy="68" r="14" fill="var(--red-o)" opacity=".6"/>
+            <text x="287" y="98" text-anchor="middle" fill="var(--t3)" font-family="Outfit,sans-serif" font-size="7" font-weight="700">1st</text>
+            <!-- QR Code block -->
+            <rect x="30" y="345" width="80" height="80" rx="6" fill="var(--t1)"/>
+            <rect x="38" y="353" width="64" height="64" rx="2" fill="#fff"/>
+            <!-- QR pattern -->
+            <rect x="42" y="357" width="14" height="14" rx="1" fill="var(--t1)"/><rect x="42" y="357" width="14" height="14" rx="1" stroke="#fff" stroke-width="2"/><rect x="45" y="360" width="8" height="8" rx="1" fill="var(--t1)"/>
+            <rect x="60" y="357" width="4" height="4" fill="var(--t1)"/><rect x="68" y="357" width="4" height="4" fill="var(--t1)"/><rect x="76" y="357" width="4" height="4" fill="var(--t1)"/>
+            <rect x="84" y="357" width="14" height="14" rx="1" fill="var(--t1)"/><rect x="84" y="357" width="14" height="14" rx="1" stroke="#fff" stroke-width="2"/><rect x="87" y="360" width="8" height="8" rx="1" fill="var(--t1)"/>
+            <rect x="42" y="375" width="4" height="4" fill="var(--t1)"/><rect x="50" y="375" width="4" height="4" fill="var(--t1)"/><rect x="60" y="379" width="4" height="4" fill="var(--t1)"/>
+            <rect x="68" y="375" width="4" height="4" fill="var(--t1)"/><rect x="76" y="379" width="4" height="4" fill="var(--t1)"/><rect x="84" y="375" width="4" height="4" fill="var(--t1)"/>
+            <rect x="50" y="383" width="4" height="4" fill="var(--t1)"/><rect x="60" y="387" width="4" height="4" fill="var(--t1)"/><rect x="72" y="383" width="4" height="4" fill="var(--t1)"/>
+            <rect x="42" y="391" width="14" height="14" rx="1" fill="var(--t1)"/><rect x="42" y="391" width="14" height="14" rx="1" stroke="#fff" stroke-width="2"/><rect x="45" y="394" width="8" height="8" rx="1" fill="var(--t1)"/>
+            <rect x="60" y="395" width="4" height="4" fill="var(--t1)"/><rect x="68" y="391" width="4" height="4" fill="var(--t1)"/><rect x="80" y="395" width="4" height="4" fill="var(--t1)"/>
+            <rect x="88" y="391" width="4" height="4" fill="var(--t1)"/><rect x="92" y="399" width="4" height="4" fill="var(--t1)"/>
+            <!-- Scan me label -->
+            <text x="130" y="380" fill="var(--red-o)" font-family="Outfit,sans-serif" font-size="12" font-weight="800">SCAN ME</text>
+            <text x="130" y="396" fill="var(--t2)" font-family="Plus Jakarta Sans,sans-serif" font-size="9">Open your portal</text>
+            <!-- Scan lines radiating from QR -->
+            <line x1="110" y1="385" x2="130" y2="385" stroke="var(--red-o)" stroke-width="1.5" opacity=".4" stroke-dasharray="4 3"/>
+
+            <!-- Phone mock scanning -->
+            <g transform="translate(260, 260)">
+              <!-- Phone body -->
+              <rect x="0" y="0" width="160" height="300" rx="20" fill="var(--t1)"/>
+              <rect x="6" y="6" width="148" height="288" rx="16" fill="#fff"/>
+              <!-- Status bar -->
+              <rect x="6" y="6" width="148" height="32" rx="16" fill="var(--red-o)"/>
+              <text x="80" y="26" text-anchor="middle" fill="#fff" font-family="Outfit,sans-serif" font-size="9" font-weight="700">Adventure Mail Club</text>
+              <!-- Portal header -->
+              <text x="22" y="56" fill="var(--t1)" font-family="Outfit,sans-serif" font-size="10" font-weight="800">Welcome back, Amelia!</text>
+              <text x="22" y="70" fill="var(--t2)" font-family="Plus Jakarta Sans,sans-serif" font-size="7">Letter #4 logged</text>
+              <!-- Map area -->
+              <rect x="16" y="80" width="128" height="72" rx="8" fill="var(--cream)"/>
+              <circle cx="50" cy="110" r="4" fill="var(--red-o)"/>
+              <circle cx="80" cy="100" r="3" fill="var(--blue)" opacity=".5"/>
+              <circle cx="110" cy="116" r="3" fill="var(--gold)"/>
+              <path d="M50 110 Q65 95 80 100 Q95 105 110 116" stroke="var(--red-o)" stroke-width="1.5" stroke-dasharray="4 2" fill="none"/>
+              <text x="48" y="126" fill="var(--t2)" font-family="Plus Jakarta Sans,sans-serif" font-size="6">You are here</text>
+              <!-- Inventory section -->
+              <text x="22" y="170" fill="var(--t1)" font-family="Outfit,sans-serif" font-size="8" font-weight="700">INVENTORY</text>
+              <rect x="16" y="176" width="28" height="28" rx="6" fill="var(--gold)" opacity=".2"/><text x="30" y="194" text-anchor="middle" fill="var(--t1)" font-size="14">&#x1F9ED;</text>
+              <rect x="50" y="176" width="28" height="28" rx="6" fill="var(--blue)" opacity=".15"/><text x="64" y="194" text-anchor="middle" fill="var(--t1)" font-size="14">&#x1F4DC;</text>
+              <rect x="84" y="176" width="28" height="28" rx="6" fill="var(--red-o)" opacity=".15"/><text x="98" y="194" text-anchor="middle" fill="var(--t1)" font-size="14">&#x1F48E;</text>
+              <rect x="118" y="176" width="28" height="28" rx="6" fill="var(--cream)"/><text x="132" y="194" text-anchor="middle" fill="var(--t3)" font-size="12">+</text>
+              <!-- Choice section -->
+              <text x="22" y="224" fill="var(--t1)" font-family="Outfit,sans-serif" font-size="8" font-weight="700">WHAT DO YOU DO?</text>
+              <rect x="16" y="230" width="128" height="22" rx="6" fill="var(--red-o)" opacity=".1" stroke="var(--red-o)" stroke-width=".5"/>
+              <text x="80" y="244" text-anchor="middle" fill="var(--red-o)" font-family="Plus Jakarta Sans,sans-serif" font-size="7" font-weight="600">Follow the river north</text>
+              <rect x="16" y="256" width="128" height="22" rx="6" fill="var(--blue)" opacity=".08" stroke="var(--blue)" stroke-width=".5"/>
+              <text x="80" y="270" text-anchor="middle" fill="var(--blue)" font-family="Plus Jakarta Sans,sans-serif" font-size="7" font-weight="600">Search the old lighthouse</text>
+            </g>
+
+            <!-- Scan beam effect -->
+            <line x1="110" y1="365" x2="290" y2="310" stroke="var(--red-o)" stroke-width="1" opacity=".2"/>
+            <line x1="110" y1="405" x2="290" y2="460" stroke="var(--red-o)" stroke-width="1" opacity=".2"/>
+
+            <defs>
+              <filter id="letterShadow" x="-10" y="-5" width="370" height="470">
+                <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="rgba(26,26,46,.1)"/>
+              </filter>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ENVELOPE PATH ANIMATION ============ -->
+<div class="envelope-anim">
+  <svg viewBox="0 0 1200 160" preserveAspectRatio="xMidYMid meet" fill="none">
+    <path class="ea-path" d="M-40,100 C100,100 140,30 280,50 C420,70 400,130 520,90 C640,50 680,110 800,80 C920,50 960,30 1060,60 C1160,90 1200,50 1280,70"/>
+    <g class="ea-envelope">
+      <!-- envelope body -->
+      <rect x="-18" y="-13" width="36" height="26" rx="3" fill="var(--red-o)"/>
+      <!-- flap -->
+      <path d="M-18,-13 L0,3 L18,-13" fill="var(--red-o)" stroke="var(--cream)" stroke-width="1"/>
+      <!-- seal dot -->
+      <circle cx="0" cy="5" r="4" fill="var(--gold)" opacity=".8"/>
+      <text x="0" y="7.5" text-anchor="middle" fill="var(--t1)" font-size="5" font-weight="900" font-family="Outfit,sans-serif">&#9733;</text>
+    </g>
+  </svg>
+  <!-- Mobile: shorter simpler path -->
+  <svg class="ea-mob" viewBox="0 0 400 100" preserveAspectRatio="xMidYMid meet" fill="none" style="display:none">
+    <path class="ea-path" d="M-20,60 C60,60 80,20 160,35 C240,50 260,80 340,50 C380,35 420,50 440,40" stroke-width="3"/>
+    <g class="ea-envelope-mob">
+      <rect x="-14" y="-10" width="28" height="20" rx="3" fill="var(--red-o)"/>
+      <path d="M-14,-10 L0,2 L14,-10" fill="var(--red-o)" stroke="var(--cream)" stroke-width="1"/>
+      <circle cx="0" cy="3" r="3" fill="var(--gold)" opacity=".8"/>
+    </g>
+  </svg>
+</div>
+
+<!-- ============ STORY ============ -->
+<section class="section story-section">
+  <div class="floating-cloud fc-med" style="top:10%;left:65%"><svg width="110" height="48" viewBox="0 0 120 60"><ellipse cx="60" cy="40" rx="55" ry="20"/><ellipse cx="40" cy="28" rx="28" ry="16"/><ellipse cx="80" cy="26" rx="22" ry="14"/></svg></div>
+  <div class="section-doodle" style="position:absolute;bottom:12%;left:4%;opacity:.08;transform:rotate(25deg)">
+    <svg width="45" height="60" viewBox="0 0 45 60" fill="var(--blue)"><path d="M22.5 0C10 0 0 12 0 26c0 20 22.5 34 22.5 34S45 46 45 26C45 12 35 0 22.5 0z"/></svg>
+  </div>
+  <div class="wrap">
+    <div class="story-grid">
+      <div class="rv">
+        <div class="eyebrow">The mystery</div>
+        <h2 class="s-title" style="font-family:'Outfit',sans-serif">Pick a character.<br>Chase their <em>goal.</em></h2>
+        <p class="story-quote">Each of the Wandering Five is on a different quest. Your child picks one, and that character writes to them &mdash; personally.</p>
+        <p style="font-size:1rem;color:var(--t2);line-height:1.8;margin-bottom:1rem">Every month, a letter arrives with clues, an artefact to find, and a QR code. Scan it to log the letter, add items to their inventory, and make choices that shape the next chapter.</p>
+        <p style="font-size:1rem;color:var(--t2);line-height:1.8;margin-bottom:2.5rem">The map moves. The inventory grows. The story edges closer to its goal &mdash; and your child decides how they get there.</p>
+        <a href="story.html" class="btn btn-ghost">Read the full story</a>
+      </div>
+      <div class="story-polaroids rv d1">
+        <div class="spol spol-1">
+          <img src="polaroid-door.png" alt="Boy opening the door"/>
+        </div>
+        <div class="spol spol-2">
+          <img src="polaroid-envelope.png" alt="The adventure envelope"/>
+        </div>
+        <div class="spol spol-5">
+          <img src="polaroid-group.png" alt="The Wandering Five"/>
+        </div>
+        <div class="spol spol-3">
+          <img src="polaroid-letter.png" alt="Dear Adventurer letter"/>
+        </div>
+        <div class="spol spol-4">
+          <img src="polaroid-phone.png" alt="The portal app"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LIFESTYLE — characters lineup ============ -->
+<section class="lifestyle-full rv">
+  <img class="lifestyle-full-img" src="characters-lineup.png" alt="The Wandering Five characters"/>
+</section>
+
+<!-- ============ CHARACTERS ============ -->
+<section class="section chars-section">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:4rem" class="rv">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex">The story world</div>
+      <h2 class="mega-title" style="font-size:clamp(2.4rem,5vw,4.5rem)">Meet the Wandering <em>Five.</em></h2>
+      <p class="mega-sub">Five characters. Five different quests. Your child picks one &mdash; and that character writes to them every month.</p>
+    </div>
+    <div class="tt-strip">
+
+      <!-- ATLAS — The Explorer -->
+      <a class="tt-card tt-atlas rv" href="atlas.html">
+        <div class="tt-illus"><img src="character-2.png" alt="Atlas Wilde"/></div>
+        <div class="tt-info">
+          <div class="tt-role">The Explorer</div>
+          <div class="tt-name">Atlas Wilde</div>
+          <div class="tt-quest">Find the Lost Observatory</div>
+          <div class="tt-abilities">
+            <div class="tt-ability"><span>&#129517;</span> Master navigator</div>
+            <div class="tt-ability"><span>&#127758;</span> Map reader</div>
+            <div class="tt-ability"><span>&#9968;</span> Trail finder</div>
+          </div>
+          <div class="tt-cta">Find out more &rarr;</div>
+        </div>
+      </a>
+
+      <a class="tt-card tt-penny rv d1" href="penny.html">
+        <div class="tt-illus"><img src="character-3.png" alt="Penny Sparks"/></div>
+        <div class="tt-info">
+          <div class="tt-role">The Detective</div>
+          <div class="tt-name">Penny Sparks</div>
+          <div class="tt-quest">Crack the Cipher of Thornwood</div>
+          <div class="tt-abilities">
+            <div class="tt-ability"><span>&#128270;</span> Code breaker</div>
+            <div class="tt-ability"><span>&#128274;</span> Lock picker</div>
+            <div class="tt-ability"><span>&#128161;</span> Clue spotter</div>
+          </div>
+          <div class="tt-cta">Find out more &rarr;</div>
+        </div>
+      </a>
+
+      <a class="tt-card tt-milo rv d2" href="milo-character.html">
+        <div class="tt-illus"><img src="character-4.png" alt="Milo Gearhart"/></div>
+        <div class="tt-info">
+          <div class="tt-role">The Inventor</div>
+          <div class="tt-name">Milo Gearhart</div>
+          <div class="tt-quest">Rebuild the Skyward Machine</div>
+          <div class="tt-abilities">
+            <div class="tt-ability"><span>&#128295;</span> Gadget builder</div>
+            <div class="tt-ability"><span>&#9881;</span> Tinkerer</div>
+            <div class="tt-ability"><span>&#128302;</span> Crystal tuner</div>
+          </div>
+          <div class="tt-cta">Find out more &rarr;</div>
+        </div>
+      </a>
+
+      <a class="tt-card tt-zara rv d3" href="zara.html">
+        <div class="tt-illus"><img src="character-1.png" alt="Zara Wildheart"/></div>
+        <div class="tt-info">
+          <div class="tt-role">The Animal Rescuer</div>
+          <div class="tt-name">Zara Wildheart</div>
+          <div class="tt-quest">Free the Caged Firebird</div>
+          <div class="tt-abilities">
+            <div class="tt-ability"><span>&#128060;</span> Animal speaker</div>
+            <div class="tt-ability"><span>&#127811;</span> Plant tracker</div>
+            <div class="tt-ability"><span>&#129413;</span> Creature healer</div>
+          </div>
+          <div class="tt-cta">Find out more &rarr;</div>
+        </div>
+      </a>
+
+      <a class="tt-card tt-nova rv d4" href="nova.html">
+        <div class="tt-illus"><img src="character.png" alt="Nova Skye"/></div>
+        <div class="tt-info">
+          <div class="tt-role">The Space Explorer</div>
+          <div class="tt-name">Nova Skye</div>
+          <div class="tt-quest">Map the Starfall Caverns</div>
+          <div class="tt-abilities">
+            <div class="tt-ability"><span>&#127775;</span> Star reader</div>
+            <div class="tt-ability"><span>&#128640;</span> Zero-G agility</div>
+            <div class="tt-ability"><span>&#128752;</span> Signal decoder</div>
+          </div>
+          <div class="tt-cta">Find out more &rarr;</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ORANGE QUOTE BREAK ============ -->
+<section class="rv" style="position:relative;overflow:hidden;background:var(--gold);padding:clamp(5rem,12vw,10rem) 0;text-align:center">
+  <div class="floating-cloud fc-slow" style="position:absolute;top:12%;left:4%;opacity:.5"><svg width="120" height="55" viewBox="0 0 120 60"><ellipse cx="60" cy="40" rx="55" ry="20" fill="#fff"/><ellipse cx="40" cy="28" rx="30" ry="18" fill="#fff"/><ellipse cx="80" cy="26" rx="25" ry="16" fill="#fff"/></svg></div>
+  <div class="floating-cloud fc-med" style="position:absolute;top:55%;right:6%;opacity:.4"><svg width="90" height="40" viewBox="0 0 120 60"><ellipse cx="60" cy="40" rx="55" ry="20" fill="#fff"/><ellipse cx="40" cy="30" rx="28" ry="16" fill="#fff"/></svg></div>
+  <div class="floating-cloud fc-fast" style="position:absolute;bottom:18%;left:15%;opacity:.35"><svg width="70" height="32" viewBox="0 0 120 60"><ellipse cx="60" cy="40" rx="55" ry="20" fill="#fff"/><ellipse cx="80" cy="28" rx="25" ry="16" fill="#fff"/></svg></div>
+  <div class="wrap" style="position:relative;z-index:2">
+    <h2 style="font-family:'Outfit',sans-serif;font-size:clamp(2.6rem,7vw,6rem);font-weight:900;letter-spacing:-.04em;line-height:1.05;color:var(--t1);max-width:14ch;margin:0 auto 1.5rem;text-wrap:balance">They choose. The story <em style="font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:var(--red-o)">moves.</em></h2>
+    <p style="font-size:clamp(1rem,2vw,1.2rem);color:var(--t1);opacity:.6;max-width:40ch;margin:0 auto">Scan the QR code. Pick a path. Watch the map update. Their choices write the next chapter.</p>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="section" style="background:var(--white)">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:4rem" class="rv">
+      <h2 class="mega-title" style="font-size:clamp(2.4rem,6vw,5rem)">What makes this <em>different?</em></h2>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:4rem;max-width:800px;margin:0 auto">
+      <div style="display:flex;align-items:flex-start;gap:2.5rem" class="rv">
+        <div style="width:100px;height:100px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:2.8rem;box-shadow:0 8px 24px rgba(253,203,64,.2)">&#128221;</div>
+        <div>
+          <h3 style="font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:900;color:var(--t1);margin-bottom:.5rem">Every letter is crafted, not generated</h3>
+          <p style="font-size:1rem;color:var(--t2);line-height:1.72;max-width:42ch">Real writers build each letter around your child&rsquo;s name, choices, and character path. No templates. No AI filler. Every word is intentional.</p>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:flex-start;gap:2.5rem;flex-direction:row-reverse" class="rv d1">
+        <div style="width:100px;height:100px;border-radius:50%;background:rgba(51,102,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:2.8rem;box-shadow:0 8px 24px rgba(51,102,255,.1)">&#128172;</div>
+        <div style="text-align:right">
+          <h3 style="font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:900;color:var(--t1);margin-bottom:.5rem">Their choices steer the story</h3>
+          <p style="font-size:1rem;color:var(--t2);line-height:1.72;max-width:42ch;margin-left:auto">3&ndash;5 options every month on the portal. Pick left or right. Trust the stranger or run. Each choice changes the next letter they receive.</p>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:flex-start;gap:2.5rem" class="rv d2">
+        <div style="width:100px;height:100px;border-radius:50%;background:rgba(253,68,1,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:2.8rem;box-shadow:0 8px 24px rgba(253,68,1,.08)">&#129517;</div>
+        <div>
+          <h3 style="font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:900;color:var(--t1);margin-bottom:.5rem">Artefacts that build an inventory</h3>
+          <p style="font-size:1rem;color:var(--t2);line-height:1.72;max-width:42ch">Each letter sends them looking for something real. A pressed leaf, a compass piece, a coded message. Scan the QR code to add it to their portal inventory.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EDITORIAL BREAK ============ -->
+<section class="rv" style="background:var(--red-o);padding:clamp(4rem,10vw,8rem) 0;text-align:center;position:relative;overflow:hidden">
+  <div class="floating-cloud fc-slow" style="position:absolute;top:15%;left:5%;opacity:.15"><svg width="110" height="50" viewBox="0 0 120 60"><ellipse cx="60" cy="40" rx="55" ry="20" fill="#fff"/><ellipse cx="40" cy="28" rx="30" ry="18" fill="#fff"/><ellipse cx="80" cy="26" rx="25" ry="16" fill="#fff"/></svg></div>
+  <div class="floating-cloud fc-med" style="position:absolute;bottom:20%;right:8%;opacity:.1"><svg width="90" height="40" viewBox="0 0 120 60"><ellipse cx="60" cy="40" rx="55" ry="20" fill="#fff"/><ellipse cx="40" cy="30" rx="28" ry="16" fill="#fff"/></svg></div>
+  <div class="wrap" style="position:relative;z-index:2">
+    <h2 style="font-family:'Outfit',sans-serif;font-size:clamp(2.6rem,7vw,6rem);font-weight:900;letter-spacing:-.04em;line-height:1.05;color:#fff;max-width:16ch;margin:0 auto 1rem;text-wrap:balance">Start from <em style="font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:var(--gold)">&pound;7.99</em> a month.</h2>
+    <p style="font-size:clamp(1rem,2vw,1.2rem);color:rgba(255,255,255,.75);max-width:40ch;margin:0 auto">Cancel any time. First letter arrives in 5 days. Gift subscriptions from &pound;34.99.</p>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="section pricing-section">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:3.5rem" class="rv">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex">Pricing</div>
+      <h2 class="mega-title rv" style="font-size:clamp(2.4rem,5vw,4.5rem)">Choose your <em>mission.</em></h2>
+    </div>
+    <div class="pc-grid rv">
+      <div class="pc"><span class="pc-chip chip-dim">Standard</span><div class="pc-name">Explorer</div><div class="pc-desc">Full experience. No commitment.</div><div class="pc-price">&pound;7.99</div><div class="pc-per">per month</div><ul class="pc-feats"><li><div class="pfc pfc-t"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>Personalised adventure letter</li><li><div class="pfc pfc-t"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>Character postcard</li><li><div class="pfc pfc-t"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>1&ndash;2 story artefacts</li><li><div class="pfc pfc-t"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>QR portal &amp; inventory</li><li><div class="pfc pfc-t"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>Monthly choices that steer the story</li></ul><a href="signup.html" class="pc-cta cta-dim">Start now</a></div>
+      <div class="pc pc-star"><span class="pc-chip chip-pur">Most popular</span><div class="pc-name">Premium</div><div class="pc-desc">Everything, plus surprise extras.</div><div class="pc-price">&pound;12.99</div><div class="pc-per">per month</div><ul class="pc-feats"><li><div class="pfc pfc-p"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>Everything in Explorer</li><li><div class="pfc pfc-p"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>Extra adventure items</li><li><div class="pfc pfc-p"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>Bonus puzzles</li><li><div class="pfc pfc-p"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>Occasional surprise gifts</li><li><div class="pfc pfc-p"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>Priority reply processing</li></ul><a href="signup.html" class="pc-cta cta-pur">Start now</a></div>
+      <div class="pc"><span class="pc-chip chip-dim">Annual</span><div class="pc-name">Champion</div><div class="pc-desc">12 months. Save &pound;60.</div><div class="pc-price">&pound;7.99</div><div class="pc-per">per month &mdash; billed &pound;95.88</div><ul class="pc-feats"><li><div class="pfc pfc-t"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>Everything in Premium</li><li><div class="pfc pfc-t"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>Welcome kit first</li><li><div class="pfc pfc-t"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>Chapter-end stickers</li><li><div class="pfc pfc-t"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>Save &pound;60 vs monthly</li></ul><a href="signup.html" class="pc-cta cta-dim">Best value</a></div>
+      <div class="pc"><span class="pc-chip chip-teal">Gift</span><div class="pc-name">Gift</div><div class="pc-desc">Birthdays, Christmas, any occasion.</div><div class="pc-price" style="font-size:1.6rem;line-height:1.3">From<br><span style="font-size:2.6rem">&pound;34.99</span></div><div class="pc-per">3 months &mdash; no auto-renewal</div><ul class="pc-feats"><li><div class="pfc pfc-t"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>Gift card in first pack</li><li><div class="pfc pfc-t"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>Choose start date</li><li><div class="pfc pfc-t"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>Full personalisation</li></ul><a href="gift.html" class="pc-cta cta-teal">Give the gift</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS — horizontal ============ -->
+<section class="test-section">
+  <div class="wrap">
+    <div class="eyebrow rv">What parents say</div>
+    <h2 class="s-title rv" style="font-family:'Outfit',sans-serif;margin-bottom:2rem">Letters that actually get <em>read.</em></h2>
+    <div class="test-scroll">
+      <article class="tc"><div class="tc-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><blockquote class="tc-q">&ldquo;My son missed football practice to finish his reply letter. 45 minutes. That has never happened.&rdquo;</blockquote><div class="tc-au"><div class="tc-av" style="background:#a04080">SR</div><div><div class="tc-name">Sarah R.</div><div class="tc-info">Mum of Theo, 7 &mdash; Leeds</div></div></div></article>
+      <article class="tc"><div class="tc-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><blockquote class="tc-q">&ldquo;She was speechless when the second letter mentioned her drawing. 'Mummy, they READ it.'&rdquo;</blockquote><div class="tc-au"><div class="tc-av" style="background:#304090">MK</div><div><div class="tc-name">Meera K.</div><div class="tc-info">Mum of Priya, 8 &mdash; Birmingham</div></div></div></article>
+      <article class="tc"><div class="tc-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><blockquote class="tc-q">&ldquo;First subscription where he puts his phone down and opens it slowly &mdash; like it actually matters.&rdquo;</blockquote><div class="tc-au"><div class="tc-av" style="background:#308050">JT</div><div><div class="tc-name">James T.</div><div class="tc-info">Dad of Archie, 9 &mdash; Manchester</div></div></div></article>
+      <article class="tc"><div class="tc-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><blockquote class="tc-q">&ldquo;The personalisation is unreal. His name, his city, his drawing from last month &mdash; all in the letter.&rdquo;</blockquote><div class="tc-au"><div class="tc-av" style="background:#805030">PH</div><div><div class="tc-name">Paul H.</div><div class="tc-info">Dad of Emily, 6 &mdash; Bristol</div></div></div></article>
+      <article class="tc"><div class="tc-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><blockquote class="tc-q">&ldquo;She asks every single day if the letter has come yet. The excitement is real.&rdquo;</blockquote><div class="tc-au"><div class="tc-av" style="background:#206090">LC</div><div><div class="tc-name">Laura C.</div><div class="tc-info">Mum of Isla, 7 &mdash; Edinburgh</div></div></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final-cta">
+  <div class="floating-cloud fc-slow" style="top:15%;left:10%"><svg width="140" height="55" viewBox="0 0 140 70"><ellipse cx="70" cy="48" rx="65" ry="22"/><ellipse cx="45" cy="32" rx="32" ry="18"/><ellipse cx="95" cy="30" rx="26" ry="16"/></svg></div>
+  <div class="floating-cloud fc-med" style="bottom:20%;right:5%"><svg width="100" height="45" viewBox="0 0 120 60"><ellipse cx="60" cy="40" rx="55" ry="20"/><ellipse cx="40" cy="28" rx="28" ry="16"/><ellipse cx="80" cy="26" rx="22" ry="14"/></svg></div>
+  <div class="section-doodle" style="position:absolute;top:25%;right:12%;opacity:.1;transform:rotate(-10deg)">
+    <svg width="70" height="70" viewBox="0 0 70 70" fill="var(--red-o)"><path d="M35 62s-26-16-26-33a16 16 0 0 1 26-14 16 16 0 0 1 26 14c0 17-26 33-26 33z"/></svg>
+  </div>
+  <div class="section-doodle" style="position:absolute;bottom:15%;left:8%;opacity:.08;transform:rotate(20deg)">
+    <svg width="55" height="55" viewBox="0 0 55 55" fill="var(--t1)"><circle cx="27.5" cy="27.5" r="22"/><path d="M27.5 5.5v44M5.5 27.5h44" fill="var(--gold)"/><path d="M27.5 10l3 7h7l-5.5 4 2 7-6.5-5-6.5 5 2-7L17.5 17h7z" fill="var(--cream)"/></svg>
+  </div>
+  <div class="cta-inner rv">
+    <h2 class="mega-title" style="color:var(--t1)">Join the <em>adventure.</em></h2>
+    <p style="font-size:1.05rem;color:var(--t2);line-height:1.72;max-width:44ch;margin:0 auto 2.75rem">Pick a character. Get the first letter. Scan the code, make a choice, and watch the map start moving.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.75rem">
+      <a href="signup.html" class="btn btn-pur btn-lg">Start now</a>
+      <a href="characters.html" class="btn btn-ghost btn-lg">Meet the team</a>
+    </div>
+    <p style="font-size:.8rem;color:var(--t3);margin-top:.875rem">Cancel any time &bull; First letter in 5 days &bull; Gift subscriptions available</p>
+  </div>
+</section>
+</div><!-- /.page-content -->
+</main>
+
+<footer class="site-footer">
+  <!-- gold envelope flap at top -->
+  <div class="footer-flap"></div>
+  <!-- stamp decoration -->
+  <div style="position:absolute;top:7rem;right:3rem;width:70px;height:85px;background:var(--white);transform:rotate(3deg);border-radius:2px;box-shadow:0 4px 16px rgba(26,26,46,.08);display:flex;align-items:center;justify-content:center;z-index:3;-webkit-mask-image:radial-gradient(circle 2.5px at 2.5px 0,transparent 2.5px,#000 3px),radial-gradient(circle 2.5px at 2.5px 0,transparent 2.5px,#000 3px),radial-gradient(circle 2.5px at 0 2.5px,transparent 2.5px,#000 3px),radial-gradient(circle 2.5px at 0 2.5px,transparent 2.5px,#000 3px),linear-gradient(#000,#000);-webkit-mask-size:5px 5px,5px 5px,5px 5px,5px 5px,calc(100% - 5px) calc(100% - 5px);-webkit-mask-position:top left,bottom left,top left,top right,2.5px 2.5px;-webkit-mask-repeat:repeat-x,repeat-x,repeat-y,repeat-y,no-repeat">
+    <svg viewBox="0 0 40 48" width="36" fill="none"><circle cx="20" cy="20" r="14" fill="var(--red-o)" opacity=".8"/><circle cx="20" cy="20" r="3" fill="#fff"/><path d="M20 6v6M20 28v6M6 20h6M28 20h6" stroke="var(--t1)" stroke-width="1.5" stroke-linecap="round"/><text x="20" y="44" text-anchor="middle" fill="var(--t1)" font-family="Outfit,sans-serif" font-size="6" font-weight="700">2026</text></svg>
+  </div>
+  <div class="footer-inner wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="margin-bottom:1.25rem;display:inline-flex">
+          <div class="nav-gem"><svg viewBox="0 0 20 20" fill="none"><path d="M10 2l1.8 5.2H18l-5 3.6 1.9 5.8L10 13.2 5.1 17l1.9-5.8L2 7.2h5.2z" fill="#1A1A2E"/></svg></div>
+          <span class="nav-wordmark" style="margin-left:.6rem">Adventure <em>Mail</em> Club</span>
+        </a>
+        <p>Personalised adventure letters for children aged 5&ndash;10. Monthly missions. Write back. Shape the story.</p>
+      </div>
+      <div class="footer-col"><h4>Product</h4><ul><li><a href="how-it-works.html">How it works</a></li><li><a href="story.html">The story</a></li><li><a href="characters.html">Characters</a></li><li><a href="inside-the-pack.html">Inside the pack</a></li><li><a href="personalisation.html">Personalisation</a></li></ul></div>
+      <div class="footer-col"><h4>Subscribe</h4><ul><li><a href="pricing.html">Pricing</a></li><li><a href="gift.html">Gift subscriptions</a></li><li><a href="schools.html">Schools</a></li><li><a href="reviews.html">Reviews</a></li><li><a href="faq.html">FAQ</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About us</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li><li><a href="referral.html">Refer a friend</a></li><li><a href="affiliate.html">Affiliates</a></li></ul></div>
+      <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html">Privacy policy</a></li><li><a href="terms.html">Terms</a></li><li><a href="cookies.html">Cookies</a></li><li><a href="returns.html">Returns</a></li><li><a href="help.html">Help centre</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Adventure Mail Club Ltd. All rights reserved.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        <a href="#" aria-label="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Loading screen — words animate in, then loader slides up to reveal hero
+  var loader=document.getElementById('loader');
+  if(loader){
+    document.body.style.overflow='hidden';
+    setTimeout(function(){
+      loader.classList.add('done');
+      document.body.style.overflow='';
+    },2000);
+    // Remove from DOM after transition
+    setTimeout(function(){
+      loader.remove();
+    },3000);
+  }
+
+  // Hero CTA — smooth scroll to cards section
+  var heroCta=document.getElementById('hero-cta');
+  if(heroCta){
+    heroCta.addEventListener('click',function(){
+      var cards=document.getElementById('next-section');
+      if(!cards) return;
+      document.documentElement.style.scrollBehavior='auto';
+      var target=cards.getBoundingClientRect().top + window.scrollY;
+      var start=window.scrollY;
+      var dist=target-start;
+      if(dist<=0) return;
+      var duration=1200;
+      var t0=null;
+      function step(ts){
+        if(!t0) t0=ts;
+        var p=Math.min((ts-t0)/duration,1);
+        var ease=1-Math.pow(1-p,3);
+        window.scrollTo(0,start+dist*ease);
+        if(p<1) requestAnimationFrame(step);
+        else document.documentElement.style.scrollBehavior='';
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  // Nav — hide on scroll down, show on scroll up
+  var nav=document.getElementById('nav');
+  if(nav){
+    var lastScroll=0;
+    nav.style.transition='transform .5s cubic-bezier(.22,1,.36,1), opacity .3s';
+    window.addEventListener('scroll',function(){
+      var y=window.scrollY;
+      if(y>100 && y>lastScroll){
+        nav.style.transform='translateY(-120%)';
+        nav.style.opacity='0';
+      }else{
+        nav.style.transform='';
+        nav.style.opacity='';
+        nav.classList.toggle('scrolled',y>50);
+      }
+      lastScroll=y;
+    },{passive:true});
+  }
+
+  // Parallax on lifestyle-full images
+  var pxImgs=document.querySelectorAll('.lifestyle-full-img');
+  if(pxImgs.length){
+    window.addEventListener('scroll',function(){
+      pxImgs.forEach(function(img){
+        var rect=img.getBoundingClientRect();
+        var winH=window.innerHeight;
+        if(rect.top<winH && rect.bottom>0){
+          var pct=(winH-rect.top)/(winH+rect.height);
+          img.style.objectPosition='center '+(40+pct*40)+'%';
+        }
+      });
+    },{passive:true});
+  }
+
+  // Scroll reveal
+  // Store stat bar target widths then zero them
+  document.querySelectorAll('.tt-fill').forEach(function(bar){
+    bar.dataset.tw=bar.style.width;
+    bar.style.width='0';
+  });
+  var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');x.target.querySelectorAll('.tt-fill').forEach(function(b,i){setTimeout(function(){b.style.width=b.dataset.tw;},i*80);});obs.unobserve(x.target);}});},{threshold:.08});
+  document.querySelectorAll('.rv').forEach(function(el){obs.observe(el);});
+
+  // Word-by-word reveal for editorial titles
+  document.querySelectorAll('.ed-title').forEach(function(title){
+    var html=title.innerHTML;
+    title.innerHTML=html.replace(/(\S+)/g,'<span class="wr-word" style="display:inline-block;opacity:0;transform:translateY(100%) scaleY(0);transform-origin:bottom center;transition:opacity .5s,transform .7s cubic-bezier(.34,1.56,.64,1)">$1</span>');
+    title.querySelectorAll('.wr-word').forEach(function(w,i){
+      w.style.transitionDelay=(i*0.08)+'s';
+    });
+  });
+  // observe editorial breaks for word reveal
+  var wrObs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.querySelectorAll('.wr-word').forEach(function(w){
+          w.style.opacity='1';
+          w.style.transform='translateY(0) scaleY(1)';
+        });
+        wrObs.unobserve(e.target);
+      }
+    });
+  },{threshold:.3});
+  document.querySelectorAll('.editorial-break,.portal-showcase').forEach(function(el){wrObs.observe(el);});
+
+  // Magnetic buttons
+  document.querySelectorAll('.btn-pur,.btn-gold').forEach(function(btn){
+    btn.addEventListener('mousemove',function(e){var r=btn.getBoundingClientRect();btn.style.transform='translate('+((e.clientX-r.left-r.width/2)*.12)+'px,'+((e.clientY-r.top-r.height/2)*.12)+'px) translateY(-3px) scale(1.02)';});
+    btn.addEventListener('mouseleave',function(){btn.style.transform='';});
+  });
+
+  // Scroll-driven card reveal — top card rotates away, doodles ping on active card
+  var cardSection=document.getElementById('cards-section');
+  var cardStack=document.getElementById('env-base');
+  if(cardSection&&cardStack){
+    var cards=cardStack.querySelectorAll('.env-card');
+    var N=cards.length;
+    var dismissAngles=[-18,15,-20,12];
+    var dismissX=[-110,100,-95,85];
+    var lastActive=-1;
+    function updateCards(){
+      var rect=cardSection.getBoundingClientRect();
+      var sectionH=cardSection.offsetHeight;
+      var scrolled=-rect.top;
+      var progress=Math.max(0,Math.min(1,scrolled/(sectionH-window.innerHeight)));
+      var transitions=N-1;
+      var sliceSize=1/transitions;
+      // determine which card is currently on top (active)
+      var activeIdx=Math.min(transitions,Math.floor(progress*transitions));
+      if(progress>=1) activeIdx=transitions;
+      for(var i=0;i<N;i++){
+        // toggle active class for doodle animations
+        if(i===activeIdx){
+          if(!cards[i].classList.contains('active')) cards[i].classList.add('active');
+        }else{
+          cards[i].classList.remove('active');
+        }
+
+        if(i<transitions){
+          var dismissStart=i*sliceSize;
+          var dismissEnd=dismissStart+sliceSize;
+          if(progress<=dismissStart){
+            cards[i].style.opacity='1';
+            cards[i].style.transform='rotate(0deg) translateX(0%) translateY(0px) scale(1)';
+          }else if(progress>=dismissEnd){
+            cards[i].style.opacity='0';
+            cards[i].style.transform='rotate('+dismissAngles[i]+'deg) translateX('+dismissX[i]+'%) translateY(-40px) scale(0.88)';
+          }else{
+            var t=(progress-dismissStart)/sliceSize;
+            t=t*t*(3-2*t);
+            var rot=dismissAngles[i]*t;
+            var tx=dismissX[i]*t;
+            var ty=-40*t;
+            var sc=1-0.12*t;
+            var op=1-t*0.6;
+            if(t>0.8) op=Math.max(0,(1-t)/0.2);
+            cards[i].style.opacity=Math.max(0,op);
+            cards[i].style.transform='rotate('+rot+'deg) translateX('+tx+'%) translateY('+ty+'px) scale('+sc+')';
+          }
+        }else{
+          cards[i].style.opacity='1';
+          cards[i].style.transform='rotate(0deg) translateX(0%) translateY(0px) scale(1)';
+        }
+      }
+      requestAnimationFrame(updateCards);
+    }
+    requestAnimationFrame(updateCards);
+  }
+
+  // FAQ
+  document.querySelectorAll('.faq-q').forEach(function(q){
+    q.addEventListener('click',function(){var it=q.closest('.faq-item'),was=it.classList.contains('open');document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');});if(!was)it.classList.add('open');});
+  });
+
+  // Personalisation highlights
+  var fgroups=[['ft1','ft3'],['ft2','ft4'],['ft5']];var fi=0;
+  function cycleFt(){fgroups.forEach(function(g){g.forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove('lit');});});fgroups[fi%fgroups.length].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.add('lit');});fi++;}
+  if(document.getElementById('ft1')){cycleFt();setInterval(cycleFt,1900);}
+})();
+</script>
+</body>
+</html>

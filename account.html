@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Account Settings — Adventure Mail Club</title>
+<meta name="description" content="Manage your Adventure Mail Club account, subscription and delivery details."/>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+/* ============ ACCOUNT NAV ============ */
+.acct-nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,248,238,.92);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  height:var(--nav-h);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;
+}
+.acct-nav-logo{display:flex;align-items:center;gap:.5rem;text-decoration:none;color:var(--t1)}
+.acct-nav-gem{
+  width:32px;height:32px;border-radius:8px;
+  background:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(253,203,64,.3);
+}
+.acct-nav-gem svg{width:16px;height:16px}
+.acct-nav-word{
+  font-family:'Outfit',sans-serif;font-size:.92rem;font-weight:800;letter-spacing:-.02em;
+}
+.acct-nav-word em{font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:var(--red-o)}
+.acct-back{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;font-weight:600;
+  color:var(--t3);text-decoration:none;display:flex;align-items:center;gap:.4rem;
+  transition:color .2s;
+}
+.acct-back:hover{color:var(--red-o)}
+.acct-back svg{width:16px;height:16px}
+
+/* ============ HERO ============ */
+.acct-hero{
+  background:var(--gold);
+  padding:3.5rem 0 4.5rem;
+  position:relative;overflow:hidden;
+}
+.acct-hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:10vh;background:var(--cream);
+  clip-path:polygon(0 100%,0 0,50% 100%,100% 0,100% 100%);
+  z-index:2;pointer-events:none;
+}
+.acct-hero .wrap{position:relative;z-index:3}
+.acct-hero-title{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:clamp(2rem,4vw,3.2rem);
+  font-weight:800;letter-spacing:-.04em;line-height:1.05;
+  color:var(--t1);
+}
+.acct-hero-title em{
+  font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:var(--red-o);
+}
+
+/* ============ TWO-COL LAYOUT ============ */
+.acct-body{padding:3rem 0 6rem;background:var(--cream)}
+.acct-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start;
+}
+
+/* ============ FORM STYLES ============ */
+.acct-card{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  padding:2rem;
+  box-shadow:var(--sh-sm);
+}
+.acct-card + .acct-card{margin-top:1.5rem}
+.acct-card-title{
+  font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:800;
+  letter-spacing:-.02em;color:var(--t1);margin-bottom:1.5rem;
+  display:flex;align-items:center;gap:.5rem;
+}
+.acct-card-title svg{flex-shrink:0;color:var(--red-o)}
+
+.form-row{margin-bottom:1.25rem}
+.form-row:last-child{margin-bottom:0}
+.form-label{
+  display:block;font-size:.78rem;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;
+  color:var(--t3);margin-bottom:.4rem;
+}
+.form-input{
+  width:100%;padding:.75rem 1rem;
+  background:var(--white);color:var(--t1);
+  border:1.5px solid var(--border-hi);
+  border-radius:var(--r-sm);
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:.92rem;
+  transition:border-color .2s,box-shadow .2s;
+  outline:none;
+}
+.form-input:focus{
+  border-color:var(--red-o);
+  box-shadow:0 0 0 3px rgba(253,68,1,.1);
+}
+.form-input::placeholder{color:var(--t4)}
+textarea.form-input{resize:vertical;min-height:80px}
+.form-hint{font-size:.72rem;color:var(--t3);margin-top:.3rem}
+.form-row-inline{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+
+.form-actions{margin-top:1.5rem;display:flex;gap:.75rem;flex-wrap:wrap}
+
+/* ============ SUBSCRIPTION CARD ============ */
+.sub-card{
+  background:linear-gradient(135deg,rgba(253,203,64,.12),rgba(253,68,1,.06));
+  border:1.5px solid rgba(253,203,64,.3);
+  border-radius:var(--r-lg);
+  padding:2rem;
+  margin-bottom:1.5rem;
+}
+.sub-plan{
+  font-family:'Outfit',sans-serif;font-size:1.15rem;font-weight:900;
+  color:var(--t1);margin-bottom:.25rem;
+}
+.sub-price{
+  font-family:'DM Serif Display',serif;font-size:2rem;
+  color:var(--t1);line-height:1;margin-bottom:.5rem;
+}
+.sub-price span{font-size:.92rem;color:var(--t3);font-family:'Plus Jakarta Sans',sans-serif}
+.sub-meta{font-size:.82rem;color:var(--t2);line-height:1.6}
+.sub-meta strong{color:var(--t1)}
+.sub-actions{display:flex;gap:.75rem;margin-top:1.5rem;flex-wrap:wrap}
+
+/* ============ TOGGLE SWITCH ============ */
+.toggle-group{margin-bottom:1.25rem}
+.toggle-group:last-child{margin-bottom:0}
+.toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.85rem 0;border-bottom:1px solid var(--border);
+}
+.toggle-row:last-child{border-bottom:none}
+.toggle-info{flex:1;margin-right:1rem}
+.toggle-label{font-size:.9rem;font-weight:600;color:var(--t1)}
+.toggle-desc{font-size:.75rem;color:var(--t3);margin-top:.15rem}
+
+.toggle-switch{
+  position:relative;width:44px;height:24px;flex-shrink:0;
+}
+.toggle-switch input{opacity:0;width:0;height:0;position:absolute}
+.toggle-track{
+  position:absolute;inset:0;
+  background:var(--border-hi);
+  border-radius:var(--r-pill);
+  cursor:pointer;
+  transition:background .25s;
+}
+.toggle-track::after{
+  content:'';position:absolute;
+  top:3px;left:3px;width:18px;height:18px;
+  background:#fff;border-radius:50%;
+  box-shadow:0 1px 4px rgba(0,0,0,.15);
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1);
+}
+.toggle-switch input:checked + .toggle-track{background:var(--gold)}
+.toggle-switch input:checked + .toggle-track::after{transform:translateX(20px)}
+.toggle-switch input:focus-visible + .toggle-track{box-shadow:0 0 0 3px rgba(253,203,64,.3)}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:820px){
+  .acct-grid{grid-template-columns:1fr}
+  .form-row-inline{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .acct-nav{padding:0 1rem}
+  .acct-hero{padding:2.5rem 0 3.5rem}
+  .acct-card{padding:1.5rem}
+  .sub-card{padding:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="acct-nav">
+  <a href="index.html" class="acct-nav-logo">
+    <div class="acct-nav-gem"><svg viewBox="0 0 20 20" fill="none"><path d="M10 2l1.8 5.2H18l-5 3.6 1.9 5.8L10 13.2 5.1 17l1.9-5.8L2 7.2h5.2z" fill="#fff"/></svg></div>
+    <span class="acct-nav-word">Adventure <em>Mail</em> Club</span>
+  </a>
+  <a href="portal.html" class="acct-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    Back to portal
+  </a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="acct-hero">
+  <div class="wrap">
+    <h1 class="acct-hero-title rv">Your <em>account.</em></h1>
+  </div>
+</section>
+
+<!-- ============ BODY ============ -->
+<section class="acct-body">
+  <div class="wrap">
+    <div class="acct-grid">
+
+      <!-- LEFT COLUMN -->
+      <div>
+        <!-- Child's Profile -->
+        <div class="acct-card rv">
+          <h2 class="acct-card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            Child's profile
+          </h2>
+          <form>
+            <div class="form-row">
+              <label class="form-label" for="child-name">First name</label>
+              <input class="form-input" type="text" id="child-name" placeholder="e.g. Ella" value="Ella"/>
+            </div>
+            <div class="form-row-inline form-row">
+              <div>
+                <label class="form-label" for="child-age">Age</label>
+                <input class="form-input" type="number" id="child-age" placeholder="7" value="7" min="4" max="12"/>
+              </div>
+              <div>
+                <label class="form-label" for="child-city">City / Town</label>
+                <input class="form-input" type="text" id="child-city" placeholder="e.g. Edinburgh" value="Edinburgh"/>
+              </div>
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="child-interests">Interests</label>
+              <textarea class="form-input" id="child-interests" placeholder="Dinosaurs, space, baking...">Dinosaurs, drawing, climbing trees</textarea>
+              <p class="form-hint">We use these to personalise each letter.</p>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-pur btn-sm">Save profile</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Delivery Address -->
+        <div class="acct-card rv d1">
+          <h2 class="acct-card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><path d="M9 22V12h6v10"/></svg>
+            Delivery address
+          </h2>
+          <form>
+            <div class="form-row">
+              <label class="form-label" for="addr-line1">Address line 1</label>
+              <input class="form-input" type="text" id="addr-line1" placeholder="12 Thistle Lane" value="12 Thistle Lane"/>
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="addr-line2">Address line 2 (optional)</label>
+              <input class="form-input" type="text" id="addr-line2" placeholder="Flat 3"/>
+            </div>
+            <div class="form-row-inline form-row">
+              <div>
+                <label class="form-label" for="addr-city">City</label>
+                <input class="form-input" type="text" id="addr-city" placeholder="Edinburgh" value="Edinburgh"/>
+              </div>
+              <div>
+                <label class="form-label" for="addr-postcode">Postcode</label>
+                <input class="form-input" type="text" id="addr-postcode" placeholder="EH1 1AA" value="EH1 2AB"/>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-pur btn-sm">Update address</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div>
+        <!-- Subscription Info -->
+        <div class="sub-card rv">
+          <p class="sub-plan">Premium Plan</p>
+          <p class="sub-price">&pound;12.99 <span>/month</span></p>
+          <p class="sub-meta">Next billing date: <strong>1 May 2026</strong></p>
+          <p class="sub-meta">Member since: <strong>October 2025</strong></p>
+          <div class="sub-actions">
+            <a href="#" class="btn btn-ghost btn-sm">Change plan</a>
+            <a href="#" class="btn btn-ghost btn-sm">Pause subscription</a>
+          </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="acct-card rv d1">
+          <h2 class="acct-card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Notifications
+          </h2>
+          <div class="toggle-group">
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <p class="toggle-label">New letter alerts</p>
+                <p class="toggle-desc">Email when a new adventure letter is on the way.</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked/>
+                <span class="toggle-track"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <p class="toggle-label">Story updates</p>
+                <p class="toggle-desc">Get notified when new chapters are unlocked.</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked/>
+                <span class="toggle-track"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <p class="toggle-label">Offers and news</p>
+                <p class="toggle-desc">Occasional deals, gift ideas and club news.</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox"/>
+                <span class="toggle-track"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <p class="toggle-label">Delivery tracking</p>
+                <p class="toggle-desc">SMS or email updates on pack delivery.</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked/>
+                <span class="toggle-track"></span>
+              </label>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-pur btn-sm">Save preferences</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="margin-bottom:1.25rem;display:inline-flex">
+          <div class="nav-gem"><svg viewBox="0 0 20 20" fill="none"><path d="M10 2l1.8 5.2H18l-5 3.6 1.9 5.8L10 13.2 5.1 17l1.9-5.8L2 7.2h5.2z" fill="#fff"/></svg></div>
+          <span class="nav-wordmark" style="margin-left:.6rem">Adventure <em>Mail</em> Club</span>
+        </a>
+        <p>Personalised adventure letters for children aged 5&ndash;10. Monthly missions. Write back. Shape the story.</p>
+      </div>
+      <div class="footer-col"><h4>Product</h4><ul>
+        <li><a href="how-it-works.html">How it works</a></li><li><a href="story.html">The story</a></li>
+        <li><a href="characters.html">Characters</a></li><li><a href="inside-the-pack.html">Inside the pack</a></li>
+        <li><a href="personalisation.html">Personalisation</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Subscribe</h4><ul>
+        <li><a href="pricing.html">Pricing</a></li><li><a href="gift.html">Gift subscriptions</a></li>
+        <li><a href="schools.html">Schools</a></li><li><a href="reviews.html">Reviews</a></li><li><a href="faq.html">FAQ</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Company</h4><ul>
+        <li><a href="about.html">About us</a></li><li><a href="blog.html">Blog</a></li>
+        <li><a href="contact.html">Contact</a></li><li><a href="referral.html">Refer a friend</a></li><li><a href="affiliate.html">Affiliates</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Legal</h4><ul>
+        <li><a href="privacy.html">Privacy policy</a></li><li><a href="terms.html">Terms</a></li>
+        <li><a href="cookies.html">Cookies</a></li><li><a href="returns.html">Returns</a></li><li><a href="help.html">Help centre</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Adventure Mail Club Ltd. All rights reserved.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        <a href="#" aria-label="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ SCRIPTS ============ -->
+<script>
+// Scroll reveal
+var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');obs.unobserve(x.target);}});},{threshold:.08});
+document.querySelectorAll('.rv').forEach(function(el){obs.observe(el);});
+</script>
+</body>
+</html>
