@@ -59,8 +59,10 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 1.5rem)}
 
 @media(max-width:768px){
   .pn-home,.pn-name,.pn-rank{display:none}
+  .pn-xp{display:none}
   .portal-nav{padding:0 1rem}
   .pn-user{gap:.5rem}
+  .pn-word{font-size:.85rem}
   .section-pills{display:flex}
   html{scroll-padding-top:calc(var(--nav-h) + 3.5rem)}
 }
@@ -338,22 +340,23 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 1.5rem)}
   .inv-grid{grid-template-columns:1fr 1fr}
   .ach-grid{grid-template-columns:1fr 1fr}
   .pn-links{display:none}
-  /* Hero — character prominent, centered */
-  .portal-hero{padding:2rem 0 3.5rem;min-height:auto;text-align:center}
-  .portal-hero .wrap{padding:0 1.25rem;max-width:100%}
-  .ph-text{max-width:100%;text-align:center}
-  .ph-chapter{font-size:clamp(1.8rem,7vw,2.4rem)!important;margin-bottom:.25rem;text-align:center}
-  .ph-sub{font-size:.85rem;margin-bottom:1.25rem;text-align:center;margin-left:auto;margin-right:auto}
-  .ph-character{position:relative;right:auto;top:auto;bottom:auto;width:40%;max-width:180px;margin:0 auto 1rem;overflow:visible}
+  /* Hero — text top full width, stats + character side by side */
+  .portal-hero{padding:1.5rem 0 2.5rem;min-height:auto;overflow:hidden}
+  .portal-hero .wrap{padding:0 1.25rem;max-width:100%;display:flex;flex-wrap:wrap}
+  .ph-text{width:100%;text-align:left;order:1}
+  .ph-chapter{font-size:clamp(1.6rem,6vw,2rem)!important;margin-bottom:.2rem;text-align:left}
+  .ph-sub{font-size:.8rem;margin-bottom:1rem;text-align:left;max-width:none}
+  /* Stats left, character right */
+  .ph-stats{order:2;grid-template-columns:repeat(2,1fr)!important;gap:.4rem!important;width:55%;align-self:flex-start}
+  .ph-stat{padding:.6rem .5rem!important;text-align:center}
+  .ph-stat-n{font-size:1.2rem!important}
+  .ph-stat-l{font-size:.48rem!important}
+  .ph-character{order:3;position:relative!important;right:auto!important;top:auto!important;bottom:auto!important;width:40%!important;max-width:none!important;margin:0!important;overflow:visible;align-self:flex-end;margin-top:-2rem!important}
   .ph-character img{width:100%;height:auto;object-fit:contain;mix-blend-mode:normal}
-  .ph-char-label{position:relative;bottom:auto;left:auto;transform:none;margin-top:.5rem;text-align:center;display:block;font-size:.7rem;padding:.4rem .8rem}
-  .ph-stats{gap:.5rem!important;grid-template-columns:repeat(2,1fr)!important}
-  .ph-stat{padding:.75rem .6rem!important;text-align:center}
-  .ph-stat-n{font-size:1.5rem!important}
-  .ph-stat-l{font-size:.55rem!important}
-  .ph-progress{display:none}
+  .ph-char-label{position:relative;bottom:auto;left:auto;transform:none;margin-top:.25rem;text-align:center;display:block;font-size:.58rem;padding:.25rem .5rem;white-space:nowrap}
+  .ph-progress{display:none;order:4}
   .portal-stamp{display:none!important}
-  .portal-hero::after{height:6vh}
+  .portal-hero::after{height:5vh}
   /* Letter — horizontal scroll like a book */
   .letter-section{padding:2.5rem 0!important}
   .letter-header{margin-bottom:1.5rem!important}

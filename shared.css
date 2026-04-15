@@ -49,7 +49,7 @@
 }
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:16px;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth;font-size:16px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body{
   font-family:'Plus Jakarta Sans',sans-serif;
   background:var(--cream);
@@ -869,7 +869,7 @@ body.menu-open{overflow:hidden}
   .nav-links{display:none!important}
   .nav-right{display:none!important}
   .burger{display:flex!important}
-  .site-nav{padding:.5rem 1rem}
+  .site-nav{padding:.5rem 1rem;left:0;right:0;transform:none;width:calc(100% - 1.5rem);margin:0 auto}
 }
 
 @media(max-width:480px){
