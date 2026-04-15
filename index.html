@@ -847,7 +847,7 @@ body.menu-open{overflow:hidden}
   .card-doodle svg{transform:scale(.7)}
   /* big title */
   .big-title-section{padding:5rem 0 3rem}
-  .mega-title{font-size:clamp(2rem,7vw,3.5rem)!important}
+  .mega-title{font-size:clamp(2.4rem,8vw,4rem)!important}
   .mega-sub{font-size:1rem}
   /* how section */
   .how-num{font-size:3rem}
@@ -885,16 +885,27 @@ body.menu-open{overflow:hidden}
   .wb-section [style*="row-reverse"] > div:first-child p{margin-left:auto!important;margin-right:auto!important}
   .wb-section [style*="width:100px"]{width:80px!important;height:80px!important;font-size:2.2rem!important}
   /* Character cards — single column, centered, cleaner */
-  .tt-strip{grid-template-columns:1fr!important;gap:1.25rem!important;max-width:100%!important;margin:0 auto!important;padding:0 .5rem}
+  .tt-strip{
+    display:flex!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch;
+    gap:1rem!important;padding:0 1.25rem!important;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;max-width:100%!important;margin:0!important;
+  }
+  .tt-strip::-webkit-scrollbar{display:none}
+  .tt-strip .tt-card{
+    flex:0 0 75vw!important;max-width:75vw!important;scroll-snap-align:start;
+    transform:none!important;margin:0!important;
+  }
+  .tt-strip .tt-card:nth-child(4),.tt-strip .tt-card:nth-child(5){
+    transform:none!important;max-width:75vw!important;margin:0!important;
+  }
   .tt-strip .tt-card:nth-child(4),.tt-strip .tt-card:nth-child(5){transform:none!important;max-width:none!important;margin:0!important}
   .tt-card:last-child{grid-column:auto!important;max-width:none!important}
-  .tt-illus{aspect-ratio:3/2!important;padding:1.5rem!important}
-  .tt-illus img{width:60%!important}
-  .tt-info{text-align:center!important;padding:1.25rem!important}
-  .tt-abilities{justify-content:center!important}
-  .tt-role{text-align:center!important}
-  .tt-name{text-align:center!important;font-size:1.3rem!important}
-  .tt-quest{text-align:center!important}
+  .tt-illus{aspect-ratio:4/5!important;padding:1.25rem 1.25rem 0!important}
+  .tt-illus img{width:100%!important}
+  .tt-info{padding:1.25rem!important}
+  .tt-name{font-size:1.3rem!important}
+  .tt-quest{font-size:.9rem!important}
   /* final CTA */
   .final-cta{padding:5rem 0}
   .cta-inner .mega-title{font-size:clamp(1.8rem,6vw,3rem)!important}
@@ -1158,8 +1169,9 @@ body.menu-open{overflow:hidden}
   font-family:'Outfit',sans-serif;
   font-weight:800;font-size:.85rem;
 }
-.portal-visual{display:flex;justify-content:center;position:relative}
+.portal-visual{display:flex;justify-content:center;position:relative;padding-left:40px}
 .portal-letter-wrap{max-width:520px;width:100%}
+.portal-text .ed-sub{margin-bottom:2.5rem!important}
 .portal-stamp{
   position:absolute;
   top:-5%;right:42%;
@@ -1186,11 +1198,11 @@ body.menu-open{overflow:hidden}
   .portal-showcase{padding:4rem 0}
   .portal-text{text-align:center!important}
   .portal-text .ed-sub{text-align:center!important;margin:0 auto 2rem!important}
-  .portal-visual{justify-content:center!important;width:100%!important;overflow:visible!important;padding:0!important}
+  .portal-visual{justify-content:center!important;width:100%!important;overflow:visible!important;padding:0!important;padding-left:0!important}
   .portal-letter-wrap{max-width:95vw;margin:0 auto;transform:scale(1);transform-origin:center top}
   .portal-showcase{padding:3rem 0!important}
   .portal-text{text-align:center!important}
-  .portal-text .ed-title{font-size:clamp(2rem,7vw,3rem)!important;text-align:center!important}
+  .portal-text .ed-title{font-size:clamp(2.4rem,9vw,4rem)!important;text-align:center!important}
   .portal-text .ed-sub{text-align:center!important;margin:0 auto 1.5rem!important}
   .portal-steps{align-items:center}
   .portal-stamp{left:50%!important;right:auto!important;transform:translateX(-50%) rotate(-6deg)!important;top:-4%!important}
@@ -1607,7 +1619,7 @@ body.menu-open{overflow:hidden}
   <div class="wrap">
     <div style="text-align:center;margin-bottom:4rem" class="rv">
       <div class="eyebrow" style="justify-content:center;display:inline-flex">The story world</div>
-      <h2 class="mega-title" style="font-size:clamp(2.4rem,5vw,4.5rem)">Meet the Wandering <em>Five.</em></h2>
+      <h2 class="mega-title" style="font-size:clamp(2.8rem,7vw,5.5rem)">Meet the Wandering <em>Five.</em></h2>
       <p class="mega-sub">Five characters. Five different quests. Your child picks one &mdash; and that character writes to them every month.</p>
     </div>
     <div class="tt-strip">
