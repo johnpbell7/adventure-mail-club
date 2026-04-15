@@ -879,11 +879,23 @@ body.menu-open{overflow:hidden}
   .page-hero{min-height:auto;padding:calc(var(--nav-h) + 3rem) 1.5rem 3rem}
   .page-hero h1,.page-hero-content h1{font-size:clamp(2rem,8vw,3.5rem)}
   .page-hero .mesh-bg,.page-hero .star-field,.page-hero .dot-grid,.page-hero .shoot{display:none}
-  /* FAQ + secondary page grids — stack on mobile */
-  [style*="grid-template-columns:1.3fr"]{grid-template-columns:1fr!important;gap:2rem!important}
-  [style*="grid-template-columns:1.1fr"]{grid-template-columns:1fr!important;gap:2rem!important}
+  /* ALL inline grids — stack on mobile */
+  [style*="grid-template-columns:1.3fr"],
+  [style*="grid-template-columns:1.25fr"],
+  [style*="grid-template-columns:1.1fr"],
+  [style*="grid-template-columns:1.4fr"],
+  [style*="grid-template-columns:repeat(3"],
+  [style*="grid-template-columns:1fr 1fr 1fr"]{grid-template-columns:1fr!important;gap:1.25rem!important}
+  /* 2-column grids stay 2-column but with less gap */
+  [style*="grid-template-columns:1fr 1fr"]{gap:1rem!important}
   /* Quick answers card — full width */
   .quick-card{position:static!important;width:100%!important;margin-top:2rem!important}
+  /* Contact page — stack */
+  .contact-grid,.review-grid{grid-template-columns:1fr!important}
+  /* Testimonial cards — stack or smaller */
+  .tc{min-width:auto!important;width:100%!important}
+  /* All cards text smaller on mobile */
+  .s-title{font-size:clamp(1.8rem,7vw,3rem)!important}
   /* Mobile nav — burger + portal link visible */
   .nav-links{display:none!important}
   .nav-right .btn{display:none!important}
