@@ -5,39 +5,8 @@
 <title>Your Adventure Portal — Adventure Mail Club</title>
 <link rel="stylesheet" href="shared.css"/>
 <style>
-/* ============ PORTAL NAV ============ */
-html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 1.5rem)}
-.portal-nav{
-  position:sticky;top:0;z-index:100;
-  background:rgba(255,248,238,.92);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
-  height:var(--nav-h);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 2rem;
-}
-.pn-logo{display:flex;align-items:center;gap:.5rem;text-decoration:none;color:var(--t1)}
-.pn-gem{width:36px;height:36px;border-radius:10px;background:var(--gold);display:flex;align-items:center;justify-content:center}
-.pn-gem svg{width:16px;height:16px}
-.pn-word{font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:800;letter-spacing:-.02em}
-.pn-word em{font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:var(--red-o)}
-.pn-links{display:flex;gap:1.5rem;list-style:none}
-.pn-links a{
-  font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;font-weight:600;
-  color:var(--t3);text-decoration:none;
-  padding:.4rem 0;border-bottom:2px solid transparent;
-  transition:color .2s,border-color .2s;
-}
-.pn-links a:hover,.pn-links a.active{color:var(--t1);border-color:var(--red-o)}
-.pn-user{display:flex;align-items:center;gap:1rem}
-.pn-xp{display:flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:700;color:var(--t2)}
-.pn-xp-bar{width:80px;height:6px;background:var(--border);border-radius:99px;overflow:hidden}
-.pn-xp-fill{height:100%;background:var(--red-o);border-radius:99px;width:68%}
-.pn-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--red-o),var(--gold));display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:800;color:#fff}
-.pn-name{font-size:.78rem;font-weight:700;color:var(--t1);line-height:1.2}
-.pn-rank{font-size:.62rem;color:var(--t3);font-weight:600}
-.pn-home{font-size:.78rem;font-weight:600;color:var(--t3);text-decoration:none;transition:color .2s}
-.pn-home:hover{color:var(--red-o)}
+/* ============ PORTAL PAGE ============ */
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 4rem)}
 /* Mobile section pills */
 .section-pills{
   display:none;position:sticky;top:var(--nav-h);z-index:99;
@@ -58,13 +27,7 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 1.5rem)}
 .section-pills a.active,.section-pills a:hover{background:var(--red-o);color:#fff;border-color:var(--red-o)}
 
 @media(max-width:768px){
-  .pn-home,.pn-name,.pn-rank{display:none}
-  .pn-xp{display:none}
-  .portal-nav{padding:0 .75rem}
   .pn-user{gap:.4rem}
-  .pn-word{font-size:.82rem;white-space:nowrap}
-  .pn-gem{width:32px;height:32px;border-radius:8px}
-  .pn-avatar{width:32px;height:32px;font-size:.6rem}
   .section-pills{display:flex}
   html{scroll-padding-top:calc(var(--nav-h) + 3.5rem)}
 }
@@ -341,7 +304,6 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 1.5rem)}
   .msg-grid{grid-template-columns:1fr}
   .inv-grid{grid-template-columns:1fr 1fr}
   .ach-grid{grid-template-columns:1fr 1fr}
-  .pn-links{display:none}
   /* Hero — big text over image, stats 2x2 below */
   .portal-hero{padding:2rem 0 0;min-height:auto;overflow:hidden;padding-bottom:0;position:relative}
   .portal-hero .wrap{padding:0 1.25rem;max-width:100%;position:relative;z-index:4}
@@ -387,24 +349,21 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 1.5rem)}
 <body>
 
 <!-- ============ PORTAL NAV ============ -->
-<nav class="portal-nav">
-  <a href="index.html" class="pn-logo">
-    <div class="pn-gem"><svg viewBox="0 0 20 20" fill="none"><path d="M10 2l1.8 5.2H18l-5 3.6 1.9 5.8L10 13.2 5.1 17l1.9-5.8L2 7.2h5.2z" fill="#1A1A2E"/></svg></div>
-    <span class="pn-word">Adventure <em>Mail</em> Club</span>
+<nav class="site-nav" id="nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-gem"><svg viewBox="0 0 20 20" fill="none"><path d="M10 2l1.8 5.2H18l-5 3.6 1.9 5.8L10 13.2 5.1 17l1.9-5.8L2 7.2h5.2z" fill="#1A1A2E"/></svg></div>
+    <span class="nav-wordmark">Adventure <em>Mail</em> Club</span>
   </a>
-  <ul class="pn-links">
-    <li><a href="#story" class="active">Story</a></li>
+  <ul class="nav-links">
+    <li><a href="#story">Story</a></li>
     <li><a href="#map">Map</a></li>
     <li><a href="#inventory">Inventory</a></li>
     <li><a href="#achievements">Achievements</a></li>
     <li><a href="#messages">Messages</a></li>
     <li><a href="account.html">Account</a></li>
   </ul>
-  <div class="pn-user">
-    <div class="pn-xp"><span>XP</span><div class="pn-xp-bar"><div class="pn-xp-fill"></div></div><span>340/500</span></div>
-    <div class="pn-avatar">AJ</div>
-    <div><div class="pn-name">Amelia J.</div><div class="pn-rank">Explorer Rank 3</div></div>
-    <a href="index.html" class="pn-home">&larr; Home</a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-link-subtle">&larr; Home</a>
   </div>
   <button class="burger" onclick="document.getElementById('mobMenu').classList.toggle('open');this.classList.toggle('open');document.body.classList.toggle('menu-open')"><span></span><span></span><span></span></button>
 </nav>
@@ -763,7 +722,7 @@ document.querySelectorAll('.rv').forEach(function(el){obs.observe(el);});
 
 // ---- Active nav link + pill on scroll ----
 var sections=document.querySelectorAll('section[id]');
-var navLinks=document.querySelectorAll('.pn-links a');
+var navLinks=document.querySelectorAll('.nav-links a');
 var pillLinks=document.querySelectorAll('.section-pills a');
 var navObs=new IntersectionObserver(function(entries){
   entries.forEach(function(e){
@@ -771,7 +730,7 @@ var navObs=new IntersectionObserver(function(entries){
       var id=e.target.id;
       navLinks.forEach(function(a){a.classList.remove('active')});
       pillLinks.forEach(function(a){a.classList.remove('active')});
-      var link=document.querySelector('.pn-links a[href="#'+id+'"]');
+      var link=document.querySelector('.nav-links a[href="#'+id+'"]');
       var pill=document.querySelector('.section-pills a[href="#'+id+'"]');
       if(link) link.classList.add('active');
       if(pill){pill.classList.add('active');pill.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}
