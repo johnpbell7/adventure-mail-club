@@ -24,20 +24,21 @@
   </a>
   <ul class="nav-links"><li><a href="how-it-works.html">How it works</a></li><li><a href="story.html">The story</a></li><li><a href="characters.html">Characters</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="gift.html">Gift</a></li></ul>
   <button class="burger" id="burger" onclick="document.getElementById('mobMenu').classList.toggle('open');this.classList.toggle('open');document.body.classList.toggle('menu-open')"><span></span><span></span><span></span></button>
-  <div class="mob-menu" id="mobMenu">
-    <a href="how-it-works.html">How it works</a>
-    <a href="story.html">The story</a>
-    <a href="characters.html">Characters</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="gift.html">Gift</a>
-    <a href="portal.html">My portal</a>
-    <a href="signup.html" class="btn btn-pur btn-sm" style="margin-top:.5rem;text-align:center">Start adventure</a>
-  </div>
   <div class="nav-right">
     <a href="portal.html" class="nav-link-subtle">My portal</a>
     <a href="signup.html" class="btn btn-pur btn-sm">Start adventure</a>
   </div>
 </nav>
+<div class="mob-menu" id="mobMenu">
+  <a href="index.html">Home</a>
+  <a href="how-it-works.html">How it works</a>
+  <a href="story.html">The story</a>
+  <a href="characters.html">Characters</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="gift.html">Gift</a>
+  <a href="portal.html">My portal</a>
+  <a href="signup.html" class="btn btn-pur btn-sm" style="margin-top:.5rem;text-align:center">Start adventure</a>
+</div>
 
 <style>
 /* ==========================================================
@@ -1153,7 +1154,7 @@ body.menu-open{overflow:hidden}
   color:var(--red-o) !important;
 }
 .portal-text .ed-sub{max-width:38ch}
-.portal-steps{display:flex;flex-direction:column;gap:1rem;margin-top:1rem}
+.portal-steps{display:flex;flex-direction:column;gap:1rem;margin-top:1rem;margin-bottom:3rem}
 .portal-step{
   display:flex;align-items:center;gap:1rem;
   font-family:'Plus Jakarta Sans',sans-serif;
@@ -1169,7 +1170,7 @@ body.menu-open{overflow:hidden}
   font-family:'Outfit',sans-serif;
   font-weight:800;font-size:.85rem;
 }
-.portal-visual{display:flex;justify-content:center;position:relative;padding-left:40px}
+.portal-visual{display:flex;justify-content:flex-end;position:relative;padding-left:60px}
 .portal-letter-wrap{max-width:520px;width:100%}
 .portal-text .ed-sub{margin-bottom:2.5rem!important}
 .portal-stamp{
