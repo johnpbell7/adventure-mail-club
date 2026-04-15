@@ -60,9 +60,11 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 1.5rem)}
 @media(max-width:768px){
   .pn-home,.pn-name,.pn-rank{display:none}
   .pn-xp{display:none}
-  .portal-nav{padding:0 1rem}
-  .pn-user{gap:.5rem}
-  .pn-word{font-size:.85rem}
+  .portal-nav{padding:0 .75rem}
+  .pn-user{gap:.4rem}
+  .pn-word{font-size:.82rem;white-space:nowrap}
+  .pn-gem{width:32px;height:32px;border-radius:8px}
+  .pn-avatar{width:32px;height:32px;font-size:.6rem}
   .section-pills{display:flex}
   html{scroll-padding-top:calc(var(--nav-h) + 3.5rem)}
 }
@@ -340,27 +342,28 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 1.5rem)}
   .inv-grid{grid-template-columns:1fr 1fr}
   .ach-grid{grid-template-columns:1fr 1fr}
   .pn-links{display:none}
-  /* Hero — text top, stats + character side by side below */
-  .portal-hero{padding:1.5rem 0 2rem;min-height:auto;overflow:hidden}
+  /* Hero — full width text, character cropped behind flap like homepage */
+  .portal-hero{padding:1.5rem 0 0;min-height:auto;overflow:hidden;padding-bottom:6rem}
   .portal-hero .wrap{padding:0 1.25rem;max-width:100%}
-  .ph-text{width:100%;text-align:left;margin-bottom:.75rem}
-  .ph-chapter{font-size:clamp(1.5rem,5.5vw,1.8rem)!important;margin-bottom:.15rem;text-align:left}
-  .ph-sub{font-size:.78rem;margin-bottom:0;text-align:left;max-width:none}
-  /* Stats + character row */
-  .ph-stats{grid-template-columns:repeat(2,1fr)!important;gap:.4rem!important;width:100%}
-  .ph-stat{padding:.5rem!important;text-align:center}
-  .ph-stat-n{font-size:1.1rem!important}
-  .ph-stat-l{font-size:.45rem!important}
-  /* Character beside stats */
+  .ph-text{width:100%;text-align:left;margin-bottom:1rem}
+  .ph-chapter{font-size:clamp(1.8rem,7vw,2.4rem)!important;margin-bottom:.2rem;text-align:left}
+  .ph-sub{font-size:.85rem;margin-bottom:1rem;text-align:left;max-width:none}
+  /* Stats full width */
+  .ph-stats{grid-template-columns:repeat(4,1fr)!important;gap:.4rem!important;width:100%}
+  .ph-stat{padding:.5rem .25rem!important;text-align:center}
+  .ph-stat-n{font-size:1rem!important}
+  .ph-stat-l{font-size:.42rem!important}
+  /* Character — big, cropped behind the envelope flap */
   .ph-character{
-    position:absolute!important;right:.5rem!important;bottom:1rem!important;top:auto!important;left:auto!important;
-    width:35%!important;max-width:160px!important;margin:0!important;overflow:visible;z-index:4;
+    position:absolute!important;right:0!important;bottom:0!important;top:auto!important;left:auto!important;
+    width:55%!important;max-width:240px!important;margin:0!important;overflow:hidden;z-index:1;
+    height:60%!important;
   }
-  .ph-character img{width:100%;height:auto;object-fit:contain;mix-blend-mode:normal}
-  .ph-char-label{position:relative;bottom:auto;left:auto;transform:none;margin-top:.2rem;text-align:center;display:block;font-size:.55rem;padding:.2rem .4rem;white-space:nowrap}
+  .ph-character img{width:100%;height:120%;object-fit:cover;object-position:center top;mix-blend-mode:multiply}
+  .ph-char-label{display:none}
   .ph-progress{display:none}
   .portal-stamp{display:none!important}
-  .portal-hero::after{height:5vh}
+  .portal-hero::after{height:5vh;z-index:3}
   /* Letter — horizontal scroll like a book */
   .letter-section{padding:2.5rem 0!important}
   .letter-header{margin-bottom:1.5rem!important}
@@ -568,11 +571,6 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 1.5rem)}
   </div>
 </section>
 
-<!-- ============ EDITORIAL BREAK ============ -->
-<section class="editorial-break rv" style="background:var(--cream)">
-  <h2 class="ed-title">Every step changes the <em>map.</em></h2>
-  <p class="ed-sub">Your path through the story is unique. No two adventurers take the same route.</p>
-</section>
 
 <!-- ============ WORLD MAP ============ -->
 <section class="map-section" id="map">
@@ -678,11 +676,6 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 1.5rem)}
   </div>
 </section>
 
-<!-- ============ EDITORIAL BREAK ============ -->
-<section class="editorial-break rv" style="background:var(--white)">
-  <h2 class="ed-title">Badges earned, stories <em>told.</em></h2>
-  <p class="ed-sub">Every choice, every letter, every artefact brings you closer to the goal.</p>
-</section>
 
 <!-- ============ ACHIEVEMENTS ============ -->
 <section class="ach-section" id="achievements">
@@ -835,18 +828,6 @@ function filterInv(type,btn){
   });
 })();
 
-// ---- Word reveal on editorial titles ----
-document.querySelectorAll('.ed-title').forEach(function(title){
-  var html=title.innerHTML;
-  title.innerHTML=html.replace(/(\S+)/g,'<span class="wr-word" style="display:inline-block;opacity:0;transform:translateY(100%) scaleY(0);transform-origin:bottom center;transition:opacity .5s,transform .7s cubic-bezier(.34,1.56,.64,1)">$1</span>');
-  title.querySelectorAll('.wr-word').forEach(function(w,i){w.style.transitionDelay=(i*0.08)+'s';});
-});
-var wrObs=new IntersectionObserver(function(entries){
-  entries.forEach(function(e){
-    if(e.isIntersecting){e.target.querySelectorAll('.wr-word').forEach(function(w){w.style.opacity='1';w.style.transform='translateY(0) scaleY(1)';});wrObs.unobserve(e.target);}
-  });
-},{threshold:.3});
-document.querySelectorAll('.editorial-break').forEach(function(el){wrObs.observe(el);});
 </script>
 </body>
 </html>
