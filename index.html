@@ -23,7 +23,7 @@
     <span class="nav-wordmark">Adventure <em>Mail</em> Club</span>
   </a>
   <ul class="nav-links"><li><a href="how-it-works.html">How it works</a></li><li><a href="story.html">The story</a></li><li><a href="characters.html">Characters</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="gift.html">Gift</a></li></ul>
-  <button class="burger" id="burger" onclick="document.getElementById('mobMenu').classList.toggle('open');this.classList.toggle('open')"><span></span><span></span><span></span></button>
+  <button class="burger" id="burger" onclick="document.getElementById('mobMenu').classList.toggle('open');this.classList.toggle('open');document.body.classList.toggle('menu-open')"><span></span><span></span><span></span></button>
   <div class="mob-menu" id="mobMenu">
     <a href="how-it-works.html">How it works</a>
     <a href="story.html">The story</a>
@@ -117,25 +117,28 @@
 /* ============ BURGER MENU ============ */
 .burger{
   display:none;flex-direction:column;gap:5px;
-  background:none;border:none;cursor:pointer;padding:8px;z-index:200;
+  background:none;border:none;cursor:pointer;padding:8px;z-index:1000;
+  position:relative;
 }
 .burger span{display:block;width:24px;height:2.5px;background:var(--t1);border-radius:2px;transition:all .3s}
 .burger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
 .burger.open span:nth-child(2){opacity:0}
 .burger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
 .mob-menu{
-  display:none;position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;
-  background:rgba(255,248,238,.98);backdrop-filter:blur(16px);
-  z-index:99;padding:2rem 1.5rem;
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;
+  background:var(--cream);
+  z-index:999;padding:6rem 2rem 2rem;
   flex-direction:column;gap:.25rem;
+  overflow-y:auto;
 }
 .mob-menu.open{display:flex}
 .mob-menu a{
-  font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;font-weight:700;
-  color:var(--t1);text-decoration:none;padding:.85rem 0;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:1.2rem;font-weight:700;
+  color:var(--t1);text-decoration:none;padding:1rem 0;
   border-bottom:1px solid var(--border);
 }
 .mob-menu a:last-child{border:none}
+body.menu-open{overflow:hidden}
 
 /* ============ ENVELOPE PATH ANIMATION ============ */
 .envelope-anim{
@@ -160,12 +163,12 @@
 }
 .ea-mob{display:none}
 .ea-envelope-mob{
-  offset-path:path('M-20,60 C60,60 80,20 160,35 C240,50 260,80 340,50 C380,35 420,50 440,40');
-  offset-rotate:auto 15deg;
+  offset-path:path('M-30,70 C50,70 80,25 160,40 C240,55 270,90 350,60 C400,40 430,55 460,50');
+  offset-rotate:auto 12deg;
   animation:envFollow 6s linear infinite;
 }
 @media(max-width:768px){
-  .envelope-anim{height:clamp(70px,14vw,100px)}
+  .envelope-anim{height:clamp(100px,22vw,150px)}
   .envelope-anim>svg:first-child{display:none}
   .ea-mob{display:block!important}
 }
@@ -882,7 +885,7 @@
   .wb-section [style*="row-reverse"] > div:first-child p{margin-left:auto!important;margin-right:auto!important}
   .wb-section [style*="width:100px"]{width:80px!important;height:80px!important;font-size:2.2rem!important}
   /* Character cards — single column, centered, cleaner */
-  .tt-strip{grid-template-columns:1fr!important;gap:1.25rem!important;max-width:340px!important;margin:0 auto!important}
+  .tt-strip{grid-template-columns:1fr!important;gap:1.25rem!important;max-width:100%!important;margin:0 auto!important;padding:0 .5rem}
   .tt-strip .tt-card:nth-child(4),.tt-strip .tt-card:nth-child(5){transform:none!important;max-width:none!important;margin:0!important}
   .tt-card:last-child{grid-column:auto!important;max-width:none!important}
   .tt-illus{aspect-ratio:3/2!important;padding:1.5rem!important}
@@ -1183,8 +1186,13 @@
   .portal-showcase{padding:4rem 0}
   .portal-text{text-align:center!important}
   .portal-text .ed-sub{text-align:center!important;margin:0 auto 2rem!important}
-  .portal-visual{justify-content:center!important;width:100%!important;overflow:hidden!important;padding:0 1rem!important}
-  .portal-letter-wrap{max-width:100%;margin:0 auto;transform:scale(.85);transform-origin:center top}
+  .portal-visual{justify-content:center!important;width:100%!important;overflow:visible!important;padding:0!important}
+  .portal-letter-wrap{max-width:95vw;margin:0 auto;transform:scale(1);transform-origin:center top}
+  .portal-showcase{padding:3rem 0!important}
+  .portal-text{text-align:center!important}
+  .portal-text .ed-title{font-size:clamp(2rem,7vw,3rem)!important;text-align:center!important}
+  .portal-text .ed-sub{text-align:center!important;margin:0 auto 1.5rem!important}
+  .portal-steps{align-items:center}
   .portal-stamp{left:50%!important;right:auto!important;transform:translateX(-50%) rotate(-6deg)!important;top:-4%!important}
 }
 
@@ -1541,12 +1549,13 @@
     </g>
   </svg>
   <!-- Mobile: shorter simpler path -->
-  <svg class="ea-mob" viewBox="0 0 400 100" preserveAspectRatio="xMidYMid meet" fill="none" style="display:none">
-    <path class="ea-path" d="M-20,60 C60,60 80,20 160,35 C240,50 260,80 340,50 C380,35 420,50 440,40" stroke-width="3"/>
+  <svg class="ea-mob" viewBox="0 0 400 120" preserveAspectRatio="xMidYMid meet" fill="none" style="display:none">
+    <path class="ea-path" d="M-30,70 C50,70 80,25 160,40 C240,55 270,90 350,60 C400,40 430,55 460,50" stroke-width="3.5"/>
     <g class="ea-envelope-mob">
-      <rect x="-14" y="-10" width="28" height="20" rx="3" fill="var(--red-o)"/>
-      <path d="M-14,-10 L0,2 L14,-10" fill="var(--red-o)" stroke="var(--cream)" stroke-width="1"/>
-      <circle cx="0" cy="3" r="3" fill="var(--gold)" opacity=".8"/>
+      <rect x="-20" y="-14" width="40" height="28" rx="4" fill="var(--red-o)"/>
+      <path d="M-20,-14 L0,4 L20,-14" fill="var(--red-o)" stroke="var(--cream)" stroke-width="1.2"/>
+      <circle cx="0" cy="4" r="4.5" fill="var(--gold)" opacity=".85"/>
+      <text x="0" y="7" text-anchor="middle" fill="var(--t1)" font-size="6" font-weight="900" font-family="Outfit,sans-serif">&#9733;</text>
     </g>
   </svg>
 </div>
