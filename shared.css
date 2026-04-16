@@ -209,6 +209,7 @@ body::before{
   font-size:.82rem;font-weight:600;color:var(--t2);text-decoration:none;
   padding:.44rem 1rem;transition:color .2s,box-shadow .2s;
   position:relative;
+  border-radius:var(--r-pill);
   animation:portalGlow 2s ease-in-out infinite;
 }
 @keyframes portalGlow{
