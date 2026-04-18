@@ -106,8 +106,38 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 4rem)}
 .letter-section{padding:6rem 0 4rem;background:var(--cream)}
 .letter-header{text-align:center;margin-bottom:3rem}
 .letter-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;max-width:1000px;margin:0 auto}
-.letter-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:2.5rem;position:relative;overflow:hidden}
-.letter-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red-o),var(--gold),var(--teal))}
+.letter-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:2.5rem;position:relative;overflow:hidden;min-height:560px}
+.letter-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red-o),var(--gold),var(--teal));z-index:5}
+/* Book page animation */
+.letter-book{position:relative;perspective:1800px;min-height:560px}
+.letter-page{
+  position:absolute;top:0;left:0;right:0;bottom:0;
+  background:var(--white);border-radius:var(--r-lg);padding:2.5rem;
+  border:1.5px solid var(--border);overflow:hidden;
+  transform-origin:left center;
+  transition:transform .8s cubic-bezier(.55,.05,.3,1),opacity .3s;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  box-shadow:0 4px 16px rgba(26,26,46,.06);
+}
+.letter-page::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red-o),var(--gold),var(--teal));z-index:5}
+.letter-page.flipped{transform:rotateY(-180deg);opacity:.4}
+.letter-page.next{z-index:-1}
+.letter-page.active{z-index:2}
+.letter-page.old{z-index:1}
+.letter-page-num{position:absolute;bottom:1rem;right:1.5rem;font-family:'Plus Jakarta Sans',sans-serif;font-size:.72rem;color:var(--t3);font-weight:600}
+.letter-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.25rem;gap:1rem}
+.letter-nav-btn{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:var(--cream);border:1.5px solid var(--border);border-radius:var(--r-pill);
+  padding:.6rem 1.25rem;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:700;
+  color:var(--t1);cursor:pointer;text-decoration:none;
+  transition:all .2s;
+}
+.letter-nav-btn:hover:not(:disabled){background:var(--red-o);color:#fff;border-color:var(--red-o)}
+.letter-nav-btn:disabled{opacity:.3;cursor:not-allowed}
+.letter-dots{display:flex;gap:.4rem}
+.letter-dot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;transition:background .2s,transform .2s}
+.letter-dot.active{background:var(--red-o);transform:scale(1.3)}
 .letter-from{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
 .letter-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--teal));display:flex;align-items:center;justify-content:center;font-size:1.2rem}
 .letter-from-info .letter-from-name{font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:800;color:var(--t1)}
@@ -437,27 +467,73 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 4rem)}
 
     <div class="letter-grid rv">
       <!-- Letter content -->
-      <div class="letter-card">
-        <div class="letter-from">
-          <div class="letter-avatar">&#128295;</div>
-          <div class="letter-from-info">
-            <div class="letter-from-name">Milo &mdash; The Inventor</div>
-            <div class="letter-from-date">12 April 2026 &middot; Chapter 4</div>
+      <div>
+        <div class="letter-book" id="letterBook">
+          <!-- Page 1 -->
+          <div class="letter-page active" data-page="1">
+            <div class="letter-from">
+              <div class="letter-avatar">&#128295;</div>
+              <div class="letter-from-info">
+                <div class="letter-from-name">Milo &mdash; The Inventor</div>
+                <div class="letter-from-date">12 April 2026 &middot; Chapter 4</div>
+              </div>
+            </div>
+            <p class="letter-body">
+              Dear adventurer,<br><br>
+              You sent back <span class="hl-red">south</span>. It was right. The entrance opened and the team went in. What they found was a library buried underground &mdash; every book written in a language that shifts when you look at it.
+            </p>
+            <div class="letter-page-num">Page 1 of 5</div>
+          </div>
+
+          <!-- Page 2 -->
+          <div class="letter-page" data-page="2">
+            <p class="letter-body" style="margin-top:0">
+              The books don&rsquo;t just shift &mdash; they <strong>rearrange themselves</strong>. Penny watched one for an hour, copying the letters down. When she looked at her notes the next morning, the words had changed again.<br><br>
+              We think they&rsquo;re trying to tell us something. Or hide something.
+            </p>
+            <div class="letter-page-num">Page 2 of 5</div>
+          </div>
+
+          <!-- Page 3 -->
+          <div class="letter-page" data-page="3">
+            <p class="letter-body" style="margin-top:0">
+              I built a translator from the parts we found at the river, but it only works under <span class="hl-red">moonlight</span>. Zara took it up to the forest edge last night. She said when the moon hit it, the device started humming.<br><br>
+              Then the books went still for exactly seven seconds.
+            </p>
+            <div class="letter-page-num">Page 3 of 5</div>
+          </div>
+
+          <!-- Page 4 -->
+          <div class="letter-page" data-page="4">
+            <p class="letter-body" style="margin-top:0">
+              Penny found one page she could read. It mentioned <strong>your name</strong>.<br><br>
+              Just your name &mdash; written in an ink that looked fresh, on a page that&rsquo;s supposed to be thousands of years old. We don&rsquo;t know what it means yet, but we know it matters.
+            </p>
+            <div class="letter-page-num">Page 4 of 5</div>
+          </div>
+
+          <!-- Page 5 -->
+          <div class="letter-page" data-page="5">
+            <p class="letter-body" style="margin-top:0">
+              We need your help again. Three questions before the next letter arrives&hellip;
+            </p>
+            <div class="letter-hint">&#9200; Next letter arrives approximately 28 April</div>
+
+            <div class="letter-qr">
+              <div class="letter-qr-box" id="qrGrid"></div>
+              <div class="letter-qr-text">Scan QR on your physical letter to log artefacts</div>
+            </div>
+
+            <a href="#" class="read-last">&larr; Read Chapter 3: The River Crossing</a>
+            <div class="letter-page-num">Page 5 of 5</div>
           </div>
         </div>
-        <p class="letter-body">
-          You sent back <span class="hl-red">south</span>. It was right. The entrance opened and the team went in. What they found was a library buried underground &mdash; every book written in a language that shifts when you look at it.<br><br>
-          I built a translator from the parts we found at the river, but it only works under moonlight. Penny found one page she could read. It mentioned <strong>your name</strong>.<br><br>
-          We need your help again. Three questions before the next letter arrives&hellip;
-        </p>
-        <div class="letter-hint">&#9200; Next letter arrives approximately 28 April</div>
 
-        <div class="letter-qr">
-          <div class="letter-qr-box" id="qrGrid"></div>
-          <div class="letter-qr-text">Scan QR on your physical letter to log artefacts</div>
+        <div class="letter-nav">
+          <button class="letter-nav-btn" id="letterPrev" onclick="letterTurn(-1)" disabled>&larr; Previous</button>
+          <div class="letter-dots" id="letterDots"></div>
+          <button class="letter-nav-btn" id="letterNext" onclick="letterTurn(1)">Next page &rarr;</button>
         </div>
-
-        <a href="#" class="read-last">&larr; Read Chapter 3: The River Crossing</a>
       </div>
 
       <!-- Polaroid images -->
@@ -772,6 +848,39 @@ function filterInv(type,btn){
     d.textContent=i;
     dots.appendChild(d);
   }
+})();
+
+// ---- Letter book page turn ----
+(function(){
+  var pages=document.querySelectorAll('.letter-page');
+  var dotsWrap=document.getElementById('letterDots');
+  var prevBtn=document.getElementById('letterPrev');
+  var nextBtn=document.getElementById('letterNext');
+  if(!pages.length||!dotsWrap) return;
+  var current=0;
+  // build dots
+  pages.forEach(function(_,i){
+    var d=document.createElement('div');
+    d.className='letter-dot'+(i===0?' active':'');
+    d.onclick=function(){letterGoTo(i);};
+    dotsWrap.appendChild(d);
+  });
+  window.letterGoTo=function(i){
+    if(i<0||i>=pages.length) return;
+    // flip pages
+    for(var j=0;j<pages.length;j++){
+      pages[j].classList.remove('active','flipped');
+      if(j<i){pages[j].classList.add('flipped');}
+      else if(j===i){pages[j].classList.add('active');}
+    }
+    // update dots
+    dotsWrap.querySelectorAll('.letter-dot').forEach(function(d,k){d.classList.toggle('active',k===i);});
+    // update buttons
+    prevBtn.disabled=i===0;
+    nextBtn.disabled=i===pages.length-1;
+    current=i;
+  };
+  window.letterTurn=function(dir){letterGoTo(current+dir);};
 })();
 
 // ---- QR grid ----
