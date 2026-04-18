@@ -768,15 +768,15 @@ body.menu-open{overflow:hidden}
 .how-step{position:relative;z-index:1;padding:2.5rem 2rem;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
 .how-step:hover{transform:translateY(-6px)}
 .step-num{
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:5rem;font-weight:800;letter-spacing:-.06em;line-height:1;
+  font-family:'Outfit',sans-serif;
+  font-size:5rem;font-weight:900;letter-spacing:-.06em;line-height:1;
   margin-bottom:1.5rem;
-  color:var(--cream2);display:block;
-  -webkit-text-stroke:1.5px var(--border-hi);
+  display:block;
+  -webkit-text-stroke:0;
 }
-.how-step:nth-child(1) .step-num{-webkit-text-stroke-color:rgba(253,203,64,.5)}
-.how-step:nth-child(2) .step-num{-webkit-text-stroke-color:rgba(253,68,1,.4)}
-.how-step:nth-child(3) .step-num{-webkit-text-stroke-color:rgba(51,102,255,.4)}
+.how-step:nth-child(1) .step-num{color:var(--gold-d)}
+.how-step:nth-child(2) .step-num{color:var(--red-o)}
+.how-step:nth-child(3) .step-num{color:var(--blue)}
 .step-icon{
   width:52px;height:52px;border-radius:14px;
   display:flex;align-items:center;justify-content:center;

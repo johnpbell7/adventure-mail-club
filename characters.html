@@ -80,7 +80,37 @@
   </div>
 </section>
 
-<footer style="background:var(--cream);padding:3rem 0;text-align:center"><p style="font-size:.82rem;color:var(--t3)">&copy; 2026 Adventure Mail Club. All rights reserved.</p></footer>
+<footer class="site-footer">
+  <!-- gold envelope flap at top -->
+  <div class="footer-flap"></div>
+  <!-- stamp decoration -->
+  <div style="position:absolute;top:7rem;right:3rem;width:70px;height:85px;background:var(--white);transform:rotate(3deg);border-radius:2px;box-shadow:0 4px 16px rgba(26,26,46,.08);display:flex;align-items:center;justify-content:center;z-index:3;-webkit-mask-image:radial-gradient(circle 2.5px at 2.5px 0,transparent 2.5px,#000 3px),radial-gradient(circle 2.5px at 2.5px 0,transparent 2.5px,#000 3px),radial-gradient(circle 2.5px at 0 2.5px,transparent 2.5px,#000 3px),radial-gradient(circle 2.5px at 0 2.5px,transparent 2.5px,#000 3px),linear-gradient(#000,#000);-webkit-mask-size:5px 5px,5px 5px,5px 5px,5px 5px,calc(100% - 5px) calc(100% - 5px);-webkit-mask-position:top left,bottom left,top left,top right,2.5px 2.5px;-webkit-mask-repeat:repeat-x,repeat-x,repeat-y,repeat-y,no-repeat">
+    <svg viewBox="0 0 40 48" width="36" fill="none"><circle cx="20" cy="20" r="14" fill="var(--red-o)" opacity=".8"/><circle cx="20" cy="20" r="3" fill="#fff"/><path d="M20 6v6M20 28v6M6 20h6M28 20h6" stroke="var(--t1)" stroke-width="1.5" stroke-linecap="round"/><text x="20" y="44" text-anchor="middle" fill="var(--t1)" font-family="Outfit,sans-serif" font-size="6" font-weight="700">2026</text></svg>
+  </div>
+  <div class="footer-inner wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="margin-bottom:1.25rem;display:inline-flex">
+          <div class="nav-gem"><svg viewBox="0 0 20 20" fill="none"><path d="M10 2l1.8 5.2H18l-5 3.6 1.9 5.8L10 13.2 5.1 17l1.9-5.8L2 7.2h5.2z" fill="#1A1A2E"/></svg></div>
+          <span class="nav-wordmark" style="margin-left:.6rem">Adventure <em>Mail</em> Club</span>
+        </a>
+        <p>Personalised adventure letters for children aged 5&ndash;10. Monthly missions. Write back. Shape the story.</p>
+      </div>
+      <div class="footer-col"><h4>Product</h4><ul><li><a href="how-it-works.html">How it works</a></li><li><a href="story.html">The story</a></li><li><a href="characters.html">Characters</a></li><li><a href="inside-the-pack.html">Inside the pack</a></li><li><a href="personalisation.html">Personalisation</a></li></ul></div>
+      <div class="footer-col"><h4>Subscribe</h4><ul><li><a href="pricing.html">Pricing</a></li><li><a href="gift.html">Gift subscriptions</a></li><li><a href="schools.html">Schools</a></li><li><a href="reviews.html">Reviews</a></li><li><a href="faq.html">FAQ</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About us</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li><li><a href="referral.html">Refer a friend</a></li><li><a href="affiliate.html">Affiliates</a></li></ul></div>
+      <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html">Privacy policy</a></li><li><a href="terms.html">Terms</a></li><li><a href="cookies.html">Cookies</a></li><li><a href="returns.html">Returns</a></li><li><a href="help.html">Help centre</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Adventure Mail Club Ltd. All rights reserved.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        <a href="#" aria-label="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
 
 <script>
 var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');obs.unobserve(x.target);}});},{threshold:.08});
